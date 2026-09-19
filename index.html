@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co Save & Earn</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#071525;
+color:white;
+}
+
+header{
+background:#081a2d;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid #193550;
+}
+
+.logo{
+font-size:22px;
+font-weight:bold;
+color:white;
+}
+
+.logo span{
+color:#18df91;
+}
+
+.demo{
+font-size:11px;
+background:#123d79;
+padding:7px 12px;
+border-radius:20px;
+}
+
+.container{
+padding:20px;
+max-width:1100px;
+margin:auto;
+}
+
+.welcome h1{
+margin:0;
+font-size:27px;
+}
+
+.muted{
+color:#9fb0c4;
+font-size:13px;
+}
+
+.notice{
+margin:20px 0;
+padding:14px;
+background:#241c09;
+border:1px solid #6b5319;
+border-radius:10px;
+font-size:13px;
+line-height:1.5;
+}
+
+.summary{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:14px;
+}
+
+.card{
+background:#0d1e32;
+border:1px solid #193550;
+border-radius:14px;
+padding:18px;
+}
+
+.label{
+font-size:12px;
+color:#9fb0c4;
+}
+
+.amount{
+font-size:24px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.green{color:#18df91}
+.purple{color:#a56aff}
+.blue{color:#38a7ff}
+.gold{color:#f5b82e}
+
+.section{
+margin-top:22px;
+background:#0d1e32;
+border:1px solid #193550;
+border-radius:14px;
+padding:18px;
+}
+
+.section-title{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.section-title h2{
+margin:0;
+font-size:18px;
+}
+
+button{
+border:0;
+border-radius:9px;
+padding:11px 15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.add{
+background:#18df91;
+color:#062017;
+}
+
+.boxes{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:14px;
+}
+
+.box{
+background:#102944;
+border:1px solid #27506e;
+border-radius:13px;
+padding:17px;
+}
+
+.box h3{
+margin:0 0 5px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+margin:15px 0;
+}
+
+.small{
+font-size:12px;
+color:#9fb0c4;
+}
+
+.progress{
+height:8px;
+background:#243b52;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progress div{
+height:100%;
+background:#18df91;
+}
+
+.details{
+background:#123d79;
+color:white;
+width:100%;
+margin-top:10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #193550;
+text-align:left;
+font-size:13px;
+}
+
+th{
+color:#9fb0c4;
+}
+
+footer{
+text-align:center;
+padding:30px;
+color:#718399;
+font-size:12px;
+}
+
+@media(max-width:750px){
+.summary{
+grid-template-columns:repeat(2,1fr);
+}
+
+.boxes{
+grid-template-columns:1fr;
+}
+}
+
+@media(max-width:500px){
+.summary{
+grid-template-columns:1fr;
+}
+
+.container{
+padding:13px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">🌱 Co Save <span>& Earn</span></div>
+<div class="demo">DEMO</div>
+</header>
+
+<div class="container">
+
+<div class="welcome">
+<h1>Hello, Michelle 👋</h1>
+<p class="muted">Welcome back! Keep saving and tracking your goals.</p>
+</div>
+
+<div class="notice">
+<strong>Prototype:</strong>
+The figures displayed here are examples for demonstrating the website.
+This version does not accept real money or guarantee investment returns.
+</div>
+
+<div class="summary">
+
+<div class="card">
+<div class="label">TOTAL SAVED</div>
+<div class="amount green">UGX 350,000</div>
+</div>
+
+<div class="card">
+<div class="label">PROJECTED REWARD</div>
+<div class="amount purple">UGX 105,000</div>
+</div>
+
+<div class="card">
+<div class="label">NEXT MATURITY</div>
+<div class="amount blue">12 Days</div>
+</div>
+
+<div class="card">
+<div class="label">REFERRAL REWARD</div>
+<div class="amount gold">UGX 25,000</div>
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="section-title">
+<h2>📦 My Savings Boxes</h2>
+<button class="add" onclick="addBox()">+ Add New Box</button>
+</div>
+
+<div class="boxes">
+
+<div class="box">
+<h3>🌱 Basic Box</h3>
+<div class="small">Save steadily</div>
+
+<div class="row">
+<div>
+<div class="small">Saved Amount</div>
+<strong>UGX 50,000</strong>
+</div>
+
+<div>
+<div class="small">Example Reward</div>
+<strong class="green">UGX 5,000</strong>
+</div>
+</div>
+
+<div class="progress">
+<div style="width:27%"></div>
+</div>
+
+<div class="row">
+<span class="small">Day 8 of 30</span>
+<span class="small">22 days left</span>
+</div>
+
+<button class="details"
+onclick="details('Basic Box','50,000','5,000','55,000')">
+View Details →
+</button>
+
+</div>
+
+
+<div class="box">
+<h3>⭐ Silver Box</h3>
+<div class="small">Bigger savings goal</div>
+
+<div class="row">
+<div>
+<div class="small">Saved Amount</div>
+<strong>UGX 100,000</strong>
+</div>
+
+<div>
+<div class="small">Example Reward</div>
+<strong class="green">UGX 12,000</strong>
+</div>
+</div>
+
+<div class="progress">
+<div style="width:33%"></div>
+</div>
+
+<div class="row">
+<span class="small">Day 15 of 45</span>
+<span class="small">30 days left</span>
+</div>
+
+<button class="details"
+onclick="details('Silver Box','100,000','12,000','112,000')">
+View Details →
+</button>
+
+</div>
+
+
+<div class="box">
+<h3>👑 Gold Box</h3>
+<div class="small">Longer savings goal</div>
+
+<div class="row">
+<div>
+<div class="small">Saved Amount</div>
+<strong>UGX 150,000</strong>
+</div>
+
+<div>
+<div class="small">Example Reward</div>
+<strong class="green">UGX 20,000</strong>
+</div>
+</div>
+
+<div class="progress">
+<div style="width:17%"></div>
+</div>
+
+<div class="row">
+<span class="small">Day 10 of 60</span>
+<span class="small">50 days left</span>
+</div>
+
+<button class="details"
+onclick="details('Gold Box','150,000','20,000','170,000')">
+View Details →
+</button>
+
+</div>
+
+
+<div class="box">
+<h3>💎 Diamond Box</h3>
+<div class="small">For bigger goals</div>
+
+<div class="row">
+<div>
+<div class="small">Saved Amount</div>
+<strong>UGX 200,000</strong>
+</div>
+
+<div>
+<div class="small">Example Reward</div>
+<strong class="green">UGX 35,000</strong>
+</div>
+</div>
+
+<div class="progress">
+<div style="width:22%"></div>
+</div>
+
+<div class="row">
+<span class="small">Day 20 of 90</span>
+<span class="small">70 days left</span>
+</div>
+
+<button class="details"
+onclick="details('Diamond Box','200,000','35,000','235,000')">
+View Details →
+</button>
+
+</div>
+
+</div>
+</div>
+
+
+<div class="section">
+
+<div class="section-title">
+<h2>📊 Earnings Overview</h2>
+</div>
+
+<div class="card">
+<div class="label">ILLUSTRATIVE TOTAL AT MATURITY</div>
+<div class="amount green">UGX 455,000</div>
+
+<div class="row">
+<span class="small">Total saved</span>
+<strong>UGX 350,000</strong>
+</div>
+
+<div class="row">
+<span class="small">Example rewards</span>
+<strong class="purple">UGX 105,000</strong>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="section">
+
+<h2>🧾 Recent Transactions</h2>
+
+<table>
+
+<tr>
+<th>Date</th>
+<th>Description</th>
+<th>Amount</th>
+</tr>
+
+<tr>
+<td>18 Sep</td>
+<td>Contribution</td>
+<td class="green">+ UGX 50,000</td>
+</tr>
+
+<tr>
+<td>16 Sep</td>
+<td>Example Reward</td>
+<td class="green">+ UGX 5,000</td>
+</tr>
+
+<tr>
+<td>14 Sep</td>
+<td>Contribution</td>
+<td class="green">+ UGX 100,000</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
+
+<footer>
+Co Save & Earn © 2026<br>
+Save Today • Earn Tomorrow
+</footer>
+
+
+<script>
+
+function details(name,saved,reward,total){
+
+alert(
+name+
+"\n\nSaved: UGX "+saved+
+"\nExample reward: UGX "+reward+
+"\nExample maturity total: UGX "+total
+);
+
+}
+
+function addBox(){
+
+alert(
+"Add Savings Box\n\n"+
+"In the next version, users will be able to choose a box, enter their savings amount, select a cycle and see the calculated maturity date."
+);
+
+}
+
+</script>
+
+</body>
+  </html>
