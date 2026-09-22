@@ -2,572 +2,1351 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Co Save & Earn</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
-body{background:#f4f7fa;color:#172033;padding-bottom:82px}
-button{border:0;cursor:pointer}
-.header{height:65px;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 17px;box-shadow:0 2px 12px #0001;position:sticky;top:0;z-index:100}
-.logo{font-size:20px;font-weight:800;color:#116530}.logo span{color:#d99b00}
-.avatar{width:40px;height:40px;border-radius:50%;background:#116530;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px}
-main{max-width:720px;margin:auto;padding:18px}
-.section{display:none}.section.active{display:block}
-h1{font-size:25px;margin-bottom:7px}h2{font-size:21px;margin-bottom:14px}h3{margin-bottom:8px}
-.subtitle,.info{color:#6d7580;line-height:1.5}
-.subtitle{margin-bottom:18px}
-.card{background:#fff;border-radius:18px;padding:18px;margin-bottom:16px;box-shadow:0 4px 18px #0000000d}
-.balance-card{background:#116530;color:#fff;border-radius:20px;padding:23px;margin-bottom:18px}
-.balance-label{font-size:14px;opacity:.85}.balance{font-size:31px;font-weight:800;margin-top:6px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
-.action{background:#fff;border-radius:16px;padding:17px 8px;box-shadow:0 4px 15px #0000000c;font-weight:bold}
-.action-icon{display:block;font-size:25px;margin-bottom:6px}
-label{display:block;font-size:13px;font-weight:bold;color:#555;margin-bottom:5px}
-input,select{width:100%;padding:13px;border:1px solid #dce1e6;border-radius:11px;margin-bottom:14px;font-size:15px;background:#fff}
-.primary{width:100%;padding:14px;background:#116530;color:#fff;border-radius:11px;font-weight:bold;font-size:15px}
-.secondary{width:100%;padding:13px;background:#eaf4ed;color:#116530;border-radius:11px;font-weight:bold;margin-top:9px}
-.danger{width:100%;padding:13px;background:#ffe9e9;color:#b32626;border-radius:11px;font-weight:bold}
-.message{display:none;padding:12px;border-radius:10px;margin-top:12px;line-height:1.5}
-.message.show{display:block}.success{background:#e8f7ed;color:#166534}.error{background:#ffecec;color:#a61b1b}
-.plans{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:3px 2px 12px;scrollbar-width:none}
-.plans::-webkit-scrollbar{display:none}
-.plan{min-width:86%;scroll-snap-align:start;background:#fff;border:1px solid #edf0f2;border-radius:18px;padding:18px;box-shadow:0 4px 18px #0000000d}
-.badge{display:inline-block;background:#fff5d6;color:#936900;padding:6px 10px;border-radius:20px;font-size:12px;font-weight:bold;margin-bottom:12px}
-.plan-title{font-size:18px;font-weight:bold;color:#116530;margin-bottom:8px}
-.row{display:flex;justify-content:space-between;margin:8px 0;font-size:14px}.row strong{color:#116530}
-.swipe{text-align:center;color:#7b838d;font-size:12px;margin-bottom:18px}
-.refbox{background:#116530;color:#fff;border-radius:18px;padding:19px;margin-bottom:16px}
-.ref-link{background:#fff;color:#172033;padding:12px;border-radius:10px;word-break:break-all;font-size:13px;margin:12px 0}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.small{background:#fff;color:#116530;padding:11px;border-radius:9px;font-weight:bold}
-.reward{padding:14px;border-radius:12px;background:#f7f9fa;margin-bottom:10px;display:flex;justify-content:space-between}
-.reward.unlocked{background:#e8f7ed;color:#166534}
-.progress{height:9px;background:#e5e8eb;border-radius:9px;overflow:hidden;margin-top:12px}.bar{height:100%;width:0;background:#116530}
-.transaction{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid #edf0f2;gap:10px}
-.transaction:last-child{border-bottom:0}.tname{font-weight:bold}.date{font-size:12px;color:#7b838d;margin-top:4px}
-.green{color:#15803d}.red{color:#b32626}.gold{color:#936900}
-.active-plan{background:#f8fbf9;border-left:4px solid #116530;padding:13px;border-radius:9px;margin-top:10px}
-.empty{text-align:center;padding:20px;color:#737b85}
-.profile{text-align:center}.profile-avatar{width:78px;height:78px;border-radius:50%;background:#116530;color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:30px;font-weight:bold}
-.profile-name{font-size:20px;font-weight:bold}.profile-phone{color:#737b85;margin-top:5px}
-.account{background:#f4f7fa;padding:12px;border-radius:10px;margin-top:12px;font-size:13px}
-.bottom{position:fixed;bottom:0;left:0;right:0;height:72px;background:#fff;display:flex;align-items:center;justify-content:space-around;box-shadow:0 -4px 18px #0002;z-index:999}
-.nav{background:none;color:#737b85;font-size:10px;min-width:52px}.nav span{display:block;font-size:21px;margin-bottom:3px}.nav.active{color:#116530;font-weight:bold}
-.loading{text-align:center;padding:35px;color:#116530;font-weight:bold}
-@media(max-width:380px){main{padding:13px}.plan{min-width:90%}.nav{min-width:48px;font-size:9px}}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
+
+html,body{
+  width:100%;
+  min-height:100%;
+}
+
+body{
+  background:#f4f7fa;
+  color:#172033;
+  padding-bottom:85px;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.header{
+  height:68px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  box-shadow:0 2px 12px #00000012;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  font-size:20px;
+  font-weight:800;
+  color:#116530;
+}
+
+.logo span{
+  color:#d99b00;
+}
+
+.avatar{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#116530;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:18px;
+}
+
+main{
+  width:100%;
+  max-width:720px;
+  margin:auto;
+  padding:18px;
+}
+
+.section{
+  display:none;
+}
+
+.section.active{
+  display:block !important;
+}
+
+h1{
+  font-size:25px;
+  margin-bottom:7px;
+}
+
+h2{
+  font-size:21px;
+  margin-bottom:14px;
+}
+
+h3{
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:#6d7580;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+
+.info{
+  color:#6d7580;
+  line-height:1.5;
+}
+
+.card{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 4px 18px #0000000d;
+}
+
+.balance-card{
+  background:#116530;
+  color:#fff;
+  border-radius:20px;
+  padding:23px;
+  margin-bottom:18px;
+}
+
+.balance-label{
+  font-size:14px;
+  opacity:.85;
+}
+
+.balance{
+  font-size:31px;
+  font-weight:800;
+  margin-top:6px;
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.action{
+  background:#fff;
+  border-radius:16px;
+  padding:18px 8px;
+  box-shadow:0 4px 15px #0000000d;
+  font-weight:bold;
+  color:#172033;
+}
+
+.action-icon{
+  display:block;
+  font-size:25px;
+  margin-bottom:6px;
+}
+
+.primary{
+  width:100%;
+  padding:14px;
+  background:#116530;
+  color:#fff;
+  border-radius:11px;
+  font-weight:bold;
+  font-size:15px;
+}
+
+.secondary{
+  width:100%;
+  padding:13px;
+  background:#eaf4ed;
+  color:#116530;
+  border-radius:11px;
+  font-weight:bold;
+  margin-top:9px;
+}
+
+.danger{
+  width:100%;
+  padding:13px;
+  background:#ffe9e9;
+  color:#b32626;
+  border-radius:11px;
+  font-weight:bold;
+}
+
+input,
+select{
+  width:100%;
+  padding:13px;
+  border:1px solid #dce1e6;
+  border-radius:11px;
+  margin-bottom:14px;
+  font-size:15px;
+  background:#fff;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:#116530;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  color:#555;
+  margin-bottom:5px;
+}
+
+.message{
+  display:none;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
+  line-height:1.5;
+}
+
+.message.show{
+  display:block;
+}
+
+.success{
+  background:#e8f7ed;
+  color:#166534;
+}
+
+.error{
+  background:#ffecec;
+  color:#a61b1b;
+}
+
+.plans{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding:3px 2px 12px;
+  scrollbar-width:none;
+}
+
+.plans::-webkit-scrollbar{
+  display:none;
+}
+
+.plan{
+  min-width:86%;
+  scroll-snap-align:start;
+  background:#fff;
+  border:1px solid #edf0f2;
+  border-radius:18px;
+  padding:18px;
+  box-shadow:0 4px 18px #0000000d;
+}
+
+.badge{
+  display:inline-block;
+  background:#fff5d6;
+  color:#936900;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.plan-title{
+  font-size:18px;
+  font-weight:bold;
+  color:#116530;
+  margin-bottom:8px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  margin:8px 0;
+  font-size:14px;
+}
+
+.row strong{
+  color:#116530;
+}
+
+.swipe{
+  text-align:center;
+  color:#7b838d;
+  font-size:12px;
+  margin-bottom:18px;
+}
+
+.refbox{
+  background:#116530;
+  color:#fff;
+  border-radius:18px;
+  padding:19px;
+  margin-bottom:16px;
+}
+
+.ref-link{
+  background:#fff;
+  color:#172033;
+  padding:12px;
+  border-radius:10px;
+  word-break:break-all;
+  font-size:13px;
+  margin:12px 0;
+}
+
+.two{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.small{
+  background:#fff;
+  color:#116530;
+  padding:11px;
+  border-radius:9px;
+  font-weight:bold;
+}
+
+.reward{
+  padding:14px;
+  border-radius:12px;
+  background:#f7f9fa;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.reward.unlocked{
+  background:#e8f7ed;
+  color:#166534;
+}
+
+.progress{
+  height:9px;
+  background:#e5e8eb;
+  border-radius:9px;
+  overflow:hidden;
+  margin-top:12px;
+}
+
+.bar{
+  height:100%;
+  width:0%;
+  background:#116530;
+}
+
+.transaction{
+  display:flex;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid #edf0f2;
+  gap:10px;
+}
+
+.transaction:last-child{
+  border-bottom:0;
+}
+
+.tname{
+  font-weight:bold;
+}
+
+.date{
+  font-size:12px;
+  color:#7b838d;
+  margin-top:4px;
+}
+
+.green{
+  color:#15803d;
+}
+
+.red{
+  color:#b32626;
+}
+
+.gold{
+  color:#936900;
+}
+
+.active-plan{
+  background:#f8fbf9;
+  border-left:4px solid #116530;
+  padding:13px;
+  border-radius:9px;
+  margin-top:10px;
+}
+
+.empty{
+  text-align:center;
+  padding:20px;
+  color:#737b85;
+}
+
+.profile{
+  text-align:center;
+}
+
+.profile-avatar{
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  background:#116530;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 12px;
+  font-size:30px;
+  font-weight:bold;
+}
+
+.profile-name{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.profile-phone{
+  color:#737b85;
+  margin-top:5px;
+}
+
+.account{
+  background:#f4f7fa;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
+  font-size:13px;
+}
+
+.bottom{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:72px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  box-shadow:0 -4px 18px #00000020;
+  z-index:9999;
+}
+
+.nav{
+  background:none;
+  color:#737b85;
+  font-size:10px;
+  min-width:52px;
+  padding:4px;
+}
+
+.nav span{
+  display:block;
+  font-size:21px;
+  margin-bottom:3px;
+}
+
+.nav.active{
+  color:#116530;
+  font-weight:bold;
+}
+
+@media(max-width:380px){
+
+  main{
+    padding:13px;
+  }
+
+  .plan{
+    min-width:90%;
+  }
+
+  .nav{
+    min-width:48px;
+    font-size:9px;
+  }
+
+}
 </style>
 </head>
 
 <body>
 
 <header class="header">
-  <div class="logo">Co Save <span>&</span> Earn</div>
-  <div class="avatar" id="headerInitial" onclick="showSection('profile')">U</div>
+
+  <div class="logo">
+    Co Save <span>&</span> Earn
+  </div>
+
+  <div
+    class="avatar"
+    id="headerInitial"
+    onclick="showSection('profile')">
+    U
+  </div>
+
 </header>
+
 
 <main>
 
-<div id="loading" class="loading">Loading your dashboard...</div>
-
-<div id="app" style="display:none">
+<!-- HOME -->
 
 <section id="home" class="section active">
-  <h1>Welcome, <span id="welcomeName">User</span> 👋</h1>
-  <p class="subtitle">Save toward your goals and manage your account.</p>
+
+  <h1>
+    Welcome, <span id="welcomeName">User</span> 👋
+  </h1>
+
+  <p class="subtitle">
+    Save toward your goals and manage your account.
+  </p>
+
 
   <div class="balance-card">
-    <div class="balance-label">Available Balance</div>
-    <div class="balance" id="balance">UGX 0</div>
+
+    <div class="balance-label">
+      Available Balance
+    </div>
+
+    <div class="balance" id="balance">
+      UGX 0
+    </div>
+
   </div>
+
 
   <div class="actions">
-    <button class="action" onclick="showSection('deposit')"><span class="action-icon">💰</span>Deposit</button>
-    <button class="action" onclick="showSection('withdraw')"><span class="action-icon">💸</span>Withdraw</button>
-    <button class="action" onclick="showSection('referrals')"><span class="action-icon">🔗</span>Refer & Earn</button>
-    <button class="action" onclick="showSection('transactions')"><span class="action-icon">📊</span>Transactions</button>
+
+    <button class="action"
+      onclick="showSection('deposit')">
+      <span class="action-icon">💰</span>
+      Deposit
+    </button>
+
+    <button class="action"
+      onclick="showSection('withdraw')">
+      <span class="action-icon">💸</span>
+      Withdraw
+    </button>
+
+    <button class="action"
+      onclick="showSection('referrals')">
+      <span class="action-icon">🔗</span>
+      Refer & Earn
+    </button>
+
+    <button class="action"
+      onclick="showSection('transactions')">
+      <span class="action-icon">📊</span>
+      Transactions
+    </button>
+
   </div>
 
+
+  <!-- SAVING TINS -->
+
   <div class="card">
+
     <h2>🐷 Saving Tins</h2>
+
     <div class="plans">
 
       <div class="plan">
+
         <span class="badge">20 DAYS</span>
-        <div class="plan-title">Saving Tin</div>
-        <div class="row"><span>Save</span><strong>UGX 20,000</strong></div>
-        <div class="row"><span>Earning</span><strong>UGX 35,000</strong></div>
-        <div class="row"><span>Total</span><strong>UGX 55,000</strong></div>
-        <button class="primary" onclick="choosePlan('20 Days Saving Tin',20000,35000,55000)">Choose Plan</button>
+
+        <div class="plan-title">
+          Saving Tin
+        </div>
+
+        <div class="row">
+          <span>Save</span>
+          <strong>UGX 20,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Earning</span>
+          <strong>UGX 35,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Total</span>
+          <strong>UGX 55,000</strong>
+        </div>
+
+        <button class="primary"
+          onclick="choosePlan('20 Days Saving Tin',20000,35000,55000)">
+          Choose Plan
+        </button>
+
       </div>
 
+
       <div class="plan">
+
         <span class="badge">20 DAYS</span>
-        <div class="plan-title">Saving Tin</div>
-        <div class="row"><span>Save</span><strong>UGX 50,000</strong></div>
-        <div class="row"><span>Earning</span><strong>UGX 85,000</strong></div>
-        <div class="row"><span>Total</span><strong>UGX 135,000</strong></div>
-        <button class="primary" onclick="choosePlan('20 Days Saving Tin',50000,85000,135000)">Choose Plan</button>
+
+        <div class="plan-title">
+          Saving Tin
+        </div>
+
+        <div class="row">
+          <span>Save</span>
+          <strong>UGX 50,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Earning</span>
+          <strong>UGX 85,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Total</span>
+          <strong>UGX 135,000</strong>
+        </div>
+
+        <button class="primary"
+          onclick="choosePlan('20 Days Saving Tin',50000,85000,135000)">
+          Choose Plan
+        </button>
+
       </div>
 
-      <div class="plan">
-        <span class="badge">30 DAYS</span>
-        <div class="plan-title">Saving Tin</div>
-        <div class="row"><span>Save</span><strong>UGX 30,000</strong></div>
-        <div class="row"><span>Earning</span><strong>UGX 90,000</strong></div>
-        <div class="row"><span>Total</span><strong>UGX 120,000</strong></div>
-        <button class="primary" onclick="choosePlan('30 Days Saving Tin',30000,90000,120000)">Choose Plan</button>
-      </div>
 
       <div class="plan">
+
         <span class="badge">30 DAYS</span>
-        <div class="plan-title">Saving Tin</div>
-        <div class="row"><span>Save</span><strong>UGX 100,000</strong></div>
-        <div class="row"><span>Earning</span><strong>UGX 220,000</strong></div>
-        <div class="row"><span>Total</span><strong>UGX 320,000</strong></div>
-        <button class="primary" onclick="choosePlan('30 Days Saving Tin',100000,220000,320000)">Choose Plan</button>
+
+        <div class="plan-title">
+          Saving Tin
+        </div>
+
+        <div class="row">
+          <span>Save</span>
+          <strong>UGX 30,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Earning</span>
+          <strong>UGX 90,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Total</span>
+          <strong>UGX 120,000</strong>
+        </div>
+
+        <button class="primary"
+          onclick="choosePlan('30 Days Saving Tin',30000,90000,120000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan">
+
+        <span class="badge">30 DAYS</span>
+
+        <div class="plan-title">
+          Saving Tin
+        </div>
+
+        <div class="row">
+          <span>Save</span>
+          <strong>UGX 100,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Earning</span>
+          <strong>UGX 220,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Total</span>
+          <strong>UGX 320,000</strong>
+        </div>
+
+        <button class="primary"
+          onclick="choosePlan('30 Days Saving Tin',100000,220000,320000)">
+          Choose Plan
+        </button>
+
       </div>
 
     </div>
-    <div class="swipe">Swipe left or right for more plans →</div>
+
+    <div class="swipe">
+      Swipe left or right for more Saving Tin plans →
+    </div>
+
   </div>
 
+
+  <!-- SAVING ELEPHANTS -->
+
   <div class="card">
+
     <h2>🐘 Saving Elephants</h2>
+
     <div class="plans">
 
       <div class="plan">
+
         <span class="badge">20 DAYS</span>
-        <div class="plan-title">Saving Elephant</div>
-        <div class="row"><span>Save</span><strong>UGX 30,000</strong></div>
-        <div class="row"><span>Earning</span><strong>UGX 55,000</strong></div>
-        <div class="row"><span>Total</span><strong>UGX 85,000</strong></div>
-        <button class="primary" onclick="choosePlan('20 Days Saving Elephant',30000,55000,85000)">Choose Plan</button>
+
+        <div class="plan-title">
+          Saving Elephant
+        </div>
+
+        <div class="row">
+          <span>Save</span>
+          <strong>UGX 30,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Earning</span>
+          <strong>UGX 55,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Total</span>
+          <strong>UGX 85,000</strong>
+        </div>
+
+        <button class="primary"
+          onclick="choosePlan('20 Days Saving Elephant',30000,55000,85000)">
+          Choose Plan
+        </button>
+
       </div>
 
+
       <div class="plan">
+
         <span class="badge">20 DAYS</span>
-        <div class="plan-title">Saving Elephant</div>
-        <div class="row"><span>Save</span><strong>UGX 100,000</strong></div>
-        <div class="row"><span>Earning</span><strong>UGX 155,000</strong></div>
-        <div class="row"><span>Total</span><strong>UGX 255,000</strong></div>
-        <button class="primary" onclick="choosePlan('20 Days Saving Elephant',100000,155000,255000)">Choose Plan</button>
+
+        <div class="plan-title">
+          Saving Elephant
+        </div>
+
+        <div class="row">
+          <span>Save</span>
+          <strong>UGX 100,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Earning</span>
+          <strong>UGX 155,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Total</span>
+          <strong>UGX 255,000</strong>
+        </div>
+
+        <button class="primary"
+          onclick="choosePlan('20 Days Saving Elephant',100000,155000,255000)">
+          Choose Plan
+        </button>
+
       </div>
 
-      <div class="plan">
-        <span class="badge">30 DAYS</span>
-        <div class="plan-title">Saving Elephant</div>
-        <div class="row"><span>Save</span><strong>UGX 20,000</strong></div>
-        <div class="row"><span>Earning</span><strong>UGX 50,000</strong></div>
-        <div class="row"><span>Total</span><strong>UGX 70,000</strong></div>
-        <button class="primary" onclick="choosePlan('30 Days Saving Elephant',20000,50000,70000)">Choose Plan</button>
-      </div>
 
       <div class="plan">
+
         <span class="badge">30 DAYS</span>
-        <div class="plan-title">Saving Elephant</div>
-        <div class="row"><span>Save</span><strong>UGX 50,000</strong></div>
-        <div class="row"><span>Earning</span><strong>UGX 135,000</strong></div>
-        <div class="row"><span>Total</span><strong>UGX 185,000</strong></div>
-        <button class="primary" onclick="choosePlan('30 Days Saving Elephant',50000,135000,185000)">Choose Plan</button>
+
+        <div class="plan-title">
+          Saving Elephant
+        </div>
+
+        <div class="row">
+          <span>Save</span>
+          <strong>UGX 20,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Earning</span>
+          <strong>UGX 50,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Total</span>
+          <strong>UGX 70,000</strong>
+        </div>
+
+        <button class="primary"
+          onclick="choosePlan('30 Days Saving Elephant',20000,50000,70000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan">
+
+        <span class="badge">30 DAYS</span>
+
+        <div class="plan-title">
+          Saving Elephant
+        </div>
+
+        <div class="row">
+          <span>Save</span>
+          <strong>UGX 50,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Earning</span>
+          <strong>UGX 135,000</strong>
+        </div>
+
+        <div class="row">
+          <span>Total</span>
+          <strong>UGX 185,000</strong>
+        </div>
+
+        <button class="primary"
+          onclick="choosePlan('30 Days Saving Elephant',50000,135000,185000)">
+          Choose Plan
+        </button>
+
       </div>
 
     </div>
-    <div class="swipe">Swipe left or right for more plans →</div>
+
+    <div class="swipe">
+      Swipe left or right for more Saving Elephant plans →
+    </div>
+
   </div>
 
+
   <div class="card">
+
     <h2>📌 Active Plans</h2>
-    <div id="activePlans"><div class="empty">No active saving plans yet.</div></div>
+
+    <div id="activePlans">
+      <div class="empty">
+        No active saving plans yet.
+      </div>
+    </div>
+
   </div>
+
 </section>
 
+
+<!-- DEPOSIT -->
 
 <section id="deposit" class="section">
+
   <h2>💰 Deposit</h2>
-  <p class="subtitle">Add money to your account.</p>
+
+  <p class="subtitle">
+    Add money to your Co Save & Earn account.
+  </p>
 
   <div class="card">
+
     <label>Mobile Money Provider</label>
+
     <select id="depositProvider">
       <option value="">Select provider</option>
-      <option>MTN Mobile Money</option>
-      <option>Airtel Money</option>
+      <option value="MTN Mobile Money">
+        MTN Mobile Money
+      </option>
+      <option value="Airtel Money">
+        Airtel Money
+      </option>
     </select>
 
+
     <label>Name</label>
-    <input id="depositName" placeholder="Enter your name">
+
+    <input
+      id="depositName"
+      type="text"
+      placeholder="Enter your name">
+
 
     <label>Mobile Money Number</label>
-    <input id="depositNumber" type="tel" placeholder="e.g. 077xxxxxxx">
+
+    <input
+      id="depositNumber"
+      type="tel"
+      placeholder="e.g. 077xxxxxxx">
+
 
     <label>Amount</label>
-    <input id="depositAmount" type="number" min="20000" placeholder="Minimum UGX 20,000">
 
-    <button class="primary" onclick="depositMoney()">Deposit Money</button>
-    <div id="depositMessage" class="message"></div>
+    <input
+      id="depositAmount"
+      type="number"
+      min="20000"
+      placeholder="Minimum UGX 20,000">
+
+
+    <button
+      class="primary"
+      onclick="depositMoney()">
+      Deposit Money
+    </button>
+
+
+    <div
+      id="depositMessage"
+      class="message">
+    </div>
+
   </div>
+
 
   <div class="card">
+
     <h3>Minimum Deposit</h3>
-    <p class="info">Minimum deposit: UGX 20,000.</p>
+
+    <p class="info">
+      Minimum deposit is UGX 20,000.
+    </p>
+
   </div>
+
 </section>
 
+
+<!-- WITHDRAW -->
 
 <section id="withdraw" class="section">
+
   <h2>💸 Withdraw</h2>
-  <p class="subtitle">Request a withdrawal from your available balance.</p>
+
+  <p class="subtitle">
+    Request a withdrawal from your available balance.
+  </p>
 
   <div class="card">
+
     <label>Mobile Money Provider</label>
+
     <select id="withdrawProvider">
       <option value="">Select provider</option>
-      <option>MTN Mobile Money</option>
-      <option>Airtel Money</option>
+      <option value="MTN Mobile Money">
+        MTN Mobile Money
+      </option>
+      <option value="Airtel Money">
+        Airtel Money
+      </option>
     </select>
 
+
     <label>Name</label>
-    <input id="withdrawName" placeholder="Enter your name">
+
+    <input
+      id="withdrawName"
+      type="text"
+      placeholder="Enter your name">
+
 
     <label>Mobile Money Number</label>
-    <input id="withdrawNumber" type="tel" placeholder="e.g. 077xxxxxxx">
+
+    <input
+      id="withdrawNumber"
+      type="tel"
+      placeholder="e.g. 077xxxxxxx">
+
 
     <label>Amount</label>
-    <input id="withdrawAmount" type="number" min="20000" placeholder="Minimum UGX 20,000">
 
-    <button class="primary" onclick="withdrawMoney()">Withdraw Money</button>
-    <div id="withdrawMessage" class="message"></div>
+    <input
+      id="withdrawAmount"
+      type="number"
+      min="20000"
+      placeholder="Minimum UGX 20,000">
+
+
+    <button
+      class="primary"
+      onclick="withdrawMoney()">
+      Withdraw Money
+    </button>
+
+
+    <div
+      id="withdrawMessage"
+      class="message">
+    </div>
+
   </div>
+
 
   <div class="card">
+
     <h3>Minimum Withdrawal</h3>
-    <p class="info">Minimum withdrawal: UGX 20,000.</p>
+
+    <p class="info">
+      Minimum withdrawal is UGX 20,000.
+    </p>
+
   </div>
+
 </section>
 
+
+<!-- REFERRALS -->
 
 <section id="referrals" class="section">
+
   <h2>🔗 Invite & Earn</h2>
-  <p class="subtitle">Invite people using your referral link.</p>
+
+  <p class="subtitle">
+    Invite people using your referral link.
+  </p>
+
 
   <div class="refbox">
+
     <h3>Your Referral Link</h3>
-    <div class="ref-link" id="referralLink">Loading...</div>
+
+    <div
+      class="ref-link"
+      id="referralLink">
+      Your referral link will appear here.
+    </div>
+
 
     <div class="two">
-      <button class="small" onclick="copyReferral()">Copy Link</button>
-      <button class="small" onclick="shareReferral()">Share Link</button>
+
+      <button
+        class="small"
+        onclick="copyReferral()">
+        Copy Link
+      </button>
+
+      <button
+        class="small"
+        onclick="shareReferral()">
+        Share Link
+      </button>
+
     </div>
+
   </div>
 
-  <div class="card">
-    <p class="info">People Invited</p>
-    <h1 id="referralCount">0</h1>
-    <p class="info">Referral Code: <strong id="myReferralCode">---</strong></p>
-  </div>
 
   <div class="card">
+
+    <p class="info">
+      People Invited
+    </p>
+
+    <h1 id="referralCount">
+      0
+    </h1>
+
+    <p class="info">
+      Referral Code:
+      <strong id="myReferralCode">
+        ---
+      </strong>
+    </p>
+
+  </div>
+
+
+  <div class="card">
+
     <h2>🎁 Rewards</h2>
 
-    <div class="reward" id="reward10">
-      <span>10 Referrals</span><strong>UGX 20,000</strong>
+    <div
+      class="reward"
+      id="reward10">
+
+      <span>10 Referrals</span>
+
+      <strong>
+        UGX 20,000
+      </strong>
+
     </div>
 
-    <div class="reward" id="reward50">
-      <span>50 Referrals</span><strong>UGX 80,000</strong>
+
+    <div
+      class="reward"
+      id="reward50">
+
+      <span>50 Referrals</span>
+
+      <strong>
+        UGX 80,000
+      </strong>
+
     </div>
 
-    <div class="reward" id="reward100">
-      <span>100 Referrals</span><strong>UGX 130,000</strong>
+
+    <div
+      class="reward"
+      id="reward100">
+
+      <span>100 Referrals</span>
+
+      <strong>
+        UGX 130,000
+      </strong>
+
     </div>
+
   </div>
+
 
   <div class="card">
-    <h3>Referral Progress</h3>
-    <p class="info" id="referralProgress">Start inviting people.</p>
-    <div class="progress"><div class="bar" id="referralBar"></div></div>
+
+    <h3>
+      Referral Progress
+    </h3>
+
+    <p
+      class="info"
+      id="referralProgress">
+      Start inviting people.
+    </p>
+
+    <div class="progress">
+      <div
+        class="bar"
+        id="referralBar">
+      </div>
+    </div>
+
   </div>
+
 </section>
 
+
+<!-- TRANSACTIONS -->
 
 <section id="transactions" class="section">
+
   <h2>📊 Transactions</h2>
-  <p class="subtitle">Your account activity.</p>
-  <div class="card" id="transactionList">
-    <div class="empty">No transactions yet.</div>
+
+  <p class="subtitle">
+    Your account activity appears here.
+  </p>
+
+  <div
+    class="card"
+    id="transactionList">
+
+    <div class="empty">
+      No transactions yet.
+    </div>
+
   </div>
+
 </section>
 
+
+<!-- PROFILE -->
 
 <section id="profile" class="section">
+
   <h2>👤 Profile</h2>
 
+
   <div class="card profile">
-    <div class="profile-avatar" id="profileAvatar">U</div>
-    <div class="profile-name" id="profileDisplayName">User</div>
-    <div class="profile-phone" id="profileDisplayPhone">Mobile number not added</div>
+
+    <div
+      class="profile-avatar"
+      id="profileAvatar">
+      U
+    </div>
+
+    <div
+      class="profile-name"
+      id="profileDisplayName">
+      User
+    </div>
+
+    <div
+      class="profile-phone"
+      id="profileDisplayPhone">
+      Mobile number not added
+    </div>
+
 
     <div class="account">
-      Account ID: <strong id="accountId">CE-000000</strong>
+
+      Account ID:
+      <strong id="accountId">
+        CE-000000
+      </strong>
+
     </div>
+
   </div>
 
+
   <div class="card">
-    <h3>Edit Profile</h3>
+
+    <h3>
+      Edit Profile
+    </h3>
+
 
     <label>Name</label>
-    <input id="profileName" placeholder="Your name">
+
+    <input
+      id="profileName"
+      placeholder="Your name">
+
 
     <label>Mobile Money Provider</label>
+
     <select id="profileProvider">
-      <option value="">Select provider</option>
-      <option>MTN Mobile Money</option>
-      <option>Airtel Money</option>
+
+      <option value="">
+        Select provider
+      </option>
+
+      <option value="MTN Mobile Money">
+        MTN Mobile Money
+      </option>
+
+      <option value="Airtel Money">
+        Airtel Money
+      </option>
+
     </select>
 
+
     <label>Mobile Number</label>
-    <input id="profilePhone" type="tel" placeholder="Mobile number">
 
-    <button class="primary" onclick="saveProfile()">Save Profile</button>
-    <div id="profileMessage" class="message"></div>
+    <input
+      id="profilePhone"
+      type="tel"
+      placeholder="Mobile number">
+
+
+    <button
+      class="primary"
+      onclick="saveProfile()">
+      Save Profile
+    </button>
+
+
+    <div
+      id="profileMessage"
+      class="message">
+    </div>
+
   </div>
+
 
   <div class="card">
-    <h3>Referral Code</h3>
-    <p class="info"><strong id="profileReferralCode">---</strong></p>
+
+    <h3>
+      Referral Code
+    </h3>
+
+    <p class="info">
+
+      <strong id="profileReferralCode">
+        ---
+      </strong>
+
+    </p>
+
   </div>
 
+
   <div class="card">
-    <button class="danger" onclick="logout()">🚪 Logout</button>
+
+    <button
+      class="danger"
+      onclick="logout()">
+      🚪 Logout
+    </button>
+
   </div>
+
 </section>
 
-</div>
 </main>
 
 
+<!-- BOTTOM NAVIGATION -->
+
 <nav class="bottom">
-  <button class="nav active" onclick="showSection('home',this)"><span>🏠</span>Home</button>
-  <button class="nav" onclick="showSection('deposit',this)"><span>💰</span>Deposit</button>
-  <button class="nav" onclick="showSection('withdraw',this)"><span>💸</span>Withdraw</button>
-  <button class="nav" onclick="showSection('referrals',this)"><span>🔗</span>Refer</button>
-  <button class="nav" onclick="showSection('transactions',this)"><span>📊</span>Activity</button>
-  <button class="nav" onclick="showSection('profile',this)"><span>👤</span>Profile</button>
+
+  <button
+    class="nav active"
+    onclick="showSection('home',this)">
+    <span>🏠</span>
+    Home
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="showSection('deposit',this)">
+    <span>💰</span>
+    Deposit
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="showSection('withdraw',this)">
+    <span>💸</span>
+    Withdraw
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="showSection('referrals',this)">
+    <span>🔗</span>
+    Refer
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="showSection('transactions',this)">
+    <span>📊</span>
+    Activity
+  </button>
+
+
+  <button
+    class="nav"
+    onclick="showSection('profile',this)">
+    <span>👤</span>
+    Profile
+  </button>
+
 </nav>
 
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- SUPABASE -->
 
-<script>
-const SUPABASE_URL =
-  "https://trksuitwyukquyvfxton.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_p5S188wU6SAhcSGVYMd7oA_CyzXyEYC";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-let currentUser = null;
-let profile = {};
-let balance = 0;
-let transactions = [];
-let activePlans = [];
-let referralCount = 0;
-
-
-/* =========================
-   BASIC HELPERS
-========================= */
-
-function money(value){
-  return "UGX " +
-    Number(value || 0).toLocaleString();
-}
-
-function escapeHTML(value){
-  return String(value || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-
-function message(id,text,type){
-  const el = document.getElementById(id);
-  el.className = "message show " + type;
-  el.textContent = text;
-}
-
-
-/* =========================
-   NAVIGATION
-========================= */
-
-function showSection(id,button){
-
-  document
-    .querySelectorAll(".section")
-    .forEach(x => x.classList.remove("active"));
-
-  const target =
-    document.getElementById(id);
-
-  if(target){
-    target.classList.add("active");
-  }
-
-  document
-    .querySelectorAll(".nav")
-    .forEach(x => x.classList.remove("active"));
-
-  if(button){
-    button.classList.add("active");
-  }else{
-    const nav =
-      document.querySelector(
-        '.nav[onclick*="' + id + '"]'
-      );
-
-    if(nav) nav.classList.add("active");
-  }
-
-  window.scrollTo(0,0);
-}
-
-
-/* =========================
-   LOAD ACCOUNT
-========================= */
-
-async function loadAccount(){
-
-  const result =
-    await supabaseClient.auth.getUser();
-
-  currentUser =
-    result.data.user;
-
-  if(!currentUser){
-
-    document.getElementById("loading").innerHTML =
-      "You are not logged in.<br><br>" +
-      '<button class="primary" onclick="goLogin()">Go to Login</button>';
-
-    return;
-
-  }
-
-  await loadProfile();
-  await loadBalance();
-  await loadTransactions();
-  await loadSavings();
-  await loadReferrals();
-
-  updateUI();
-
-  document.getElementById("loading").style.display = "none";
-  document.getElementById("app").style.display = "block";
-}
-
-
-/* =========================
-   PROFILE
-========================= */
-
-async function loadProfile(){
-
-  const {data,error} =
-    await supabaseClient
-      .from("profiles")
-      .select("*")
-      .eq("id",currentUser.id)
-      .maybeSingle();
-
-  if(error){
-    console.log("Profile:",error);
-    profile = {};
-    return;
-  }
-
-  profile = data || {};
-}
-
-
-function updateProfileUI(){
-
-  const name =
-    profile.name ||
-    profile.full_name ||
-    profile.fullName ||
-    currentUser.user_metadata?.name ||
-    currentUser.user_metadata?.full_name ||
-    "User";
-
-  const phone =
-    profile.phone ||
-    currentUser.phone ||
-    currentUser.user_metadata?.phone ||
-    "";
-
-  const provider =
-    profile.provider ||
-    profile.mobile_money_provider ||
-    "";
-
-  const initial =
-    name.charAt(0).toUpperCase();
-
-  document.getElementById("welcomeName").textContent =
-    name;
-
-  document.getElementById("headerInitial").textContent =
-    initial;
-
-  document.getElementById("profileAvatar").textContent =
-    initial;
-
-  document.getElementById("profileDisplayName").textContent =
-    name;
-
-  document.getElementById("profileDisplayPhone").textContent =
-    phone
-      ? (provider ? provider + " • " : "") + phone
-      : "Mobile number not added";
-
-  document.getElementById("profileName").value =
-    name === "User" ? "" : name;
-
-  document.getElementById("profileProvider").value =
-    provider;
-
-  document.getElementById("profilePhone").value =
-    phone;
-
-  document.getElementById("accountId").textContent =
-    "CE-" + currentUser.id.substring(0,8).toUpperCase();
-
-  document.getElementById("profileReferralCode").textContent =
-    profile.referral_code ||
-    profile.referralCode ||
-    "Not assigned";
-
-  document.getElementById("myReferralCode").textContent =
-    profile.referral_code ||
-    profile.referralCode ||
-    "Not assigned";
-}
-
-
-async function saveProfile(){
-
-  const name =
-    document.getElementById("profileName").value.trim();
-
-  const provider =
-    document.
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supa
