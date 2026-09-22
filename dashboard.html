@@ -3754,3 +3754,104 @@ function updateTransactions(){
 
 })();
     </script>
+<script>
+(function () {
+
+  function getSavedName() {
+    /* First try the profile name field */
+    const profileInput = document.getElementById("profileName");
+
+    if (profileInput && profileInput.value.trim()) {
+      return profileInput.value.trim();
+    }
+
+    /* Then try the account object used by the dashboard */
+    try {
+      if (typeof account !== "undefined" && account.name) {
+        return account.name.trim();
+      }
+    } catch (e) {}
+
+    /* Finally look through saved browser data */
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        const value = localStorage.getItem(key);
+
+        if (!value) continue;
+
+        try {
+          const data = JSON.parse(value);
+
+          if (data && typeof data === "object") {
+            if (data.name && String(data.name).trim()) {
+              return String(data.name).trim();
+            }
+
+            if (
+              data.user &&
+              typeof data.user === "object" &&
+              data.user.name
+            ) {
+              return String(data.user.name).trim();
+            }
+          }
+        } catch (e) {}
+      }
+    } catch (e) {}
+
+    return "";
+  }
+
+  function updateUsername() {
+    const name = getSavedName();
+
+    if (!name) return;
+
+    /* Profile display name */
+    const profileDisplayName =
+      document.getElementById("profileDisplayName");
+
+    if (profileDisplayName) {
+      profileDisplayName.textContent = name;
+    }
+
+    /* Header initial */
+    const headerInitial =
+      document.getElementById("headerInitial");
+
+    if (headerInitial) {
+      headerInitial.textContent =
+        name.charAt(0).toUpperCase();
+    }
+
+    /* Replace visible "User" text */
+    document.querySelectorAll("*").forEach(function (element) {
+
+      if (element.children.length > 0) return;
+
+      const text = (element.textContent || "").trim();
+
+      if (text === "User") {
+        element.textContent = name;
+      }
+
+    });
+  }
+
+  /* Run when page opens */
+  document.addEventListener(
+    "DOMContentLoaded",
+    updateUsername
+  );
+
+  /* Run immediately too */
+  updateUsername();
+
+  /* Run again after the dashboard loads */
+  setTimeout(updateUsername, 300);
+  setTimeout(updateUsername, 1000);
+  setTimeout(updateUsername, 2000);
+
+})();
+        </script>
