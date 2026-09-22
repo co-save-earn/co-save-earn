@@ -4661,3 +4661,500 @@ body * {
 
 })();
     </script>
+<script>
+(function () {
+
+  function setupReferralPage() {
+
+    const referralSection = document.getElementById("referrals");
+
+    if (!referralSection) return;
+
+    referralSection.innerHTML = `
+      <div style="
+        background:#ffffff;
+        border-radius:24px;
+        padding:22px;
+        margin-bottom:20px;
+        box-shadow:0 4px 15px rgba(0,0,0,0.06);
+      ">
+
+        <h2 style="
+          margin:0 0 8px;
+          color:#18233a;
+          font-size:26px;
+        ">
+          🔗 Refer & Earn
+        </h2>
+
+        <p style="
+          color:#687386;
+          line-height:1.6;
+          margin-bottom:20px;
+        ">
+          Invite your friends to Co Save & Earn using your referral
+          link and earn rewards when you reach the referral milestones.
+        </p>
+
+
+        <!-- REFERRAL CODE -->
+
+        <div style="
+          background:#f2f8fb;
+          border-radius:16px;
+          padding:18px;
+          margin-bottom:15px;
+          text-align:center;
+        ">
+
+          <div style="
+            color:#687386;
+            font-size:14px;
+            margin-bottom:7px;
+          ">
+            Your Referral Code
+          </div>
+
+          <div id="myReferralCodeDisplay" style="
+            font-size:26px;
+            font-weight:bold;
+            letter-spacing:2px;
+            color:#28779a;
+          ">
+            Loading...
+          </div>
+
+        </div>
+
+
+        <!-- REFERRAL LINK -->
+
+        <div style="
+          color:#687386;
+          font-size:14px;
+          margin-bottom:7px;
+        ">
+          Your Referral Link
+        </div>
+
+        <input
+          id="myReferralLink"
+          readonly
+          style="
+            width:100%;
+            box-sizing:border-box;
+            padding:14px;
+            border:1px solid #d8dee6;
+            border-radius:12px;
+            background:#f8fafc;
+            font-size:13px;
+            margin-bottom:12px;
+          "
+        >
+
+
+        <!-- BUTTONS -->
+
+        <div style="
+          display:flex;
+          gap:10px;
+          margin-bottom:22px;
+        ">
+
+          <button
+            onclick="copyMyReferralLink()"
+            style="
+              flex:1;
+              border:0;
+              border-radius:12px;
+              padding:14px 8px;
+              background:#28779a;
+              color:white;
+              font-weight:bold;
+              font-size:14px;
+            "
+          >
+            📋 Copy Link
+          </button>
+
+          <button
+            onclick="shareMyReferralLink()"
+            style="
+              flex:1;
+              border:0;
+              border-radius:12px;
+              padding:14px 8px;
+              background:#3c9a70;
+              color:white;
+              font-weight:bold;
+              font-size:14px;
+            "
+          >
+            📤 Share Link
+          </button>
+
+        </div>
+
+
+        <!-- INVITED PEOPLE -->
+
+        <div style="
+          background:#f2f8fb;
+          border-radius:18px;
+          padding:18px;
+          text-align:center;
+          margin-bottom:22px;
+        ">
+
+          <div style="
+            color:#687386;
+            font-size:14px;
+          ">
+            People You Have Invited
+          </div>
+
+          <div id="myReferralCount" style="
+            font-size:38px;
+            font-weight:bold;
+            color:#28779a;
+            margin-top:5px;
+          ">
+            0
+          </div>
+
+        </div>
+
+
+        <!-- REWARDS -->
+
+        <h3 style="
+          color:#18233a;
+          margin:0 0 14px;
+        ">
+          🎁 Referral Rewards
+        </h3>
+
+
+        <div id="refReward10" style="
+          background:#f7f8fa;
+          border-radius:15px;
+          padding:16px;
+          margin-bottom:10px;
+        ">
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            font-weight:bold;
+          ">
+            <span>10 Referrals</span>
+            <span>UGX 20,000</span>
+          </div>
+
+          <div style="
+            color:#687386;
+            font-size:13px;
+            margin-top:6px;
+          ">
+            Reward for reaching 10 successful referrals.
+          </div>
+
+        </div>
+
+
+        <div id="refReward50" style="
+          background:#f7f8fa;
+          border-radius:15px;
+          padding:16px;
+          margin-bottom:10px;
+        ">
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            font-weight:bold;
+          ">
+            <span>50 Referrals</span>
+            <span>UGX 80,000</span>
+          </div>
+
+          <div style="
+            color:#687386;
+            font-size:13px;
+            margin-top:6px;
+          ">
+            Reward for reaching 50 successful referrals.
+          </div>
+
+        </div>
+
+
+        <div id="refReward100" style="
+          background:#f7f8fa;
+          border-radius:15px;
+          padding:16px;
+          margin-bottom:20px;
+        ">
+
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            font-weight:bold;
+          ">
+            <span>100 Referrals</span>
+            <span>UGX 130,000</span>
+          </div>
+
+          <div style="
+            color:#687386;
+            font-size:13px;
+            margin-top:6px;
+          ">
+            Reward for reaching 100 successful referrals.
+          </div>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div style="
+          color:#687386;
+          font-size:14px;
+          margin-bottom:8px;
+        ">
+          Referral Progress
+        </div>
+
+        <div style="
+          width:100%;
+          height:12px;
+          background:#e5e9ee;
+          border-radius:20px;
+          overflow:hidden;
+        ">
+
+          <div id="myReferralProgress" style="
+            width:0%;
+            height:100%;
+            background:#28779a;
+            border-radius:20px;
+            transition:width .4s ease;
+          "></div>
+
+        </div>
+
+        <div id="myReferralProgressText" style="
+          text-align:center;
+          color:#687386;
+          font-size:13px;
+          margin-top:8px;
+        ">
+          0 / 10 referrals
+        </div>
+
+      </div>
+    `;
+
+
+    let referralCode = "";
+
+    try {
+      if (
+        typeof account !== "undefined" &&
+        account.referralCode
+      ) {
+        referralCode = account.referralCode;
+      }
+    } catch (e) {}
+
+
+    if (!referralCode) {
+      referralCode =
+        localStorage.getItem("coSaveReferralCode");
+    }
+
+
+    if (!referralCode) {
+      referralCode =
+        "CO" +
+        Math.floor(10000000 + Math.random() * 90000000);
+
+      localStorage.setItem(
+        "coSaveReferralCode",
+        referralCode
+      );
+    }
+
+
+    const referralLink =
+      window.location.origin +
+      window.location.pathname +
+      "?ref=" +
+      referralCode;
+
+
+    document.getElementById(
+      "myReferralCodeDisplay"
+    ).textContent = referralCode;
+
+
+    document.getElementById(
+      "myReferralLink"
+    ).value = referralLink;
+
+
+    let referralCount = 0;
+
+    try {
+      if (
+        typeof account !== "undefined" &&
+        account.referrals !== undefined
+      ) {
+        referralCount =
+          Number(account.referrals) || 0;
+      }
+    } catch (e) {}
+
+
+    const savedCount =
+      Number(
+        localStorage.getItem("coSaveReferralCount") || 0
+      );
+
+    if (savedCount > referralCount) {
+      referralCount = savedCount;
+    }
+
+
+    document.getElementById(
+      "myReferralCount"
+    ).textContent = referralCount;
+
+
+    const progress =
+      Math.min((referralCount / 100) * 100, 100);
+
+    document.getElementById(
+      "myReferralProgress"
+    ).style.width = progress + "%";
+
+
+    let target = 10;
+
+    if (referralCount >= 10) {
+      target = 50;
+    }
+
+    if (referralCount >= 50) {
+      target = 100;
+    }
+
+    document.getElementById(
+      "myReferralProgressText"
+    ).textContent =
+      referralCount >= 100
+        ? "100 / 100 referrals 🎉"
+        : referralCount + " / " + target + " referrals";
+
+
+    if (referralCount >= 10) {
+      document.getElementById(
+        "refReward10"
+      ).style.background = "#e8f7ee";
+    }
+
+
+    if (referralCount >= 50) {
+      document.getElementById(
+        "refReward50"
+      ).style.background = "#e8f7ee";
+    }
+
+
+    if (referralCount >= 100) {
+      document.getElementById(
+        "refReward100"
+      ).style.background = "#e8f7ee";
+    }
+
+  }
+
+
+  window.copyMyReferralLink = function () {
+
+    const input =
+      document.getElementById("myReferralLink");
+
+    if (!input) return;
+
+    const link = input.value;
+
+    if (
+      navigator.clipboard &&
+      navigator.clipboard.writeText
+    ) {
+
+      navigator.clipboard.writeText(link)
+        .then(function () {
+          alert("Referral link copied!");
+        })
+        .catch(function () {
+          input.select();
+          document.execCommand("copy");
+          alert("Referral link copied!");
+        });
+
+    } else {
+
+      input.select();
+      document.execCommand("copy");
+      alert("Referral link copied!");
+
+    }
+
+  };
+
+
+  window.shareMyReferralLink = function () {
+
+    const input =
+      document.getElementById("myReferralLink");
+
+    if (!input) return;
+
+    const link = input.value;
+
+    if (navigator.share) {
+
+      navigator.share({
+        title: "Co Save & Earn",
+        text:
+          "Join me on Co Save & Earn using my referral link.",
+        url: link
+      });
+
+    } else {
+
+      window.copyMyReferralLink();
+
+    }
+
+  };
+
+
+  if (document.readyState === "loading") {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      setupReferralPage
+    );
+
+  } else {
+
+    setupReferralPage();
+
+  }
+
+})();
+</script>
