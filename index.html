@@ -1,265 +1,87 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Co Save & Earn</title>
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            background: #f5f7fb;
-            color: #222;
-        }
-
-        header {
-            background: #111827;
-            color: white;
-            padding: 18px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .logo span {
-            color: #22c55e;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin-left: 15px;
-            font-size: 14px;
-        }
-
-        .hero {
-            padding: 70px 25px;
-            text-align: center;
-            background: white;
-        }
-
-        .hero h1 {
-            font-size: 38px;
-            margin-bottom: 15px;
-        }
-
-        .hero h1 span {
-            color: #22c55e;
-        }
-
-        .hero p {
-            max-width: 600px;
-            margin: auto;
-            color: #666;
-            line-height: 1.6;
-        }
-
-        .buttons {
-            margin-top: 25px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 13px 22px;
-            margin: 5px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .primary {
-            background: #22c55e;
-            color: white;
-        }
-
-        .secondary {
-            border: 1px solid #22c55e;
-            color: #22c55e;
-        }
-
-        .section {
-            padding: 50px 25px;
-            text-align: center;
-        }
-
-        .section h2 {
-            margin-bottom: 30px;
-            font-size: 28px;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: auto;
-        }
-
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-        }
-
-        .card h3 {
-            margin-bottom: 12px;
-        }
-
-        .price {
-            font-size: 24px;
-            font-weight: bold;
-            color: #22c55e;
-            margin: 15px 0;
-        }
-
-        .card p {
-            color: #666;
-            line-height: 1.5;
-            margin-bottom: 18px;
-        }
-
-        footer {
-            background: #111827;
-            color: white;
-            text-align: center;
-            padding: 25px;
-            margin-top: 30px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Co Save & Earn</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#f5f7fb;color:#172033}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:25px}
+.box{background:white;width:100%;max-width:450px;padding:30px;border-radius:25px;box-shadow:0 8px 30px #0001;text-align:center}
+.logo{font-size:30px;font-weight:bold;color:#183b56}
+.sub{color:#687386;margin:10px 0 25px}
+input{width:100%;padding:14px;margin:7px 0;border:1px solid #d7dde5;border-radius:10px;font-size:15px}
+button{width:100%;padding:14px;border:0;border-radius:10px;background:#246b8f;color:white;font-weight:bold;font-size:15px;margin-top:10px}
+.login{background:white;color:#246b8f;border:1px solid #246b8f}
+.note{font-size:12px;color:#777;margin-top:18px;line-height:1.5}
+</style>
 </head>
-
 <body>
 
-<header>
-    <div class="logo">Co <span>Save & Earn</span></div>
+<div class="hero">
+<div class="box">
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#plans">Plans</a>
-        <a href="#about">About</a>
-    </nav>
-</header>
+<div class="logo">Co Save & Earn</div>
+<p class="sub">Save • Grow • Earn</p>
 
-<section class="hero" id="home">
+<h2>Create Account</h2>
 
-    <h1>Save Together.<br><span>Grow Together.</span></h1>
+<input id="name" placeholder="Full name">
+<input id="phone" placeholder="Mobile number">
+<input id="password" type="password" placeholder="Create password">
 
-    <p>
-        Co Save & Earn is a savings platform designed to help people
-        save together, track their progress and build better financial habits.
-    </p>
+<button onclick="createAccount()">Create Account</button>
 
-    <div class="buttons">
-        <a href="#" class="btn primary">Get Started</a>
-        <a href="#plans" class="btn secondary">View Plans</a>
-    </div>
+<button class="login" onclick="location.href='login.html'">
+Already have an account? Log In
+</button>
 
-</section>
+<p class="note">
+By creating an account you can access your savings dashboard,
+saving plans, deposits, withdrawals, referrals and rewards.
+</p>
 
-<section class="section" id="plans">
+</div>
+</div>
 
-    <h2>Choose Your Savings Plan</h2>
+<script>
+function createAccount(){
 
-    <div class="cards">
+const name=document.getElementById("name").value.trim();
+const phone=document.getElementById("phone").value.trim();
+const password=document.getElementById("password").value;
 
-        <div class="card">
-            <h3>Basic</h3>
+if(!name||!phone||!password){
+alert("Please complete all fields.");
+return;
+}
 
-            <div class="price">UGX 10,000</div>
+const account={
+name:name,
+phone:phone,
+password:password,
+provider:"",
+balance:0,
+referralCode:"CO"+Math.floor(100000+Math.random()*900000),
+referrals:0,
+transactions:[],
+activePlans:[]
+};
 
-            <p>
-                A simple starting option for people
-                beginning their savings journey.
-            </p>
+localStorage.setItem("coEarnerAccount",JSON.stringify(account));
+localStorage.setItem("coLoggedIn","true");
 
-            <a href="#" class="btn primary">Choose Plan</a>
-        </div>
-
-        <div class="card">
-            <h3>Silver</h3>
-
-            <div class="price">UGX 50,000</div>
-
-            <p>
-                Build your savings consistently with
-                a higher contribution level.
-            </p>
-
-            <a href="#" class="btn primary">Choose Plan</a>
-        </div>
-
-        <div class="card">
-            <h3>Gold</h3>
-
-            <div class="price">UGX 100,000</div>
-
-            <p>
-                Designed for members who want to
-                save larger amounts over time.
-            </p>
-
-            <a href="#" class="btn primary">Choose Plan</a>
-        </div>
-
-        <div class="card">
-            <h3>Diamond</h3>
-
-            <div class="price">UGX 500,000</div>
-
-            <p>
-                A higher savings level for members
-                looking for larger savings targets.
-            </p>
-
-            <a href="#" class="btn primary">Choose Plan</a>
-        </div>
-
-    </div>
-
-</section>
-
-<section class="section" id="about">
-
-    <h2>Why Co Save & Earn?</h2>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>💰 Save</h3>
-            <p>Set savings goals and monitor your contributions.</p>
-        </div>
-
-        <div class="card">
-            <h3>👥 Together</h3>
-            <p>Build a community around responsible saving.</p>
-        </div>
-
-        <div class="card">
-            <h3>📊 Track</h3>
-            <p>Keep track of your progress toward your goals.</p>
-        </div>
-
-    </div>
-
-</section>
-
-<footer>
-    <p>© 2026 Co Save & Earn. All rights reserved.</p>
-</footer>
+alert("Account created successfully!");
+location.href="dashboard.html";
+}
+</script>
 
 </body>
 </html>
+
+
+
+
+        
+        
