@@ -13,64 +13,82 @@
   font-family:Arial,sans-serif;
 }
 
-html,body{
-  width:100%;
-  min-height:100%;
-}
-
 body{
-  background:#f4f7fa;
+  background:#f3f7f5;
   color:#172033;
   padding-bottom:85px;
 }
 
+button,input,select{
+  font:inherit;
+}
+
 button{
-  border:0;
   cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
+  border:none;
 }
 
 .header{
-  height:68px;
-  background:#fff;
+  background:linear-gradient(135deg,#064e3b,#087f5b);
+  color:white;
+  padding:20px 16px 25px;
+  border-radius:0 0 25px 25px;
+}
+
+.header-top{
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  padding:0 18px;
-  box-shadow:0 2px 12px #00000012;
-  position:sticky;
-  top:0;
-  z-index:100;
+  align-items:center;
 }
 
 .logo{
-  font-size:20px;
+  font-size:22px;
   font-weight:800;
-  color:#116530;
 }
 
 .logo span{
-  color:#d99b00;
+  color:#f8c948;
 }
 
 .avatar{
-  width:42px;
-  height:42px;
+  width:44px;
+  height:44px;
   border-radius:50%;
-  background:#116530;
-  color:#fff;
+  background:#f8c948;
+  color:#064e3b;
   display:flex;
   align-items:center;
   justify-content:center;
   font-weight:bold;
   font-size:18px;
+  cursor:pointer;
 }
 
-main{
-  width:100%;
-  max-width:720px;
+.welcome{
+  margin-top:20px;
+  font-size:14px;
+  opacity:.9;
+}
+
+.balance-card{
+  margin-top:10px;
+}
+
+.balance-label{
+  font-size:13px;
+  opacity:.85;
+}
+
+.balance{
+  font-size:31px;
+  font-weight:800;
+  margin-top:4px;
+}
+
+.container{
+  padding:16px;
+  max-width:700px;
   margin:auto;
-  padding:18px;
 }
 
 .section{
@@ -78,410 +96,427 @@ main{
 }
 
 .section.active{
-  display:block !important;
+  display:block;
 }
 
-h1{
-  font-size:25px;
-  margin-bottom:7px;
-}
-
-h2{
-  font-size:21px;
-  margin-bottom:14px;
-}
-
-h3{
-  margin-bottom:8px;
-}
-
-.subtitle{
-  color:#6d7580;
-  line-height:1.5;
-  margin-bottom:18px;
-}
-
-.info{
-  color:#6d7580;
-  line-height:1.5;
-}
-
-.card{
-  background:#fff;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 4px 18px #0000000d;
-}
-
-.balance-card{
-  background:#116530;
-  color:#fff;
-  border-radius:20px;
-  padding:23px;
-  margin-bottom:18px;
-}
-
-.balance-label{
-  font-size:14px;
-  opacity:.85;
-}
-
-.balance{
-  font-size:31px;
+.page-title{
+  font-size:23px;
   font-weight:800;
-  margin-top:6px;
-}
-
-.actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-bottom:18px;
-}
-
-.action{
-  background:#fff;
-  border-radius:16px;
-  padding:18px 8px;
-  box-shadow:0 4px 15px #0000000d;
-  font-weight:bold;
-  color:#172033;
-}
-
-.action-icon{
-  display:block;
-  font-size:25px;
-  margin-bottom:6px;
-}
-
-.primary{
-  width:100%;
-  padding:14px;
-  background:#116530;
-  color:#fff;
-  border-radius:11px;
-  font-weight:bold;
-  font-size:15px;
-}
-
-.secondary{
-  width:100%;
-  padding:13px;
-  background:#eaf4ed;
-  color:#116530;
-  border-radius:11px;
-  font-weight:bold;
-  margin-top:9px;
-}
-
-.danger{
-  width:100%;
-  padding:13px;
-  background:#ffe9e9;
-  color:#b32626;
-  border-radius:11px;
-  font-weight:bold;
-}
-
-input,
-select{
-  width:100%;
-  padding:13px;
-  border:1px solid #dce1e6;
-  border-radius:11px;
-  margin-bottom:14px;
-  font-size:15px;
-  background:#fff;
-  outline:none;
-}
-
-input:focus,
-select:focus{
-  border-color:#116530;
-}
-
-label{
-  display:block;
-  font-size:13px;
-  font-weight:bold;
-  color:#555;
   margin-bottom:5px;
 }
 
-.message{
-  display:none;
-  padding:12px;
-  border-radius:10px;
-  margin-top:12px;
-  line-height:1.5;
+.page-subtitle{
+  color:#718096;
+  font-size:13px;
+  margin-bottom:18px;
 }
 
-.message.show{
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin:15px 0 22px;
+}
+
+.quick-btn{
+  background:white;
+  border-radius:16px;
+  padding:17px 10px;
+  box-shadow:0 4px 15px #0000000d;
+  font-weight:bold;
+  color:#064e3b;
+  border:1px solid #e5eee9;
+}
+
+.quick-btn .icon{
   display:block;
+  font-size:26px;
+  margin-bottom:7px;
 }
 
-.success{
-  background:#e8f7ed;
-  color:#166534;
+.card{
+  background:white;
+  border-radius:18px;
+  padding:18px;
+  margin-bottom:16px;
+  box-shadow:0 4px 16px #0000000d;
 }
 
-.error{
-  background:#ffecec;
-  color:#a61b1b;
+.card-title{
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:5px;
+}
+
+.card-subtitle{
+  color:#718096;
+  font-size:13px;
+  margin-bottom:14px;
+}
+
+.swipe-hint{
+  font-size:12px;
+  color:#718096;
+  margin-bottom:10px;
 }
 
 .plans{
   display:flex;
   gap:14px;
   overflow-x:auto;
+  padding-bottom:8px;
   scroll-snap-type:x mandatory;
-  padding:3px 2px 12px;
-  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
 }
 
 .plans::-webkit-scrollbar{
-  display:none;
+  height:5px;
 }
 
 .plan{
-  min-width:86%;
+  min-width:275px;
   scroll-snap-align:start;
-  background:#fff;
-  border:1px solid #edf0f2;
   border-radius:18px;
   padding:18px;
-  box-shadow:0 4px 18px #0000000d;
+  background:linear-gradient(145deg,#ffffff,#eef8f3);
+  border:1px solid #dceee5;
 }
 
-.badge{
-  display:inline-block;
-  background:#fff5d6;
-  color:#936900;
-  padding:6px 10px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:bold;
-  margin-bottom:12px;
+.plan.elephant{
+  background:linear-gradient(145deg,#ffffff,#eef4fa);
 }
 
 .plan-title{
-  font-size:18px;
-  font-weight:bold;
-  color:#116530;
-  margin-bottom:8px;
+  font-size:17px;
+  font-weight:800;
+  color:#064e3b;
 }
 
-.row{
+.elephant .plan-title{
+  color:#155e75;
+}
+
+.plan-days{
+  display:inline-block;
+  background:#e8f7ef;
+  color:#087f5b;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+  margin:8px 0;
+}
+
+.plan-row{
   display:flex;
   justify-content:space-between;
   margin:8px 0;
-  font-size:14px;
-}
-
-.row strong{
-  color:#116530;
-}
-
-.swipe{
-  text-align:center;
-  color:#7b838d;
-  font-size:12px;
-  margin-bottom:18px;
-}
-
-.refbox{
-  background:#116530;
-  color:#fff;
-  border-radius:18px;
-  padding:19px;
-  margin-bottom:16px;
-}
-
-.ref-link{
-  background:#fff;
-  color:#172033;
-  padding:12px;
-  border-radius:10px;
-  word-break:break-all;
   font-size:13px;
+}
+
+.plan-row strong{
+  color:#172033;
+}
+
+.earning{
+  color:#087f5b !important;
+}
+
+.activate-btn,
+.primary-btn{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  background:#087f5b;
+  color:white;
+  font-weight:800;
+  margin-top:10px;
+}
+
+.primary-btn:hover,
+.activate-btn:hover{
+  background:#064e3b;
+}
+
+.secondary-btn{
+  width:100%;
+  padding:12px;
+  border-radius:12px;
+  background:#e8f3ef;
+  color:#064e3b;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.danger-btn{
+  width:100%;
+  padding:13px;
+  border-radius:12px;
+  background:#b42318;
+  color:white;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+input,select{
+  width:100%;
+  padding:13px;
+  border:1px solid #d7e1dc;
+  border-radius:12px;
+  outline:none;
+  background:white;
+  margin-top:7px;
+  margin-bottom:13px;
+}
+
+input:focus,select:focus{
+  border-color:#087f5b;
+}
+
+label{
+  font-size:13px;
+  font-weight:bold;
+  color:#344054;
+}
+
+.message{
+  padding:11px;
+  border-radius:10px;
+  margin-bottom:12px;
+  display:none;
+  font-size:13px;
+}
+
+.message.success{
+  display:block;
+  background:#e7f7ee;
+  color:#087f5b;
+}
+
+.message.error{
+  display:block;
+  background:#fdecec;
+  color:#b42318;
+}
+
+.info-box{
+  background:#f0f8f4;
+  padding:13px;
+  border-radius:12px;
+  font-size:13px;
+  line-height:1.5;
+  margin-bottom:14px;
+}
+
+.withdraw-info{
+  background:#fff7e6;
+  color:#8a5a00;
+}
+
+.referral-code{
+  background:#f4f7f6;
+  padding:14px;
+  border-radius:12px;
+  text-align:center;
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:2px;
   margin:12px 0;
 }
 
-.two{
+.referral-stats{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(3,1fr);
   gap:8px;
 }
 
-.small{
-  background:#fff;
-  color:#116530;
-  padding:11px;
-  border-radius:9px;
-  font-weight:bold;
-}
-
-.reward{
-  padding:14px;
+.stat{
+  background:#f5f8f7;
+  padding:12px 5px;
+  text-align:center;
   border-radius:12px;
-  background:#f7f9fa;
-  margin-bottom:10px;
-  display:flex;
-  justify-content:space-between;
 }
 
-.reward.unlocked{
-  background:#e8f7ed;
-  color:#166534;
+.stat strong{
+  display:block;
+  font-size:17px;
+}
+
+.stat span{
+  font-size:10px;
+  color:#718096;
 }
 
 .progress{
   height:9px;
-  background:#e5e8eb;
-  border-radius:9px;
+  background:#e5ebe8;
+  border-radius:20px;
   overflow:hidden;
-  margin-top:12px;
+  margin:10px 0;
 }
 
-.bar{
+.progress-bar{
   height:100%;
+  background:#087f5b;
   width:0%;
-  background:#116530;
+  transition:.3s;
 }
 
 .transaction{
+  padding:13px 0;
+  border-bottom:1px solid #edf0ef;
   display:flex;
   justify-content:space-between;
-  padding:14px 0;
-  border-bottom:1px solid #edf0f2;
   gap:10px;
 }
 
 .transaction:last-child{
-  border-bottom:0;
+  border-bottom:none;
 }
 
-.tname{
+.transaction-title{
   font-weight:bold;
+  font-size:14px;
 }
 
-.date{
-  font-size:12px;
-  color:#7b838d;
+.transaction-date{
+  font-size:11px;
+  color:#8a94a6;
   margin-top:4px;
 }
 
-.green{
-  color:#15803d;
+.transaction-amount{
+  font-weight:bold;
+  text-align:right;
 }
 
-.red{
-  color:#b32626;
+.plus{
+  color:#087f5b;
 }
 
-.gold{
-  color:#936900;
-}
-
-.active-plan{
-  background:#f8fbf9;
-  border-left:4px solid #116530;
-  padding:13px;
-  border-radius:9px;
-  margin-top:10px;
+.minus{
+  color:#b42318;
 }
 
 .empty{
   text-align:center;
-  padding:20px;
-  color:#737b85;
+  color:#8a94a6;
+  padding:25px 10px;
+  font-size:14px;
 }
 
-.profile{
-  text-align:center;
+.active-plan{
+  border-left:5px solid #087f5b;
 }
 
-.profile-avatar{
-  width:78px;
-  height:78px;
-  border-radius:50%;
-  background:#116530;
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin:0 auto 12px;
-  font-size:30px;
-  font-weight:bold;
-}
-
-.profile-name{
-  font-size:20px;
-  font-weight:bold;
-}
-
-.profile-phone{
-  color:#737b85;
-  margin-top:5px;
-}
-
-.account{
-  background:#f4f7fa;
+.plan-status{
+  background:#eef8f3;
+  border-radius:12px;
   padding:12px;
-  border-radius:10px;
-  margin-top:12px;
+  margin-top:10px;
   font-size:13px;
 }
 
-.bottom{
-  position:fixed;
-  bottom:0;
-  left:0;
-  right:0;
-  height:72px;
-  background:#fff;
+.receive-btn{
+  width:100%;
+  background:#f8c948;
+  color:#172033;
+  font-weight:800;
+  padding:12px;
+  border-radius:12px;
+  margin-top:10px;
+}
+
+.receive-btn:disabled{
+  background:#e7e9e8;
+  color:#888;
+  cursor:not-allowed;
+}
+
+.profile-avatar-large{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:#087f5b;
+  color:white;
   display:flex;
   align-items:center;
+  justify-content:center;
+  font-size:30px;
+  font-weight:bold;
+  margin:0 auto 12px;
+}
+
+.profile-center{
+  text-align:center;
+}
+
+.account-id{
+  font-size:12px;
+  color:#8a94a6;
+  margin-top:5px;
+}
+
+.bottom-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:70px;
+  background:white;
+  display:flex;
   justify-content:space-around;
-  box-shadow:0 -4px 18px #00000020;
-  z-index:9999;
+  align-items:center;
+  box-shadow:0 -4px 18px #00000018;
+  z-index:1000;
 }
 
-.nav{
+.nav-btn{
   background:none;
-  color:#737b85;
+  color:#7b8794;
   font-size:10px;
-  min-width:52px;
-  padding:4px;
+  text-align:center;
+  font-weight:bold;
+  padding:5px;
 }
 
-.nav span{
+.nav-btn .nav-icon{
   display:block;
   font-size:21px;
   margin-bottom:3px;
 }
 
-.nav.active{
-  color:#116530;
-  font-weight:bold;
+.nav-btn.active{
+  color:#087f5b;
 }
 
-@media(max-width:380px){
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:85px;
+  transform:translateX(-50%);
+  background:#172033;
+  color:white;
+  padding:12px 17px;
+  border-radius:12px;
+  font-size:13px;
+  display:none;
+  z-index:2000;
+  max-width:90%;
+  text-align:center;
+}
 
-  main{
-    padding:13px;
+@media(min-width:700px){
+  .quick-grid{
+    grid-template-columns:repeat(4,1fr);
   }
 
-  .plan{
-    min-width:90%;
+  .bottom-nav{
+    max-width:700px;
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:20px 20px 0 0;
   }
-
-  .nav{
-    min-width:48px;
-    font-size:9px;
-  }
-
 }
 </style>
 </head>
@@ -489,445 +524,311 @@ label{
 <body>
 
 <header class="header">
-
-  <div class="logo">
-    Co Save <span>&</span> Earn
+  <div class="header-top">
+    <div class="logo">Co <span>Save & Earn</span></div>
+    <div class="avatar" id="headerInitial" onclick="showSection('profile')">U</div>
   </div>
 
-  <div
-    class="avatar"
-    id="headerInitial"
-    onclick="showSection('profile')">
-    U
-  </div>
-
-</header>
-
-
-<main>
-
-<!-- HOME -->
-
-<section id="home" class="section active">
-
-  <h1>
-    Welcome, <span id="welcomeName">User</span> 👋
-  </h1>
-
-  <p class="subtitle">
-    Save toward your goals and manage your account.
-  </p>
-
+  <div class="welcome">Welcome back,</div>
+  <div id="headerName" style="font-weight:bold;margin-top:3px;">User</div>
 
   <div class="balance-card">
+    <div class="balance-label">Available Balance</div>
+    <div class="balance" id="balance">UGX 0</div>
+  </div>
+</header>
 
-    <div class="balance-label">
-      Available Balance
-    </div>
+<main class="container">
 
-    <div class="balance" id="balance">
-      UGX 0
-    </div>
+<!-- HOME -->
+<section id="home" class="section active">
 
+  <div style="margin-top:4px;">
+    <div class="page-title">Dashboard</div>
+    <div class="page-subtitle">Save today. Grow your money responsibly.</div>
   </div>
 
-
-  <div class="actions">
-
-    <button class="action"
-      onclick="showSection('deposit')">
-      <span class="action-icon">💰</span>
+  <div class="quick-grid">
+    <button class="quick-btn" onclick="showSection('deposit')">
+      <span class="icon">💰</span>
       Deposit
     </button>
 
-    <button class="action"
-      onclick="showSection('withdraw')">
-      <span class="action-icon">💸</span>
+    <button class="quick-btn" onclick="showSection('withdraw')">
+      <span class="icon">💸</span>
       Withdraw
     </button>
 
-    <button class="action"
-      onclick="showSection('referrals')">
-      <span class="action-icon">🔗</span>
-      Refer & Earn
+    <button class="quick-btn" onclick="showSection('refer')">
+      <span class="icon">🎁</span>
+      Refer
     </button>
 
-    <button class="action"
-      onclick="showSection('transactions')">
-      <span class="action-icon">📊</span>
-      Transactions
+    <button class="quick-btn" onclick="showSection('activity')">
+      <span class="icon">📋</span>
+      Activity
     </button>
-
   </div>
 
-
-  <!-- SAVING TINS -->
-
   <div class="card">
-
-    <h2>🐷 Saving Tins</h2>
+    <div class="card-title">🐷 Saving Tins</div>
+    <div class="card-subtitle">Choose a saving plan</div>
+    <div class="swipe-hint">👉 Swipe left/right to see all plans</div>
 
     <div class="plans">
 
       <div class="plan">
+        <div class="plan-title">🐷 Saving Tin</div>
+        <div class="plan-days">20 DAYS</div>
 
-        <span class="badge">20 DAYS</span>
-
-        <div class="plan-title">
-          Saving Tin
-        </div>
-
-        <div class="row">
-          <span>Save</span>
+        <div class="plan-row">
+          <span>Deposit</span>
           <strong>UGX 20,000</strong>
         </div>
 
-        <div class="row">
+        <div class="plan-row">
           <span>Earning</span>
-          <strong>UGX 35,000</strong>
+          <strong class="earning">UGX 35,000</strong>
         </div>
 
-        <div class="row">
-          <span>Total</span>
+        <div class="plan-row">
+          <span>Total at maturity</span>
           <strong>UGX 55,000</strong>
         </div>
 
-        <button class="primary"
-          onclick="choosePlan('20 Days Saving Tin',20000,35000,55000)">
-          Choose Plan
+        <button class="activate-btn"
+          onclick="choosePlan('20 Days Saving Tin',20000,35000,55000,20,'tin')">
+          Activate
         </button>
-
       </div>
 
-
       <div class="plan">
+        <div class="plan-title">🐷 Saving Tin</div>
+        <div class="plan-days">20 DAYS</div>
 
-        <span class="badge">20 DAYS</span>
-
-        <div class="plan-title">
-          Saving Tin
-        </div>
-
-        <div class="row">
-          <span>Save</span>
+        <div class="plan-row">
+          <span>Deposit</span>
           <strong>UGX 50,000</strong>
         </div>
 
-        <div class="row">
+        <div class="plan-row">
           <span>Earning</span>
-          <strong>UGX 85,000</strong>
+          <strong class="earning">UGX 85,000</strong>
         </div>
 
-        <div class="row">
-          <span>Total</span>
+        <div class="plan-row">
+          <span>Total at maturity</span>
           <strong>UGX 135,000</strong>
         </div>
 
-        <button class="primary"
-          onclick="choosePlan('20 Days Saving Tin',50000,85000,135000)">
-          Choose Plan
+        <button class="activate-btn"
+          onclick="choosePlan('20 Days Saving Tin',50000,85000,135000,20,'tin')">
+          Activate
         </button>
-
       </div>
 
-
       <div class="plan">
+        <div class="plan-title">🐷 Saving Tin</div>
+        <div class="plan-days">30 DAYS</div>
 
-        <span class="badge">30 DAYS</span>
-
-        <div class="plan-title">
-          Saving Tin
-        </div>
-
-        <div class="row">
-          <span>Save</span>
+        <div class="plan-row">
+          <span>Deposit</span>
           <strong>UGX 30,000</strong>
         </div>
 
-        <div class="row">
+        <div class="plan-row">
           <span>Earning</span>
-          <strong>UGX 90,000</strong>
+          <strong class="earning">UGX 90,000</strong>
         </div>
 
-        <div class="row">
-          <span>Total</span>
+        <div class="plan-row">
+          <span>Total at maturity</span>
           <strong>UGX 120,000</strong>
         </div>
 
-        <button class="primary"
-          onclick="choosePlan('30 Days Saving Tin',30000,90000,120000)">
-          Choose Plan
+        <button class="activate-btn"
+          onclick="choosePlan('30 Days Saving Tin',30000,90000,120000,30,'tin')">
+          Activate
         </button>
-
       </div>
 
-
       <div class="plan">
+        <div class="plan-title">🐷 Saving Tin</div>
+        <div class="plan-days">30 DAYS</div>
 
-        <span class="badge">30 DAYS</span>
-
-        <div class="plan-title">
-          Saving Tin
-        </div>
-
-        <div class="row">
-          <span>Save</span>
+        <div class="plan-row">
+          <span>Deposit</span>
           <strong>UGX 100,000</strong>
         </div>
 
-        <div class="row">
+        <div class="plan-row">
           <span>Earning</span>
-          <strong>UGX 220,000</strong>
+          <strong class="earning">UGX 220,000</strong>
         </div>
 
-        <div class="row">
-          <span>Total</span>
+        <div class="plan-row">
+          <span>Total at maturity</span>
           <strong>UGX 320,000</strong>
         </div>
 
-        <button class="primary"
-          onclick="choosePlan('30 Days Saving Tin',100000,220000,320000)">
-          Choose Plan
+        <button class="activate-btn"
+          onclick="choosePlan('30 Days Saving Tin',100000,220000,320000,30,'tin')">
+          Activate
         </button>
-
       </div>
 
     </div>
-
-    <div class="swipe">
-      Swipe left or right for more Saving Tin plans →
-    </div>
-
   </div>
 
-
-  <!-- SAVING ELEPHANTS -->
-
   <div class="card">
-
-    <h2>🐘 Saving Elephants</h2>
+    <div class="card-title">🐘 Saving Elephants</div>
+    <div class="card-subtitle">Choose a saving plan</div>
+    <div class="swipe-hint">👉 Swipe left/right to see all plans</div>
 
     <div class="plans">
 
-      <div class="plan">
+      <div class="plan elephant">
+        <div class="plan-title">🐘 Saving Elephant</div>
+        <div class="plan-days">20 DAYS</div>
 
-        <span class="badge">20 DAYS</span>
-
-        <div class="plan-title">
-          Saving Elephant
-        </div>
-
-        <div class="row">
-          <span>Save</span>
+        <div class="plan-row">
+          <span>Deposit</span>
           <strong>UGX 30,000</strong>
         </div>
 
-        <div class="row">
+        <div class="plan-row">
           <span>Earning</span>
-          <strong>UGX 55,000</strong>
+          <strong class="earning">UGX 55,000</strong>
         </div>
 
-        <div class="row">
-          <span>Total</span>
+        <div class="plan-row">
+          <span>Total at maturity</span>
           <strong>UGX 85,000</strong>
         </div>
 
-        <button class="primary"
-          onclick="choosePlan('20 Days Saving Elephant',30000,55000,85000)">
-          Choose Plan
+        <button class="activate-btn"
+          onclick="choosePlan('20 Days Saving Elephant',30000,55000,85000,20,'elephant')">
+          Activate
         </button>
-
       </div>
 
+      <div class="plan elephant">
+        <div class="plan-title">🐘 Saving Elephant</div>
+        <div class="plan-days">20 DAYS</div>
 
-      <div class="plan">
-
-        <span class="badge">20 DAYS</span>
-
-        <div class="plan-title">
-          Saving Elephant
-        </div>
-
-        <div class="row">
-          <span>Save</span>
+        <div class="plan-row">
+          <span>Deposit</span>
           <strong>UGX 100,000</strong>
         </div>
 
-        <div class="row">
+        <div class="plan-row">
           <span>Earning</span>
-          <strong>UGX 155,000</strong>
+          <strong class="earning">UGX 155,000</strong>
         </div>
 
-        <div class="row">
-          <span>Total</span>
+        <div class="plan-row">
+          <span>Total at maturity</span>
           <strong>UGX 255,000</strong>
         </div>
 
-        <button class="primary"
-          onclick="choosePlan('20 Days Saving Elephant',100000,155000,255000)">
-          Choose Plan
+        <button class="activate-btn"
+          onclick="choosePlan('20 Days Saving Elephant',100000,155000,255000,20,'elephant')">
+          Activate
         </button>
-
       </div>
 
+      <div class="plan elephant">
+        <div class="plan-title">🐘 Saving Elephant</div>
+        <div class="plan-days">30 DAYS</div>
 
-      <div class="plan">
-
-        <span class="badge">30 DAYS</span>
-
-        <div class="plan-title">
-          Saving Elephant
-        </div>
-
-        <div class="row">
-          <span>Save</span>
+        <div class="plan-row">
+          <span>Deposit</span>
           <strong>UGX 20,000</strong>
         </div>
 
-        <div class="row">
+        <div class="plan-row">
           <span>Earning</span>
-          <strong>UGX 50,000</strong>
+          <strong class="earning">UGX 50,000</strong>
         </div>
 
-        <div class="row">
-          <span>Total</span>
+        <div class="plan-row">
+          <span>Total at maturity</span>
           <strong>UGX 70,000</strong>
         </div>
 
-        <button class="primary"
-          onclick="choosePlan('30 Days Saving Elephant',20000,50000,70000)">
-          Choose Plan
+        <button class="activate-btn"
+          onclick="choosePlan('30 Days Saving Elephant',20000,50000,70000,30,'elephant')">
+          Activate
         </button>
-
       </div>
 
+      <div class="plan elephant">
+        <div class="plan-title">🐘 Saving Elephant</div>
+        <div class="plan-days">30 DAYS</div>
 
-      <div class="plan">
-
-        <span class="badge">30 DAYS</span>
-
-        <div class="plan-title">
-          Saving Elephant
-        </div>
-
-        <div class="row">
-          <span>Save</span>
+        <div class="plan-row">
+          <span>Deposit</span>
           <strong>UGX 50,000</strong>
         </div>
 
-        <div class="row">
+        <div class="plan-row">
           <span>Earning</span>
-          <strong>UGX 135,000</strong>
+          <strong class="earning">UGX 135,000</strong>
         </div>
 
-        <div class="row">
-          <span>Total</span>
+        <div class="plan-row">
+          <span>Total at maturity</span>
           <strong>UGX 185,000</strong>
         </div>
 
-        <button class="primary"
-          onclick="choosePlan('30 Days Saving Elephant',50000,135000,185000)">
-          Choose Plan
+        <button class="activate-btn"
+          onclick="choosePlan('30 Days Saving Elephant',50000,135000,185000,30,'elephant')">
+          Activate
         </button>
-
       </div>
 
     </div>
-
-    <div class="swipe">
-      Swipe left or right for more Saving Elephant plans →
-    </div>
-
   </div>
 
-
   <div class="card">
-
-    <h2>📌 Active Plans</h2>
-
-    <div id="activePlans">
-      <div class="empty">
-        No active saving plans yet.
-      </div>
-    </div>
-
+    <div class="card-title">⏳ My Active Savings</div>
+    <div id="activePlansHome"></div>
   </div>
 
 </section>
 
 
 <!-- DEPOSIT -->
-
 <section id="deposit" class="section">
 
-  <h2>💰 Deposit</h2>
-
-  <p class="subtitle">
-    Add money to your Co Save & Earn account.
-  </p>
+  <div class="page-title">Deposit</div>
+  <div class="page-subtitle">Add money to your Co Save & Earn balance.</div>
 
   <div class="card">
 
-    <label>Mobile Money Provider</label>
+    <div id="depositMessage" class="message"></div>
 
-    <select id="depositProvider">
-      <option value="">Select provider</option>
-      <option value="MTN Mobile Money">
-        MTN Mobile Money
-      </option>
-      <option value="Airtel Money">
-        Airtel Money
-      </option>
-    </select>
-
-
-    <label>Name</label>
-
-    <input
-      id="depositName"
-      type="text"
-      placeholder="Enter your name">
-
-
-    <label>Mobile Money Number</label>
-
-    <input
-      id="depositNumber"
-      type="tel"
-      placeholder="e.g. 077xxxxxxx">
-
-
-    <label>Amount</label>
-
-    <input
-      id="depositAmount"
-      type="number"
-      min="20000"
-      placeholder="Minimum UGX 20,000">
-
-
-    <button
-      class="primary"
-      onclick="depositMoney()">
-      Deposit Money
-    </button>
-
-
-    <div
-      id="depositMessage"
-      class="message">
+    <div class="info-box">
+      Minimum deposit: <strong>UGX 20,000</strong>
     </div>
 
-  </div>
+    <label>Mobile Money Provider</label>
+    <select id="depositProvider">
+      <option value="">Select provider</option>
+      <option value="MTN">MTN Mobile Money</option>
+      <option value="Airtel">Airtel Money</option>
+    </select>
 
+    <label>Account Name</label>
+    <input id="depositName" type="text" placeholder="Enter account name">
 
-  <div class="card">
+    <label>Mobile Money Number</label>
+    <input id="depositNumber" type="tel" placeholder="07XXXXXXXX">
 
-    <h3>Minimum Deposit</h3>
+    <label>Amount</label>
+    <input id="depositAmount" type="number" min="20000" placeholder="Minimum UGX 20,000">
 
-    <p class="info">
-      Minimum deposit is UGX 20,000.
-    </p>
+    <button class="primary-btn" onclick="depositMoney()">Deposit Money</button>
 
   </div>
 
@@ -935,355 +836,184 @@ label{
 
 
 <!-- WITHDRAW -->
-
 <section id="withdraw" class="section">
 
-  <h2>💸 Withdraw</h2>
-
-  <p class="subtitle">
-    Request a withdrawal from your available balance.
-  </p>
+  <div class="page-title">Withdraw</div>
+  <div class="page-subtitle">Withdraw available funds to Mobile Money.</div>
 
   <div class="card">
 
-    <label>Mobile Money Provider</label>
+    <div id="withdrawMessage" class="message"></div>
 
-    <select id="withdrawProvider">
-      <option value="">Select provider</option>
-      <option value="MTN Mobile Money">
-        MTN Mobile Money
-      </option>
-      <option value="Airtel Money">
-        Airtel Money
-      </option>
-    </select>
-
-
-    <label>Name</label>
-
-    <input
-      id="withdrawName"
-      type="text"
-      placeholder="Enter your name">
-
-
-    <label>Mobile Money Number</label>
-
-    <input
-      id="withdrawNumber"
-      type="tel"
-      placeholder="e.g. 077xxxxxxx">
-
-
-    <label>Amount</label>
-
-    <input
-      id="withdrawAmount"
-      type="number"
-      min="20000"
-      placeholder="Minimum UGX 20,000">
-
-
-    <button
-      class="primary"
-      onclick="withdrawMoney()">
-      Withdraw Money
-    </button>
-
-
-    <div
-      id="withdrawMessage"
-      class="message">
+    <div class="info-box withdraw-info">
+      Minimum withdrawal: <strong>UGX 20,000</strong><br>
+      Withdrawal charge: <strong>8%</strong><br>
+      Example: UGX 20,000 withdrawal → UGX 1,600 charge →
+      <strong>UGX 18,400 received</strong>.
     </div>
 
-  </div>
+    <label>Mobile Money Provider</label>
+    <select id="withdrawProvider">
+      <option value="">Select provider</option>
+      <option value="MTN">MTN Mobile Money</option>
+      <option value="Airtel">Airtel Money</option>
+    </select>
 
+    <label>Account Name</label>
+    <input id="withdrawName" type="text" placeholder="Enter account name">
 
-  <div class="card">
+    <label>Mobile Money Number</label>
+    <input id="withdrawNumber" type="tel" placeholder="07XXXXXXXX">
 
-    <h3>Minimum Withdrawal</h3>
+    <label>Amount to Withdraw</label>
+    <input id="withdrawAmount" type="number" min="20000"
+           placeholder="Minimum UGX 20,000"
+           oninput="calculateWithdrawal()">
 
-    <p class="info">
-      Minimum withdrawal is UGX 20,000.
-    </p>
+    <div id="withdrawCalculation" class="info-box" style="display:none;"></div>
+
+    <button class="primary-btn" onclick="withdrawMoney()">Withdraw</button>
 
   </div>
 
 </section>
 
 
-<!-- REFERRALS -->
+<!-- REFER -->
+<section id="refer" class="section">
 
-<section id="referrals" class="section">
-
-  <h2>🔗 Invite & Earn</h2>
-
-  <p class="subtitle">
-    Invite people using your referral link.
-  </p>
-
-
-  <div class="refbox">
-
-    <h3>Your Referral Link</h3>
-
-    <div
-      class="ref-link"
-      id="referralLink">
-      Your referral link will appear here.
-    </div>
-
-
-    <div class="two">
-
-      <button
-        class="small"
-        onclick="copyReferral()">
-        Copy Link
-      </button>
-
-      <button
-        class="small"
-        onclick="shareReferral()">
-        Share Link
-      </button>
-
-    </div>
-
-  </div>
-
+  <div class="page-title">Refer & Earn</div>
+  <div class="page-subtitle">Invite people and track your referral milestones.</div>
 
   <div class="card">
 
-    <p class="info">
-      People Invited
-    </p>
+    <div class="card-title">🎁 Your Referral Code</div>
 
-    <h1 id="referralCount">
-      0
-    </h1>
+    <div class="referral-code" id="myReferralCode">CO000000</div>
 
-    <p class="info">
-      Referral Code:
-      <strong id="myReferralCode">
-        ---
-      </strong>
-    </p>
+    <button class="primary-btn" onclick="copyReferral()">
+      📋 Copy Referral Code
+    </button>
 
-  </div>
+    <button class="secondary-btn" onclick="shareReferral()">
+      📤 Share Referral
+    </button>
 
+    <div style="height:15px;"></div>
 
-  <div class="card">
+    <div class="referral-stats">
+      <div class="stat">
+        <strong id="referralCount">0</strong>
+        <span>Invited</span>
+      </div>
 
-    <h2>🎁 Rewards</h2>
+      <div class="stat">
+        <strong>10</strong>
+        <span>First Reward</span>
+      </div>
 
-    <div
-      class="reward"
-      id="reward10">
-
-      <span>10 Referrals</span>
-
-      <strong>
-        UGX 20,000
-      </strong>
-
-    </div>
-
-
-    <div
-      class="reward"
-      id="reward50">
-
-      <span>50 Referrals</span>
-
-      <strong>
-        UGX 80,000
-      </strong>
-
-    </div>
-
-
-    <div
-      class="reward"
-      id="reward100">
-
-      <span>100 Referrals</span>
-
-      <strong>
-        UGX 130,000
-      </strong>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      Referral Progress
-    </h3>
-
-    <p
-      class="info"
-      id="referralProgress">
-      Start inviting people.
-    </p>
-
-    <div class="progress">
-      <div
-        class="bar"
-        id="referralBar">
+      <div class="stat">
+        <strong>100</strong>
+        <span>Final Target</span>
       </div>
     </div>
 
+    <div style="margin-top:18px;font-size:13px;font-weight:bold;">
+      Referral Progress
+    </div>
+
+    <div class="progress">
+      <div class="progress-bar" id="referralProgress"></div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏆 Referral Rewards</div>
+
+    <div class="plan-row">
+      <span>10 referrals</span>
+      <strong>UGX 20,000</strong>
+    </div>
+
+    <div class="plan-row">
+      <span>50 referrals</span>
+      <strong>UGX 80,000</strong>
+    </div>
+
+    <div class="plan-row">
+      <span>100 referrals</span>
+      <strong>UGX 130,000</strong>
+    </div>
+
+    <div class="info-box" style="margin-top:12px;">
+      Referral rewards should only be credited after referrals are
+      verified by the real backend.
+    </div>
   </div>
 
 </section>
 
 
-<!-- TRANSACTIONS -->
+<!-- ACTIVITY -->
+<section id="activity" class="section">
 
-<section id="transactions" class="section">
+  <div class="page-title">Activity</div>
+  <div class="page-subtitle">Your deposits, withdrawals and savings activity.</div>
 
-  <h2>📊 Transactions</h2>
-
-  <p class="subtitle">
-    Your account activity appears here.
-  </p>
-
-  <div
-    class="card"
-    id="transactionList">
-
-    <div class="empty">
-      No transactions yet.
-    </div>
-
+  <div class="card">
+    <div id="transactionList"></div>
   </div>
 
 </section>
 
 
 <!-- PROFILE -->
-
 <section id="profile" class="section">
 
-  <h2>👤 Profile</h2>
-
-
-  <div class="card profile">
-
-    <div
-      class="profile-avatar"
-      id="profileAvatar">
-      U
-    </div>
-
-    <div
-      class="profile-name"
-      id="profileDisplayName">
-      User
-    </div>
-
-    <div
-      class="profile-phone"
-      id="profileDisplayPhone">
-      Mobile number not added
-    </div>
-
-
-    <div class="account">
-
-      Account ID:
-      <strong id="accountId">
-        CE-000000
-      </strong>
-
-    </div>
-
-  </div>
-
+  <div class="page-title">Profile</div>
+  <div class="page-subtitle">Manage your Co Save & Earn account.</div>
 
   <div class="card">
 
-    <h3>
-      Edit Profile
-    </h3>
+    <div class="profile-center">
 
+      <div class="profile-avatar-large" id="profileAvatar">U</div>
+
+      <div style="font-size:20px;font-weight:800;" id="profileDisplayName">
+        User
+      </div>
+
+      <div style="font-size:13px;color:#718096;" id="profileDisplayPhone">
+        —
+      </div>
+
+      <div class="account-id" id="accountId">Account ID: —</div>
+
+    </div>
+
+    <hr style="border:none;border-top:1px solid #edf0ef;margin:20px 0;">
+
+    <div id="profileMessage" class="message"></div>
 
     <label>Name</label>
-
-    <input
-      id="profileName"
-      placeholder="Your name">
-
+    <input id="profileName" type="text" placeholder="Your name">
 
     <label>Mobile Money Provider</label>
-
     <select id="profileProvider">
-
-      <option value="">
-        Select provider
-      </option>
-
-      <option value="MTN Mobile Money">
-        MTN Mobile Money
-      </option>
-
-      <option value="Airtel Money">
-        Airtel Money
-      </option>
-
+      <option value="">Select provider</option>
+      <option value="MTN">MTN Mobile Money</option>
+      <option value="Airtel">Airtel Money</option>
     </select>
 
-
-    <label>Mobile Number</label>
-
-    <input
-      id="profilePhone"
-      type="tel"
-      placeholder="Mobile number">
-
-
-    <button
-      class="primary"
-      onclick="saveProfile()">
+    <label>Phone Number</label>
+    <input id="profilePhone" type="tel" placeholder="07XXXXXXXX">
+      <button class="primary-btn" onclick="saveProfile()">
       Save Profile
     </button>
 
-
-    <div
-      id="profileMessage"
-      class="message">
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h3>
-      Referral Code
-    </h3>
-
-    <p class="info">
-
-      <strong id="profileReferralCode">
-        ---
-      </strong>
-
-    </p>
-
-  </div>
-
-
-  <div class="card">
-
-    <button
-      class="danger"
-      onclick="logout()">
-      🚪 Logout
+    <button class="danger-btn" onclick="logout()">
+      Logout
     </button>
 
   </div>
@@ -1294,2695 +1024,50 @@ label{
 
 
 <!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
 
-<nav class="bottom">
-
-  <button
-    class="nav active"
-    onclick="showSection('home',this)">
-    <span>🏠</span>
+  <button class="nav-btn active" id="navHome" onclick="showSection('home')">
+    <span class="nav-icon">🏠</span>
     Home
   </button>
 
-
-  <button
-    class="nav"
-    onclick="showSection('deposit',this)">
-    <span>💰</span>
+  <button class="nav-btn" id="navDeposit" onclick="showSection('deposit')">
+    <span class="nav-icon">💰</span>
     Deposit
   </button>
 
-
-  <button
-    class="nav"
-    onclick="showSection('withdraw',this)">
-    <span>💸</span>
+  <button class="nav-btn" id="navWithdraw" onclick="showSection('withdraw')">
+    <span class="nav-icon">💸</span>
     Withdraw
   </button>
 
-
-  <button
-    class="nav"
-    onclick="showSection('referrals',this)">
-    <span>🔗</span>
-    Refer
-  </button>
-
-
-  <button
-    class="nav"
-    onclick="showSection('transactions',this)">
-    <span>📊</span>
+  <button class="nav-btn" id="navActivity" onclick="showSection('activity')">
+    <span class="nav-icon">📋</span>
     Activity
   </button>
 
+  <button class="nav-btn" id="navRefer" onclick="showSection('refer')">
+    <span class="nav-icon">🎁</span>
+    Refer
+  </button>
 
-  <button
-    class="nav"
-    onclick="showSection('profile',this)">
-    <span>👤</span>
+  <button class="nav-btn" id="navProfile" onclick="showSection('profile')">
+    <span class="nav-icon">👤</span>
     Profile
   </button>
 
 </nav>
 
-
-<!-- SUPABASE -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supa
-<script>
-/* =========================================================
-   CO SAVE & EARN — DASHBOARD BUTTON REPAIR
-   Paste this whole block at the VERY END of dashboard.html
-========================================================= */
-
-(function () {
-
-  /* -------------------------------------------------------
-     ACCOUNT STORAGE
-  ------------------------------------------------------- */
-
-  let account = {};
-
-  try {
-    account =
-      JSON.parse(
-        localStorage.getItem("coEarnerAccount")
-      ) || {};
-  } catch (e) {
-    account = {};
-  }
-
-  account.name =
-    account.name || "User";
-
-  account.phone =
-    account.phone || "";
-
-  account.provider =
-    account.provider || "";
-
-  account.balance =
-    Number(account.balance || 0);
-
-  account.referralCode =
-    account.referralCode ||
-    (
-      "CO" +
-      Math.floor(
-        100000 +
-        Math.random() * 900000
-      )
-    );
-
-  account.referrals =
-    Number(account.referrals || 0);
-
-  account.transactions =
-    Array.isArray(account.transactions)
-      ? account.transactions
-      : [];
-
-  account.activePlans =
-    Array.isArray(account.activePlans)
-      ? account.activePlans
-      : [];
-
-
-  function saveAccount() {
-
-    localStorage.setItem(
-      "coEarnerAccount",
-      JSON.stringify(account)
-    );
-
-  }
-
-
-  function money(amount) {
-
-    return (
-      "UGX " +
-      Number(amount || 0).toLocaleString()
-    );
-
-  }
-
-
-  /* -------------------------------------------------------
-     SECTION NAVIGATION
-  ------------------------------------------------------- */
-
-  window.showSection = function (id, button) {
-
-    document
-      .querySelectorAll(".section")
-      .forEach(function (section) {
-
-        section.classList.remove("active");
-
-        section.style.display = "none";
-
-      });
-
-
-    const selected =
-      document.getElementById(id);
-
-
-    if (!selected) {
-
-      return;
-
-    }
-
-
-    selected.classList.add("active");
-
-    selected.style.display = "block";
-
-
-    document
-      .querySelectorAll(".nav-btn, .nav")
-      .forEach(function (btn) {
-
-        btn.classList.remove("active");
-
-      });
-
-
-    if (button) {
-
-      button.classList.add("active");
-
-    }
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  };
-
-
-  /* -------------------------------------------------------
-     UPDATE DASHBOARD
-  ------------------------------------------------------- */
-
-  function updateDashboard() {
-
-    const balance =
-      document.getElementById("balance");
-
-    if (balance) {
-
-      balance.textContent =
-        money(account.balance);
-
-    }
-
-
-    const name =
-      account.name || "User";
-
-
-    const initial =
-      name.charAt(0).toUpperCase();
-
-
-    const headerInitial =
-      document.getElementById(
-        "headerInitial"
-      );
-
-    if (headerInitial) {
-
-      headerInitial.textContent =
-        initial;
-
-    }
-
-
-    const welcomeName =
-      document.getElementById(
-        "welcomeName"
-      );
-
-    if (welcomeName) {
-
-      welcomeName.textContent =
-        name;
-
-    }
-
-
-    const profileAvatar =
-      document.getElementById(
-        "profileAvatar"
-      );
-
-    if (profileAvatar) {
-
-      profileAvatar.textContent =
-        initial;
-
-    }
-
-
-    const profileDisplayName =
-      document.getElementById(
-        "profileDisplayName"
-      );
-
-    if (profileDisplayName) {
-
-      profileDisplayName.textContent =
-        name;
-
-    }
-
-
-    const profileDisplayPhone =
-      document.getElementById(
-        "profileDisplayPhone"
-      );
-
-    if (profileDisplayPhone) {
-
-      profileDisplayPhone.textContent =
-        account.phone
-          ? (
-              account.provider
-                ? account.provider + " • "
-                : ""
-            ) + account.phone
-          : "Mobile number not added";
-
-    }
-
-
-    const profileName =
-      document.getElementById(
-        "profileName"
-      );
-
-    if (profileName) {
-
-      profileName.value =
-        name === "User"
-          ? ""
-          : name;
-
-    }
-
-
-    const profileProvider =
-      document.getElementById(
-        "profileProvider"
-      );
-
-    if (profileProvider) {
-
-      profileProvider.value =
-        account.provider;
-
-    }
-
-
-    const profilePhone =
-      document.getElementById(
-        "profilePhone"
-      );
-
-    if (profilePhone) {
-
-      profilePhone.value =
-        account.phone;
-
-    }
-
-
-    const accountId =
-      document.getElementById(
-        "accountId"
-      );
-
-    if (accountId) {
-
-      accountId.textContent =
-        "CE-" +
-        account.referralCode;
-
-    }
-
-
-    const referralCount =
-      document.getElementById(
-        "referralCount"
-      );
-
-    if (referralCount) {
-
-      referralCount.textContent =
-        account.referrals;
-
-    }
-
-
-    const myReferralCode =
-      document.getElementById(
-        "myReferralCode"
-      );
-
-    if (myReferralCode) {
-
-      myReferralCode.textContent =
-        account.referralCode;
-
-    }
-
-
-    const profileReferralCode =
-      document.getElementById(
-        "profileReferralCode"
-      );
-
-    if (profileReferralCode) {
-
-      profileReferralCode.textContent =
-        account.referralCode;
-
-    }
-
-
-    const referralLink =
-      document.getElementById(
-        "referralLink"
-      );
-
-    if (referralLink) {
-
-      referralLink.textContent =
-        window.location.origin +
-        window.location.pathname
-          .replace(
-            "dashboard.html",
-            ""
-          ) +
-        "index.html?ref=" +
-        account.referralCode;
-
-    }
-
-
-    updateTransactions();
-
-    updateActivePlans();
-
-    updateReferralRewards();
-
-  }
-
-
-  /* -------------------------------------------------------
-     MESSAGE
-  ------------------------------------------------------- */
-
-  function message(id, text, type) {
-
-    const box =
-      document.getElementById(id);
-
-    if (!box) {
-
-      alert(text);
-
-      return;
-
-    }
-
-
-    box.className =
-      "message show " +
-      type;
-
-    box.textContent =
-      text;
-
-  }
-
-
-  /* -------------------------------------------------------
-     DEPOSIT
-  ------------------------------------------------------- */
-
-  window.depositMoney = function () {
-
-    const provider =
-      document.getElementById(
-        "depositProvider"
-      )?.value;
-
-    const name =
-      document.getElementById(
-        "depositName"
-      )?.value.trim();
-
-    const number =
-      document.getElementById(
-        "depositNumber"
-      )?.value.trim();
-
-    const amount =
-      Number(
-        document.getElementById(
-          "depositAmount"
-        )?.value
-      );
-
-
-    if (
-      !provider ||
-      !name ||
-      !number ||
-      !amount
-    ) {
-
-      message(
-        "depositMessage",
-        "Please complete all deposit details.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if (amount < 20000) {
-
-      message(
-        "depositMessage",
-        "Minimum deposit is UGX 20,000.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    account.balance += amount;
-
-
-    account.transactions.unshift({
-
-      type: "Deposit",
-
-      amount: amount,
-
-      details:
-        provider +
-        " • " +
-        number,
-
-      date:
-        new Date().toLocaleString()
-
-    });
-
-
-    saveAccount();
-
-    updateDashboard();
-
-
-    const amountInput =
-      document.getElementById(
-        "depositAmount"
-      );
-
-    if (amountInput) {
-
-      amountInput.value = "";
-
-    }
-
-
-    message(
-      "depositMessage",
-      "Deposit of " +
-      money(amount) +
-      " recorded successfully.",
-      "success"
-    );
-
-  };
-
-
-  /* -------------------------------------------------------
-     WITHDRAW
-  ------------------------------------------------------- */
-
-  window.withdrawMoney = function () {
-
-    const provider =
-      document.getElementById(
-        "withdrawProvider"
-      )?.value;
-
-    const name =
-      document.getElementById(
-        "withdrawName"
-      )?.value.trim();
-
-    const number =
-      document.getElementById(
-        "withdrawNumber"
-      )?.value.trim();
-
-    const amount =
-      Number(
-        document.getElementById(
-          "withdrawAmount"
-        )?.value
-      );
-
-
-    if (
-      !provider ||
-      !name ||
-      !number ||
-      !amount
-    ) {
-
-      message(
-        "withdrawMessage",
-        "Please complete all withdrawal details.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if (amount < 20000) {
-
-      message(
-        "withdrawMessage",
-        "Minimum withdrawal is UGX 20,000.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    if (amount > account.balance) {
-
-      message(
-        "withdrawMessage",
-
-        "Insufficient balance. " +
-
-        "Available: " +
-        money(account.balance) +
-
-        ". You need " +
-        money(
-          amount -
-          account.balance
-        ) +
-        " more.",
-
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    account.balance -= amount;
-
-
-    account.transactions.unshift({
-
-      type: "Withdrawal",
-
-      amount: amount,
-
-      details:
-        provider +
-        " • " +
-        number,
-
-      date:
-        new Date().toLocaleString()
-
-    });
-
-
-    saveAccount();
-
-    updateDashboard();
-
-
-    const amountInput =
-      document.getElementById(
-        "withdrawAmount"
-      );
-
-    if (amountInput) {
-
-      amountInput.value = "";
-
-    }
-
-
-    message(
-      "withdrawMessage",
-
-      "Withdrawal of " +
-      money(amount) +
-      " recorded successfully.",
-
-      "success"
-    );
-
-  };
-
-
-  /* -------------------------------------------------------
-     SAVING PLANS
-  ------------------------------------------------------- */
-
-  window.choosePlan = function (
-    planName,
-    amount,
-    earning,
-    total
-  ) {
-
-    amount =
-      Number(amount);
-
-    earning =
-      Number(earning);
-
-    total =
-      Number(total);
-
-
-    if (account.balance < amount) {
-
-      const needed =
-        amount -
-        account.balance;
-
-
-      const goDeposit =
-        confirm(
-
-          "You need " +
-          money(amount) +
-          " to activate this plan.\n\n" +
-
-          "Available balance: " +
-          money(account.balance) +
-          "\n\n" +
-
-          "You need: " +
-          money(needed) +
-          " more.\n\n" +
-
-          "Go to Deposit?"
-
-        );
-
-
-      if (goDeposit) {
-
-        window.showSection(
-          "deposit"
-        );
-
-      }
-
-      return;
-
-    }
-
-
-    const confirmPlan =
-      confirm(
-
-        "Activate " +
-        planName +
-        "?\n\n" +
-
-        "Amount: " +
-        money(amount) +
-
-        "\nEarning: " +
-        money(earning) +
-
-        "\nTotal: " +
-        money(total)
-
-      );
-
-
-    if (!confirmPlan) {
-
-      return;
-
-    }
-
-
-    account.balance -= amount;
-
-
-    account.activePlans.unshift({
-
-      name:
-        planName,
-
-      amount:
-        amount,
-
-      earning:
-        earning,
-
-      total:
-        total,
-
-      date:
-        new Date().toLocaleString(),
-
-      status:
-        "Active"
-
-    });
-
-
-    account.transactions.unshift({
-
-      type:
-        "Saving Plan",
-
-      amount:
-        amount,
-
-      details:
-        planName,
-
-      date:
-        new Date().toLocaleString()
-
-    });
-
-
-    saveAccount();
-
-    updateDashboard();
-
-
-    alert(
-      planName +
-      " activated successfully."
-    );
-
-
-    window.showSection(
-      "home"
-    );
-
-  };
-
-
-  /* -------------------------------------------------------
-     ACTIVE SAVING PLANS
-  ------------------------------------------------------- */
-
-  function updateActivePlans() {
-
-    const box =
-      document.getElementById(
-        "activePlans"
-      );
-
-    if (!box) {
-
-      return;
-
-    }
-
-
-    if (
-      !account.activePlans.length
-    ) {
-
-      box.innerHTML =
-        '<div class="empty">' +
-        'No active saving plans yet.' +
-        '</div>';
-
-      return;
-
-    }
-
-
-    box.innerHTML =
-      account.activePlans
-        .map(function (plan) {
-
-          return (
-
-            '<div class="active-plan">' +
-
-              '<strong>' +
-              escapeHTML(
-                plan.name
-              ) +
-              '</strong>' +
-
-              '<p class="info">' +
-              'Amount: ' +
-              '<strong>' +
-              money(plan.amount) +
-              '</strong>' +
-              '</p>' +
-
-              '<p class="info">' +
-              'Earning: ' +
-              '<strong>' +
-              money(plan.earning) +
-              '</strong>' +
-              '</p>' +
-
-              '<p class="info">' +
-              'Total: ' +
-              '<strong>' +
-              money(plan.total) +
-              '</strong>' +
-              '</p>' +
-
-              '<p class="date">' +
-              'Started: ' +
-              escapeHTML(
-                plan.date
-              ) +
-              '</p>' +
-
-            '</div>'
-
-          );
-
-        })
-        .join("");
-
-  }
-
-
-  /* -------------------------------------------------------
-     TRANSACTIONS / ACTIVITY
-  ------------------------------------------------------- */
-
-  function updateTransactions() {
-
-    const box =
-      document.getElementById(
-        "transactionList"
-      );
-
-    if (!box) {
-
-      return;
-
-    }
-
-
-    if (
-      !account.transactions.length
-    ) {
-
-      box.innerHTML =
-        '<div class="empty">' +
-        'No transactions yet.' +
-        '</div>';
-
-      return;
-
-    }
-
-
-    box.innerHTML =
-      account.transactions
-        .map(function (item) {
-
-          const type =
-            item.type ||
-            "Transaction";
-
-          const amount =
-            Number(
-              item.amount || 0
-            );
-
-
-          let colour =
-            "gold";
-
-
-          if (
-            type
-              .toLowerCase()
-              .includes("deposit")
-          ) {
-
-            colour =
-              "green";
-
-          }
-
-
-          if (
-            type
-              .toLowerCase()
-              .includes("withdraw")
-          ) {
-
-            colour =
-              "red";
-
-          }
-
-
-          return (
-
-            '<div class="transaction">' +
-
-              '<div>' +
-
-                '<div class="tname">' +
-                escapeHTML(type) +
-                '</div>' +
-
-                '<div class="date">' +
-                escapeHTML(
-                  item.details || ""
-                ) +
-                '</div>' +
-
-                '<div class="date">' +
-                escapeHTML(
-                  item.date || ""
-                ) +
-                '</div>' +
-
-              '</div>' +
-
-              '<strong class="' +
-              colour +
-              '">' +
-
-              money(amount) +
-
-              '</strong>' +
-
-            '</div>'
-
-          );
-
-        })
-        .join("");
-
-  }
-
-
-  /* -------------------------------------------------------
-     REFERRAL REWARDS
-  ------------------------------------------------------- */
-
-  function updateReferralRewards() {
-
-    const count =
-      Number(
-        account.referrals || 0
-      );
-
-
-    const countBox =
-      document.getElementById(
-        "referralCount"
-      );
-
-    if (countBox) {
-
-      countBox.textContent =
-        count;
-
-    }
-
-
-    const codeBox =
-      document.getElementById(
-        "myReferralCode"
-      );
-
-    if (codeBox) {
-
-      codeBox.textContent =
-        account.referralCode;
-
-    }
-
-
-    const profileCode =
-      document.getElementById(
-        "profileReferralCode"
-      );
-
-    if (profileCode) {
-
-      profileCode.textContent =
-        account.referralCode;
-
-    }
-
-
-    const linkBox =
-      document.getElementById(
-        "referralLink"
-      );
-
-    if (linkBox) {
-
-      linkBox.textContent =
-        window.location.origin +
-        window.location.pathname
-          .replace(
-            "dashboard.html",
-            ""
-          ) +
-        "index.html?ref=" +
-        account.referralCode;
-
-    }
-
-
-    const reward10 =
-      document.getElementById(
-        "reward10"
-      );
-
-    const reward50 =
-      document.getElementById(
-        "reward50"
-      );
-
-    const reward100 =
-      document.getElementById(
-        "reward100"
-      );
-
-
-    if (reward10) {
-
-      reward10.classList.toggle(
-        "unlocked",
-        count >= 10
-      );
-
-    }
-
-
-    if (reward50) {
-
-      reward50.classList.toggle(
-        "unlocked",
-        count >= 50
-      );
-
-    }
-
-
-    if (reward100) {
-
-      reward100.classList.toggle(
-        "unlocked",
-        count >= 100
-      );
-
-    }
-
-
-    const progress =
-      document.getElementById(
-        "referralProgress"
-      );
-
-
-    if (progress) {
-
-      if (count >= 100) {
-
-        progress.textContent =
-          "You have reached 100 referrals.";
-
-      }
-      else if (count >= 50) {
-
-        progress.textContent =
-          (100 - count) +
-          " more referral(s) to reach 100.";
-
-      }
-      else if (count >= 10) {
-
-        progress.textContent =
-          (50 - count) +
-          " more referral(s) to reach 50.";
-
-      }
-      else {
-
-        progress.textContent =
-          (10 - count) +
-          " more referral(s) to reach 10.";
-
-      }
-
-    }
-
-
-    const bar =
-      document.getElementById(
-        "referralBar"
-      );
-
-
-    if (bar) {
-
-      let target = 10;
-
-      if (count >= 10) {
-        target = 50;
-      }
-
-      if (count >= 50) {
-        target = 100;
-      }
-
-      if (count >= 100) {
-        target = 100;
-      }
-
-
-      bar.style.width =
-        Math.min(
-          (count / target) * 100,
-          100
-        ) +
-        "%";
-
-    }
-
-  }
-
-
-  /* -------------------------------------------------------
-     COPY REFERRAL
-  ------------------------------------------------------- */
-
-  window.copyReferral = function () {
-
-    const box =
-      document.getElementById(
-        "referralLink"
-      );
-
-    if (!box) {
-
-      return;
-
-    }
-
-
-    const text =
-      box.textContent;
-
-
-    if (
-      navigator.clipboard &&
-      navigator.clipboard.writeText
-    ) {
-
-      navigator.clipboard
-        .writeText(text)
-        .then(function () {
-
-          alert(
-            "Referral link copied!"
-          );
-
-        })
-        .catch(function () {
-
-          oldCopy(text);
-
-        });
-
-    }
-    else {
-
-      oldCopy(text);
-
-    }
-
-  };
-
-
-  function oldCopy(text) {
-
-    const input =
-      document.createElement(
-        "input"
-      );
-
-    input.value =
-      text;
-
-    document.body.appendChild(
-      input
-    );
-
-    input.select();
-
-    document.execCommand(
-      "copy"
-    );
-
-    input.remove();
-
-    alert(
-      "Referral link copied!"
-    );
-
-  }
-
-
-  /* -------------------------------------------------------
-     SHARE REFERRAL
-  ------------------------------------------------------- */
-
-  window.shareReferral = function () {
-
-    const link =
-      document.getElementById(
-        "referralLink"
-      )?.textContent ||
-      "";
-
-
-    if (
-      navigator.share
-    ) {
-
-      navigator.share({
-
-        title:
-          "Co Save & Earn",
-
-        text:
-          "Join me on Co Save & Earn.",
-
-        url:
-          link
-
-      })
-      .catch(function () {});
-
-    }
-    else {
-
-      oldCopy(link);
-
-    }
-
-  };
-
-
-  /* -------------------------------------------------------
-     PROFILE
-  ------------------------------------------------------- */
-
-  window.saveProfile = function () {
-
-    const name =
-      document.getElementById(
-        "profileName"
-      )?.value.trim();
-
-    const provider =
-      document.getElementById(
-        "profileProvider"
-      )?.value;
-
-    const phone =
-      document.getElementById(
-        "profilePhone"
-      )?.value.trim();
-
-
-    if (!name) {
-
-      message(
-        "profileMessage",
-        "Please enter your name.",
-        "error"
-      );
-
-      return;
-
-    }
-
-
-    account.name =
-      name;
-
-    account.provider =
-      provider || "";
-
-    account.phone =
-      phone || "";
-
-
-    saveAccount();
-
-    updateDashboard();
-
-
-    message(
-      "profileMessage",
-      "Profile saved successfully.",
-      "success"
-    );
-
-  };
-
-
-  /* -------------------------------------------------------
-     LOGOUT
-  -----------------------------------
-<script>
-/* =========================================================
-   CO SAVE & EARN — FINAL BUTTON REPAIR
-========================================================= */
-
-(function () {
-
-  /* ---------- SHOW SECTIONS ---------- */
-
-  window.showSection = function (id, clickedButton) {
-
-    var sections =
-      document.querySelectorAll(".section");
-
-    sections.forEach(function (section) {
-      section.classList.remove("active");
-      section.style.display = "none";
-    });
-
-    var target =
-      document.getElementById(id);
-
-    if (!target) return;
-
-    target.classList.add("active");
-    target.style.display = "block";
-
-    document
-      .querySelectorAll(
-        ".nav-btn, .nav, .bottom-nav button"
-      )
-      .forEach(function (btn) {
-        btn.classList.remove("active");
-      });
-
-    if (clickedButton) {
-      clickedButton.classList.add("active");
-    }
-
-    window.scrollTo(0, 0);
-  };
-
-
-  /* ---------- ACCOUNT ---------- */
-
-  var account = {};
-
-  try {
-    account =
-      JSON.parse(
-        localStorage.getItem("coEarnerAccount")
-      ) || {};
-  } catch (e) {
-    account = {};
-  }
-
-  account.name = account.name || "User";
-  account.phone = account.phone || "";
-  account.provider = account.provider || "";
-  account.balance = Number(account.balance || 0);
-  account.referrals = Number(account.referrals || 0);
-  account.referralCode =
-    account.referralCode ||
-    "CO" +
-    Math.floor(
-      100000 + Math.random() * 900000
-    );
-
-  account.transactions =
-    Array.isArray(account.transactions)
-      ? account.transactions
-      : [];
-
-  account.activePlans =
-    Array.isArray(account.activePlans)
-      ? account.activePlans
-      : [];
-
-
-  function save() {
-
-    localStorage.setItem(
-      "coEarnerAccount",
-      JSON.stringify(account)
-    );
-
-  }
-
-
-  function money(number) {
-
-    return (
-      "UGX " +
-      Number(number || 0).toLocaleString()
-    );
-
-  }
-
-
-  /* ---------- UPDATE BALANCE ---------- */
-
-  function updatePage() {
-
-    var balance =
-      document.getElementById("balance");
-
-    if (balance) {
-      balance.textContent =
-        money(account.balance);
-    }
-
-
-    var initial =
-      (account.name || "User")
-        .charAt(0)
-        .toUpperCase();
-
-
-    var header =
-      document.getElementById(
-        "headerInitial"
-      );
-
-    if (header) {
-      header.textContent = initial;
-    }
-
-
-    var avatar =
-      document.getElementById(
-        "profileAvatar"
-      );
-
-    if (avatar) {
-      avatar.textContent = initial;
-    }
-
-
-    var displayName =
-      document.getElementById(
-        "profileDisplayName"
-      );
-
-    if (displayName) {
-      displayName.textContent =
-        account.name;
-    }
-
-
-    var displayPhone =
-      document.getElementById(
-        "profileDisplayPhone"
-      );
-
-    if (displayPhone) {
-      displayPhone.textContent =
-        account.phone
-          ? account.provider +
-            " • " +
-            account.phone
-          : "Mobile number not added";
-    }
-
-
-    var count =
-      document.getElementById(
-        "referralCount"
-      );
-
-    if (count) {
-      count.textContent =
-        account.referrals;
-    }
-
-
-    var code =
-      document.getElementById(
-        "myReferralCode"
-      );
-
-    if (code) {
-      code.textContent =
-        account.referralCode;
-    }
-
-
-    var accountId =
-      document.getElementById(
-        "accountId"
-      );
-
-    if (accountId) {
-      accountId.textContent =
-        "CE-" +
-        account.referralCode;
-    }
-
-
-    var profileName =
-      document.getElementById(
-        "profileName"
-      );
-
-    if (profileName) {
-      profileName.value =
-        account.name === "User"
-          ? ""
-          : account.name;
-    }
-
-
-    var profilePhone =
-      document.getElementById(
-        "profilePhone"
-      );
-
-    if (profilePhone) {
-      profilePhone.value =
-        account.phone;
-    }
-
-
-    var profileProvider =
-      document.getElementById(
-        "profileProvider"
-      );
-
-    if (profileProvider) {
-      profileProvider.value =
-        account.provider;
-    }
-
-
-    updateTransactions();
-
-  }
-
-
-  /* ---------- TRANSACTIONS ---------- */
-
-  function updateTransactions() {
-
-    var box =
-      document.getElementById(
-        "transactionList"
-      );
-
-    if (!box) return;
-
-
-    if (!account.transactions.length) {
-
-      box.innerHTML =
-        '<p class="info">No transactions yet.</p>';
-
-      return;
-    }
-
-
-    box.innerHTML =
-      account.transactions
-        .map(function (item) {
-
-          return (
-            '<div style="' +
-            'padding:14px 0;' +
-            'border-bottom:1px solid #eee;' +
-            'display:flex;' +
-            'justify-content:space-between;' +
-            'gap:10px;">' +
-
-            '<div>' +
-            '<strong>' +
-            (item.type || "Transaction") +
-            '</strong>' +
-
-            '<br>' +
-
-            '<small>' +
-            (item.details || "") +
-            '</small>' +
-
-            '<br>' +
-
-            '<small>' +
-            (item.date || "") +
-            '</small>' +
-
-            '</div>' +
-
-            '<strong>' +
-            money(item.amount) +
-            '</strong>' +
-
-            '</div>'
-          );
-
-        })
-        .join("");
-
-  }
-
-
-  /* ---------- DEPOSIT ---------- */
-
-  window.depositMoney = function () {
-
-    var provider =
-      document.getElementById(
-        "depositProvider"
-      );
-
-    var name =
-      document.getElementById(
-        "depositName"
-      );
-
-    var number =
-      document.getElementById(
-        "depositNumber"
-      );
-
-    var amount =
-      document.getElementById(
-        "depositAmount"
-      );
-
-    var message =
-      document.getElementById(
-        "depositMessage"
-      );
-
-
-    var value =
-      Number(
-        amount ? amount.value : 0
-      );
-
-
-    if (
-      !provider ||
-      !provider.value ||
-      !name ||
-      !name.value.trim() ||
-      !number ||
-      !number.value.trim() ||
-      !value
-    ) {
-
-      if (message) {
-        message.textContent =
-          "Please complete all deposit details.";
-        message.className =
-          "message error";
-      }
-
-      return;
-    }
-
-
-    if (value < 20000) {
-
-      if (message) {
-        message.textContent =
-          "Minimum deposit is UGX 20,000.";
-        message.className =
-          "message error";
-      }
-
-      return;
-    }
-
-
-    account.balance += value;
-
-
-    account.transactions.unshift({
-
-      type: "Deposit",
-
-      amount: value,
-
-      details:
-        provider.value +
-        " • " +
-        number.value.trim(),
-
-      date:
-        new Date().toLocaleString()
-
-    });
-
-
-    save();
-    updatePage();
-
-
-    amount.value = "";
-
-
-    if (message) {
-      message.textContent =
-        "Deposit of " +
-        money(value) +
-        " recorded successfully.";
-
-      message.className =
-        "message success";
-    }
-
-  };
-
-
-  /* ---------- WITHDRAW ---------- */
-
-  window.withdrawMoney = function () {
-
-    var provider =
-      document.getElementById(
-        "withdrawProvider"
-      );
-
-    var name =
-      document.getElementById(
-        "withdrawName"
-      );
-
-    var number =
-      document.getElementById(
-        "withdrawNumber"
-      );
-
-    var amount =
-      document.getElementById(
-        "withdrawAmount"
-      );
-
-    var message =
-      document.getElementById(
-        "withdrawMessage"
-      );
-
-
-    var value =
-      Number(
-        amount ? amount.value : 0
-      );
-
-
-    if (
-      !provider ||
-      !provider.value ||
-      !name ||
-      !name.value.trim() ||
-      !number ||
-      !number.value.trim() ||
-      !value
-    ) {
-
-      if (message) {
-        message.textContent =
-          "Please complete all withdrawal details.";
-        message.className =
-          "message error";
-      }
-
-      return;
-    }
-
-
-    if (value < 20000) {
-
-      if (message) {
-        message.textContent =
-          "Minimum withdrawal is UGX 20,000.";
-        message.className =
-          "message error";
-      }
-
-      return;
-    }
-
-
-    if (value > account.balance) {
-
-      if (message) {
-        message.textContent =
-          "Insufficient balance. Available: " +
-          money(account.balance) +
-          ".";
-
-        message.className =
-          "message error";
-      }
-
-      return;
-    }
-
-
-    account.balance -= value;
-
-
-    account.transactions.unshift({
-
-      type: "Withdrawal",
-
-      amount: value,
-
-      details:
-        provider.value +
-        " • " +
-        number.value.trim(),
-
-      date:
-        new Date().toLocaleString()
-
-    });
-
-
-    save();
-    updatePage();
-
-
-    amount.value = "";
-
-
-    if (message) {
-      message.textContent =
-        "Withdrawal of " +
-        money(value) +
-        " recorded successfully.";
-
-      message.className =
-        "message success";
-    }
-
-  };
-
-
-  /* ---------- SAVING PLANS ---------- */
-
-  window.choosePlan = function (
-    planName,
-    amount,
-    earning,
-    total
-  ) {
-
-    amount = Number(amount);
-    earning = Number(earning);
-    total = Number(total);
-
-
-    if (account.balance < amount) {
-
-      var needed =
-        amount - account.balance;
-
-
-      var goDeposit =
-        confirm(
-          "You need " +
-          money(amount) +
-          ".\n\n" +
-
-          "Available: " +
-          money(account.balance) +
-          "\n\n" +
-
-          "You need " +
-          money(needed) +
-          " more.\n\n" +
-
-          "Go to Deposit?"
-        );
-
-
-      if (goDeposit) {
-        window.showSection("deposit");
-      }
-
-      return;
-    }
-
-
-    var yes =
-      confirm(
-        "Activate " +
-        planName +
-        "?\n\n" +
-
-        "Saving amount: " +
-        money(amount) +
-        "\n" +
-
-        "Earning: " +
-        money(earning) +
-        "\n" +
-
-        "Total: " +
-        money(total)
-      );
-
-
-    if (!yes) return;
-
-
-    account.balance -= amount;
-
-
-    account.activePlans.unshift({
-
-      name: planName,
-
-      amount: amount,
-
-      earning: earning,
-
-      total: total,
-
-      date:
-        new Date().toLocaleString()
-
-    });
-
-
-    account.transactions.unshift({
-
-      type: "Saving Plan",
-
-      amount: amount,
-
-      details: planName,
-
-      date:
-        new Date().toLocaleString()
-
-    });
-
-
-    save();
-    updatePage();
-
-
-    alert(
-      planName +
-      " activated successfully."
-    );
-
-
-    window.showSection("home");
-
-  };
-
-
-  /* ---------- PROFILE ---------- */
-
-  window.saveProfile = function () {
-
-    var name =
-      document.getElementById(
-        "profileName"
-      );
-
-    var provider =
-      document.getElementById(
-        "profileProvider"
-      );
-
-    var phone =
-      document.getElementById(
-        "profilePhone"
-      );
-
-    var message =
-      document.getElementById(
-        "profileMessage"
-      );
-
-
-    if (
-      !name ||
-      !name.value.trim()
-    ) {
-
-      if (message) {
-        message.textContent =
-          "Please enter your name.";
-
-        message.className =
-          "message error";
-      }
-
-      return;
-    }
-
-
-    account.name =
-      name.value.trim();
-
-    account.provider =
-      provider
-        ? provider.value
-        : "";
-
-    account.phone =
-      phone
-        ? phone.value.trim()
-        : "";
-
-
-    save();
-    updatePage();
-
-
-    if (message) {
-      message.textContent =
-        "Profile saved successfully.";
-
-      message.className =
-        "message success";
-    }
-
-  };
-
-
-  /* ---------- REFERRAL COPY ---------- */
-
-  window.copyReferral = function () {
-
-    var box =
-      document.getElementById(
-        "referralLink"
-      );
-
-    if (!box) return;
-
-
-    var text =
-      box.textContent;
-
-
-    if (
-      navigator.clipboard
-    ) {
-
-      navigator.clipboard
-        .writeText(text)
-        .then(function () {
-
-          alert(
-            "Referral link copied!"
-          );
-
-        });
-
-    }
-    else {
-
-      var input =
-        document.createElement(
-          "input"
-        );
-
-      input.value = text;
-
-      document.body.appendChild(
-        input
-      );
-
-      input.select();
-
-      document.execCommand(
-        "copy"
-      );
-
-      input.remove();
-
-      alert(
-        "Referral link copied!"
-      );
-
-    }
-
-  };
-
-
-  /* ---------- REFERRAL SHARE ---------- */
-
-  window.shareReferral = function () {
-
-    var box =
-      document.getElementById(
-        "referralLink"
-      );
-
-    var link =
-      box
-        ? box.textContent
-        : "";
-
-
-    if (
-      navigator.share
-    ) {
-
-      navigator.share({
-
-        title:
-          "Co Save & Earn",
-
-        text:
-          "Join me on Co Save & Earn.",
-
-        url:
-          link
-
-      });
-
-    }
-    else {
-
-      window.copyReferral();
-
-    }
-
-  };
-
-
-  /* ---------- LOGOUT ---------- */
-
-  window.logout = function () {
-
-    if (
-      confirm(
-        "Are you sure you want to log out?"
-      )
-    ) {
-
-      window.location.href =
-        "login.html";
-
-    }
-
-  };
-
-
-  /* =====================================================
-     THE IMPORTANT PART:
-     GLOBAL CLICK CONTROL
-  ===================================================== */
-
-  document.addEventListener(
-    "click",
-    function (event) {
-
-      var element =
-        event.target.closest(
-          "button, a, .nav-btn, .nav"
-        );
-
-
-      if (!element) return;
-
-
-      var text =
-        element.textContent
-          .replace(/\s+/g, " ")
-          .trim()
-          .toLowerCase();
-
-
-      /* HOME */
-
-      if (
-        text === "home" ||
-        text.includes("🏠 home")
-      ) {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        window.showSection(
-          "home",
-          element
-        );
-
-        return;
-
-      }
-
-
-      /* DEPOSIT */
-
-      if (
-        text === "deposit" ||
-        text.includes("💰 deposit") ||
-        text.includes("💵 deposit")
-      ) {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        window.showSection(
-          "deposit",
-          element
-        );
-
-        return;
-
-      }
-
-
-      /* WITHDRAW */
-
-      if (
-        text === "withdraw" ||
-        text.includes("withdraw")
-      ) {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        window.showSection(
-          "withdraw",
-          element
-        );
-
-        return;
-
-      }
-
-
-      /* REFER */
-
-      if (
-        text === "refer" ||
-        text.includes("🔗 refer") ||
-        text.includes("invite")
-      ) {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        window.showSection(
-          "referrals",
-          element
-        );
-
-        return;
-
-      }
-
-
-      /* ACTIVITY */
-
-      if (
-        text === "activity" ||
-        text.includes("📊 activity") ||
-        text.includes("transaction")
-      ) {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        window.showSection(
-          "transactions",
-          element
-        );
-
-        return;
-
-      }
-
-
-      /* PROFILE */
-
-      if (
-        text === "profile" ||
-        text.includes("👤 profile") ||
-        text.includes("account")
-      ) {
-
-        event.preventDefault();
-
-        event.stopPropagation();
-
-        window.showSection(
-          "profile",
-          element
-        );
-
-        return;
-
-      }
-
-    },
-    true
-  );
-
-
-  /* ---------- START ---------- */
-
-  function start() {
-
-    updatePage();
-
-    window.showSection("home");
-
-  }
-
-
-  if (
-    document.readyState ===
-    "loading"
-  ) {
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      start
-    );
-
-  }
-  else {
-
-    start();
-
-  }
-
-})();
-</script>
-</script>
-
-<style>
-/* =========================================================
-   CO SAVE & EARN — COMPLETE DASHBOARD FIX
-   APPEND THIS AT THE VERY END OF dashboard.html
-   ========================================================= */
-
-#cseExtraArea{
-  width:100%;
-  max-width:900px;
-  margin:0 auto;
-  padding:0 12px 100px;
-}
-
-.cse-panel{
-  background:#fff;
-  border-radius:18px;
-  padding:18px;
-  margin:15px 0;
-  box-shadow:0 5px 20px rgba(0,0,0,.07);
-}
-
-.cse-panel h2,
-.cse-panel h3{
-  margin-bottom:12px;
-}
-
-.cse-note{
-  background:#f4f8f6;
-  border-radius:12px;
-  padding:12px;
-  margin:10px 0;
-  font-size:13px;
-  color:#566;
-}
-
-.cse-plans{
-  display:flex;
-  gap:14px;
-  overflow-x:auto;
-  padding:5px 2px 15px;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-}
-
-.cse-plans::-webkit-scrollbar{
-  display:none;
-}
-
-.cse-plan{
-  min-width:275px;
-  max-width:290px;
-  flex:0 0 275px;
-  scroll-snap-align:start;
-  background:#fff;
-  border-radius:18px;
-  padding:17px;
-  box-shadow:0 4px 18px rgba(0,0,0,.08);
-  border:1px solid #edf0ee;
-}
-
-.cse-plan h4{
-  font-size:18px;
-  margin-bottom:8px;
-}
-
-.cse-plan .cse-type{
-  font-size:13px;
-  color:#667;
-  margin-bottom:12px;
-}
-
-.cse-plan p{
-  margin:7px 0;
-  font-size:14px;
-}
-
-.cse-plan strong{
-  color:#123;
-}
-
-.cse-btn{
-  width:100%;
-  border:0;
-  border-radius:11px;
-  padding:12px;
-  margin-top:12px;
-  background:#176b4d;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.cse-btn:active{
-  transform:scale(.98);
-}
-
-.cse-btn.gold{
-  background:#c18a16;
-}
-
-.cse-btn.red{
-  background:#b83a3a;
-}
-
-.cse-btn.blue{
-  background:#245ca8;
-}
-
-.cse-input{
-  width:100%;
-  padding:12px;
-  border:1px solid #d9dfdc;
-  border-radius:10px;
-  margin:7px 0;
-  font-size:15px;
-  outline:none;
-}
-
-.cse-input:focus{
-  border-color:#176b4d;
-}
-
-.cse-row{
-  display:flex;
-  gap:10px;
-}
-
-.cse-row > *{
-  flex:1;
-}
-
-.cse-message{
-  display:none;
-  padding:11px;
-  border-radius:10px;
-  margin-top:10px;
-  font-size:14px;
-}
-
-.cse-success{
-  background:#e8f7ee;
-  color:#14633d;
-}
-
-.cse-error{
-  background:#fdecec;
-  color:#9c2525;
-}
-
-.cse-info{
-  background:#edf4ff;
-  color:#24538c;
-}
-
-.cse-transaction{
-  padding:13px 0;
-  border-bottom:1px solid #edf0ee;
-}
-
-.cse-transaction:last-child{
-  border-bottom:0;
-}
-
-.cse-transaction-title{
-  font-weight:bold;
-}
-
-.cse-transaction-meta{
-  font-size:12px;
-  color:#777;
-  margin-top:4px;
-}
-
-.cse-active{
-  border-left:4px solid #176b4d;
-  padding:12px;
-  background:#f5faf7;
-  border-radius:10px;
-  margin:8px 0;
-}
-
-.cse-ref-code{
-  background:#f2f5f3;
-  border-radius:10px;
-  padding:12px;
-  font-weight:bold;
-  letter-spacing:1px;
-  text-align:center;
-  margin:10px 0;
-}
-
-.cse-progress{
-  height:10px;
-  background:#e7ece9;
-  border-radius:20px;
-  overflow:hidden;
-  margin:10px 0;
-}
-
-.cse-progress-fill{
-  height:100%;
-  width:0%;
-  background:#176b4d;
-  border-radius:20px;
-  transition:.3s;
-}
-
-.cse-empty{
-  text-align:center;
-  color:#777;
-  padding:20px 5px;
-}
-
-.cse-nav-extra{
-  font-size:11px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-@media(max-width:600px){
-  .cse-row{
-    flex-direction:column;
-    gap:0;
-  }
-
-  .cse-plan{
-    min-width:82vw;
-  }
-}
-</style>
+<div class="toast" id="toast"></div>
 
 
 <script>
-(function(){
-
 "use strict";
 
-/* =========================================================
-   STORAGE
-   ========================================================= */
+let account = JSON.parse(localStorage.getItem("coEarnerAccount"));
 
-var STORAGE_KEY = "coEarnerAccount";
-
-function getAccount(){
-
-  var defaultAccount = {
+if(!account){
+  account = {
     name:"User",
     phone:"",
     password:"",
@@ -3994,223 +1079,221 @@ function getAccount(){
     activePlans:[]
   };
 
-  try{
-
-    var saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-    if(!saved || typeof saved !== "object"){
-      saved = defaultAccount;
-    }
-
-    saved.name = saved.name || "User";
-    saved.phone = saved.phone || "";
-    saved.provider = saved.provider || "";
-    saved.balance = Number(saved.balance) || 0;
-    saved.referrals = Number(saved.referrals) || 0;
-    saved.transactions = Array.isArray(saved.transactions)
-      ? saved.transactions : [];
-    saved.activePlans = Array.isArray(saved.activePlans)
-      ? saved.activePlans : [];
-
-    if(!saved.referralCode){
-      saved.referralCode =
-        "CO" + Math.floor(100000 + Math.random()*900000);
-    }
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(saved)
-    );
-
-    return saved;
-
-  }catch(e){
-
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(defaultAccount)
-    );
-
-    return defaultAccount;
-  }
+  saveAccount();
 }
 
-var account = getAccount();
+account.name = account.name || "User";
+account.phone = account.phone || "";
+account.provider = account.provider || "";
+account.balance = Number(account.balance) || 0;
+account.referralCode = account.referralCode ||
+  ("CO" + Math.floor(100000 + Math.random()*900000));
+account.referrals = Number(account.referrals) || 0;
+account.transactions =
+  Array.isArray(account.transactions) ? account.transactions : [];
+account.activePlans =
+  Array.isArray(account.activePlans) ? account.activePlans : [];
+
+saveAccount();
+
 
 function saveAccount(){
   localStorage.setItem(
-    STORAGE_KEY,
+    "coEarnerAccount",
     JSON.stringify(account)
   );
 }
 
 
-/* =========================================================
-   MONEY
-   ========================================================= */
-
-function money(amount){
-  return "UGX " + Number(amount || 0).toLocaleString("en-US");
+function formatMoney(amount){
+  return "UGX " + Number(amount || 0).toLocaleString("en-UG");
 }
 
 
-/* =========================================================
-   FIND ELEMENT
-   ========================================================= */
+function showToast(message){
+  const toast = document.getElementById("toast");
 
-function el(id){
-  return document.getElementById(id);
+  toast.textContent = message;
+  toast.style.display = "block";
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(function(){
+    toast.style.display = "none";
+  },3000);
 }
 
 
-/* =========================================================
-   MESSAGE
-   ========================================================= */
+function showMessage(element,message,type){
+  if(!element) return;
 
-function showMessage(id,message,type){
+  element.textContent = message;
+  element.className = "message " + type;
+}
 
-  var box = el(id);
 
-  if(!box){
-    alert(message);
+function hideMessage(element){
+  if(!element) return;
+
+  element.textContent = "";
+  element.className = "message";
+}
+
+
+/* NAVIGATION */
+
+function showSection(section){
+
+  document.querySelectorAll(".section").forEach(function(item){
+    item.classList.remove("active");
+  });
+
+  const selected = document.getElementById(section);
+
+  if(selected){
+    selected.classList.add("active");
+  }
+
+  document.querySelectorAll(".nav-btn").forEach(function(button){
+    button.classList.remove("active");
+  });
+
+  const nav = document.getElementById(
+    "nav" +
+    section.charAt(0).toUpperCase() +
+    section.slice(1)
+  );
+
+  if(nav){
+    nav.classList.add("active");
+  }
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  refreshUI();
+}
+
+
+/* PROFILE */
+
+function loadProfile(){
+
+  const name = account.name || "User";
+
+  document.getElementById("headerName").textContent = name;
+
+  const initial = name.charAt(0).toUpperCase() || "U";
+
+  document.getElementById("headerInitial").textContent = initial;
+  document.getElementById("profileAvatar").textContent = initial;
+
+  document.getElementById("profileDisplayName").textContent = name;
+
+  document.getElementById("profileDisplayPhone").textContent =
+    account.phone || "Phone number not set";
+
+  document.getElementById("profileName").value =
+    account.name === "User" ? "" : account.name;
+
+  document.getElementById("profilePhone").value =
+    account.phone || "";
+
+  document.getElementById("profileProvider").value =
+    account.provider || "";
+
+  document.getElementById("accountId").textContent =
+    "Account ID: " + account.referralCode;
+}
+
+
+function saveProfile(){
+
+  const name =
+    document.getElementById("profileName").value.trim();
+
+  const provider =
+    document.getElementById("profileProvider").value;
+
+  const phone =
+    document.getElementById("profilePhone").value.trim();
+
+  const message =
+    document.getElementById("profileMessage");
+
+  hideMessage(message);
+
+  if(!name){
+    showMessage(
+      message,
+      "Please enter your name.",
+      "error"
+    );
     return;
   }
 
-  box.textContent = message;
-  box.className =
-    "cse-message " +
-    (type === "error"
-      ? "cse-error"
-      : type === "info"
-      ? "cse-info"
-      : "cse-success");
+  if(!phone){
+    showMessage(
+      message,
+      "Please enter your phone number.",
+      "error"
+    );
+    return;
+  }
 
-  box.style.display = "block";
+  account.name = name;
+  account.provider = provider;
+  account.phone = phone;
 
-  setTimeout(function(){
-    if(box){
-      box.style.display = "none";
-    }
-  },5000);
+  saveAccount();
+  loadProfile();
+
+  showMessage(
+    message,
+    "Profile updated successfully.",
+    "success"
+  );
+
+  showToast("Profile saved");
 }
 
 
-/* =========================================================
-   BALANCE
-   ========================================================= */
+/* BALANCE */
 
 function updateBalance(){
 
-  var b = el("balance");
-
-  if(b){
-    b.textContent = money(account.balance);
-  }
-
-  saveAccount();
+  document.getElementById("balance").textContent =
+    formatMoney(account.balance);
 }
 
 
-/* =========================================================
-   PROFILE DISPLAY
-   ========================================================= */
+/* DEPOSIT */
 
-function updateProfileDisplay(){
+function depositMoney(){
 
-  var name =
-    account.name || "User";
+  const provider =
+    document.getElementById("depositProvider").value;
 
-  if(el("profileDisplayName"))
-    el("profileDisplayName").textContent = name;
+  const name =
+    document.getElementById("depositName").value.trim();
 
-  if(el("profileDisplayPhone"))
-    el("profileDisplayPhone").textContent =
-      account.phone || "";
+  const number =
+    document.getElementById("depositNumber").value.trim();
 
-  if(el("profileName"))
-    el("profileName").value =
-      account.name || "";
+  const amount =
+    Number(document.getElementById("depositAmount").value);
 
-  if(el("profilePhone"))
-    el("profilePhone").value =
-      account.phone || "";
+  const message =
+    document.getElementById("depositMessage");
 
-  if(el("profileProvider"))
-    el("profileProvider").value =
-      account.provider || "";
-
-  if(el("headerInitial"))
-    el("headerInitial").textContent =
-      name.charAt(0).toUpperCase();
-
-  if(el("profileAvatar"))
-    el("profileAvatar").textContent =
-      name.charAt(0).toUpperCase();
-
-  if(el("accountId"))
-    el("accountId").textContent =
-      account.phone || account.referralCode;
-
-}
-
-
-/* =========================================================
-   TRANSACTIONS
-   ========================================================= */
-
-function addTransaction(type,amount,details){
-
-  account.transactions.unshift({
-
-    id:Date.now(),
-
-    type:type,
-
-    amount:Number(amount) || 0,
-
-    details:details || "",
-
-    date:new Date().toLocaleString()
-
-  });
-
-  saveAccount();
-
-  renderTransactions();
-}
-
-
-/* =========================================================
-   DEPOSIT
-   MINIMUM = UGX 20,000
-   ========================================================= */
-
-window.depositMoney = function(){
-
-  var provider =
-    el("depositProvider")
-      ? el("depositProvider").value.trim()
-      : "";
-
-  var name =
-    el("depositName")
-      ? el("depositName").value.trim()
-      : "";
-
-  var number =
-    el("depositNumber")
-      ? el("depositNumber").value.trim()
-      : "";
-
-  var amount =
-    el("depositAmount")
-      ? Number(el("depositAmount").value)
-      : 0;
+  hideMessage(message);
 
   if(!provider){
     showMessage(
-      "depositMessage",
-      "Please select your Mobile Money provider.",
+      message,
+      "Please select your mobile money provider.",
       "error"
     );
     return;
@@ -4218,8 +1301,8 @@ window.depositMoney = function(){
 
   if(!name){
     showMessage(
-      "depositMessage",
-      "Please enter the Mobile Money account name.",
+      message,
+      "Please enter the account name.",
       "error"
     );
     return;
@@ -4227,8 +1310,8 @@ window.depositMoney = function(){
 
   if(!number){
     showMessage(
-      "depositMessage",
-      "Please enter the Mobile Money number.",
+      message,
+      "Please enter the mobile money number.",
       "error"
     );
     return;
@@ -4236,1404 +1319,719 @@ window.depositMoney = function(){
 
   if(!amount || amount < 20000){
     showMessage(
-      "depositMessage",
+      message,
       "Minimum deposit is UGX 20,000.",
       "error"
     );
     return;
   }
 
-  /*
-    This updates the dashboard balance locally.
-    Real Mobile Money collection requires a secure backend
-    and a payment provider.
-  */
-
   account.balance += amount;
 
-  addTransaction(
-    "Deposit",
-    amount,
-    provider + " • " + number
-  );
+  account.transactions.unshift({
+    id:Date.now(),
+    type:"deposit",
+    title:"Deposit",
+    amount:amount,
+    date:new Date().toISOString(),
+    status:"Completed"
+  });
+
+  account.name = name;
+  account.phone = number;
+  account.provider = provider;
 
   saveAccount();
 
-  updateBalance();
+  document.getElementById("depositAmount").value = "";
 
   showMessage(
-    "depositMessage",
-    "Deposit recorded successfully: " +
-      money(amount),
+    message,
+    formatMoney(amount) +
+    " has been added to your balance.",
     "success"
   );
 
-  if(el("depositAmount"))
-    el("depositAmount").value = "";
-
-  renderAll();
-};
-
-
-/* =========================================================
-   WITHDRAWAL PREVIEW
-   MINIMUM = UGX 20,000
-   CHARGE = 8%
-   ========================================================= */
-
-function updateWithdrawalPreview(){
-
-  var amount =
-    el("withdrawAmount")
-      ? Number(el("withdrawAmount").value)
-      : 0;
-
-  var preview =
-    el("withdrawPreview");
-
-  if(!preview)
-    return;
-
-  if(!amount || amount <= 0){
-
-    preview.textContent =
-      "8% withdrawal charge will be deducted.";
-
-    return;
-  }
-
-  var fee = amount * 0.08;
-
-  var received = amount - fee;
-
-  preview.textContent =
-    "Charge: " + money(fee) +
-    " • You receive: " + money(received);
+  refreshUI();
+  showToast("Deposit recorded");
 }
 
 
-/* =========================================================
-   WITHDRAW
-   ========================================================= */
+/* WITHDRAWAL CALCULATOR */
 
-window.withdrawMoney = function(){
+function calculateWithdrawal(){
 
-  var provider =
-    el("withdrawProvider")
-      ? el("withdrawProvider").value.trim()
-      : "";
+  const amount =
+    Number(document.getElementById("withdrawAmount").value);
 
-  var name =
-    el("withdrawName")
-      ? el("withdrawName").value.trim()
-      : "";
+  const box =
+    document.getElementById("withdrawCalculation");
 
-  var number =
-    el("withdrawNumber")
-      ? el("withdrawNumber").value.trim()
-      : "";
+  if(!amount || amount < 20000){
+    box.style.display = "none";
+    return;
+  }
 
-  var amount =
-    el("withdrawAmount")
-      ? Number(el("withdrawAmount").value)
-      : 0;
+  const fee = Math.round(amount * 0.08);
+  const received = amount - fee;
+
+  box.style.display = "block";
+
+  box.innerHTML =
+    "<strong>Withdrawal Summary</strong><br>" +
+    "Requested: " + formatMoney(amount) + "<br>" +
+    "8% charge: " + formatMoney(fee) + "<br>" +
+    "<strong>You receive: " +
+    formatMoney(received) +
+    "</strong>";
+}
+
+
+/* WITHDRAW */
+
+function withdrawMoney(){
+
+  const provider =
+    document.getElementById("withdrawProvider").value;
+
+  const name =
+    document.getElementById("withdrawName").value.trim();
+
+  const number =
+    document.getElementById("withdrawNumber").value.trim();
+
+  const amount =
+    Number(document.getElementById("withdrawAmount").value);
+
+  const message =
+    document.getElementById("withdrawMessage");
+
+  hideMessage(message);
 
   if(!provider){
-
     showMessage(
-      "withdrawMessage",
-      "Please select your Mobile Money provider.",
+      message,
+      "Please select your mobile money provider.",
       "error"
     );
-
     return;
   }
 
   if(!name){
-
     showMessage(
-      "withdrawMessage",
-      "Please enter the Mobile Money account name.",
+      message,
+      "Please enter the account name.",
       "error"
     );
-
     return;
   }
 
   if(!number){
-
     showMessage(
-      "withdrawMessage",
-      "Please enter the Mobile Money number.",
+      message,
+      "Please enter the mobile money number.",
       "error"
     );
-
     return;
   }
 
   if(!amount || amount < 20000){
-
     showMessage(
-      "withdrawMessage",
+      message,
       "Minimum withdrawal is UGX 20,000.",
       "error"
     );
-
     return;
   }
 
   if(amount > account.balance){
-
     showMessage(
-      "withdrawMessage",
-      "Insufficient balance. Your balance is " +
-        money(account.balance) + ".",
+      message,
+      "Insufficient balance. Your available balance is " +
+      formatMoney(account.balance) + ".",
       "error"
     );
-
     return;
   }
 
-  var fee = amount * 0.08;
-
-  var received = amount - fee;
-
-  /*
-    The requested withdrawal amount is removed
-    from the account.
-
-    The 8% charge is taken from that amount.
-
-    Example:
-    UGX 20,000 withdrawal
-    8% charge = UGX 1,600
-    Amount received = UGX 18,400
-  */
+  const fee = Math.round(amount * 0.08);
+  const received = amount - fee;
 
   account.balance -= amount;
 
-  addTransaction(
-    "Withdrawal",
-    amount,
-    provider +
-      " • " +
-      number +
-      " • Charge " +
-      money(fee) +
-      " • Received " +
-      money(received)
-  );
+  account.transactions.unshift({
+    id:Date.now(),
+    type:"withdrawal",
+    title:"Withdrawal",
+    amount:amount,
+    fee:fee,
+    received:received,
+    date:new Date().toISOString(),
+    status:"Completed"
+  });
+
+  account.name = name;
+  account.phone = number;
+  account.provider = provider;
 
   saveAccount();
 
-  updateBalance();
+  document.getElementById("withdrawAmount").value = "";
+
+  document.getElementById(
+    "withdrawCalculation"
+  ).style.display = "none";
 
   showMessage(
-    "withdrawMessage",
+    message,
     "Withdrawal recorded. " +
-      money(received) +
-      " will be received after the 8% charge.",
+    formatMoney(received) +
+    " is the amount after the 8% charge.",
     "success"
   );
 
-  if(el("withdrawAmount"))
-    el("withdrawAmount").value = "";
-
-  updateWithdrawalPreview();
-
-  renderAll();
-};
-
-
-/* =========================================================
-   EXACT SAVING PLANS
-   ========================================================= */
-
-var SAVING_TINS = [
-
-  {
-    type:"Saving Tin",
-    days:20,
-    amount:20000,
-    earning:35000,
-    total:55000
-  },
-
-  {
-    type:"Saving Tin",
-    days:20,
-    amount:50000,
-    earning:85000,
-    total:135000
-  },
-
-  {
-    type:"Saving Tin",
-    days:30,
-    amount:30000,
-    earning:90000,
-    total:120000
-  },
-
-  {
-    type:"Saving Tin",
-    days:30,
-    amount:100000,
-    earning:220000,
-    total:320000
-  }
-
-];
-
-var SAVING_ELEPHANTS = [
-
-  {
-    type:"Saving Elephant",
-    days:20,
-    amount:30000,
-    earning:55000,
-    total:85000
-  },
-
-  {
-    type:"Saving Elephant",
-    days:20,
-    amount:100000,
-    earning:155000,
-    total:255000
-  },
-
-  {
-    type:"Saving Elephant",
-    days:30,
-    amount:20000,
-    earning:50000,
-    total:70000
-  },
-
-  {
-    type:"Saving Elephant",
-    days:30,
-    amount:50000,
-    earning:135000,
-    total:185000
-  }
-
-];
-
-
-/* =========================================================
-   FIND PLAN
-   ========================================================= */
-
-function findPlan(type,days,amount){
-
-  var list =
-    type === "Saving Elephant"
-      ? SAVING_ELEPHANTS
-      : SAVING_TINS;
-
-  for(var i=0;i<list.length;i++){
-
-    if(
-      list[i].days === Number(days) &&
-      list[i].amount === Number(amount)
-    ){
-      return list[i];
-    }
-
-  }
-
-  return null;
+  refreshUI();
+  showToast("Withdrawal recorded");
 }
 
 
-/* =========================================================
-   COMPATIBILITY WITH OLD 4-ARG BUTTONS
-   ========================================================= */
+/* SAVING PLANS */
 
-function inferPlanTypeAndDays(name,amount){
+function choosePlan(name,amount,earning,total,days,type){
 
-  var type =
-    String(name).toLowerCase().indexOf("elephant") >= 0
-      ? "Saving Elephant"
-      : "Saving Tin";
-
-  var days = 0;
-
-  var possible =
-    type === "Saving Elephant"
-      ? SAVING_ELEPHANTS
-      : SAVING_TINS;
-
-  for(var i=0;i<possible.length;i++){
-
-    if(
-      possible[i].amount === Number(amount)
-    ){
-
-      /*
-        For duplicate amounts, use the name
-        where possible.
-      */
-
-      if(
-        String(name)
-          .toLowerCase()
-          .indexOf(String(possible[i].days)) >= 0
-      ){
-
-        days = possible[i].days;
-        break;
-
-      }
-
-      if(!days)
-        days = possible[i].days;
-    }
+  if(!days){
+    days =
+      name.indexOf("20 Days") !== -1
+      ? 20
+      : 30;
   }
 
-  return {
-    type:type,
-    days:days
-  };
-}
-
-
-/* =========================================================
-   ACTIVATE PLAN
-   ========================================================= */
-
-window.choosePlan = function(
-  name,
-  amount,
-  earning,
-  total,
-  days,
-  type
-){
-
-  amount = Number(amount);
-  earning = Number(earning);
-  total = Number(total);
-
-  if(!days || !type){
-
-    var inferred =
-      inferPlanTypeAndDays(name,amount);
-
-    type = type || inferred.type;
-    days = days || inferred.days;
-  }
-
-  var exactPlan =
-    findPlan(type,days,amount);
-
-  if(exactPlan){
-
-    earning = exactPlan.earning;
-    total = exactPlan.total;
-
-  }
-
-  if(!amount || !days){
-
-    alert("This saving plan could not be identified.");
-    return;
+  if(!type){
+    type =
+      name.toLowerCase().indexOf("elephant") !== -1
+      ? "elephant"
+      : "tin";
   }
 
   if(account.balance < amount){
 
-    var needed =
+    const needed =
       amount - account.balance;
 
-    var goDeposit =
+    const shouldDeposit =
       confirm(
         "You need " +
-        money(needed) +
+        formatMoney(needed) +
         " more to activate this plan.\n\n" +
-        "Would you like to open Deposit?"
+        "Would you like to go to Deposit?"
       );
 
-    if(goDeposit){
+    if(shouldDeposit){
       showSection("deposit");
     }
 
     return;
   }
 
-  var start =
-    new Date();
+  const confirmPlan =
+    confirm(
+      "Activate " + name + "?\n\n" +
+      "Deposit: " + formatMoney(amount) + "\n" +
+      "Earning: " + formatMoney(earning) + "\n" +
+      "Total at maturity: " + formatMoney(total) + "\n" +
+      "Cycle: " + days + " days"
+    );
 
-  var maturity =
-    new Date(start.getTime());
-
-  maturity.setDate(
-    maturity.getDate() + Number(days)
-  );
+  if(!confirmPlan){
+    return;
+  }
 
   account.balance -= amount;
 
-  var active = {
+  const startDate = new Date();
 
+  const maturityDate = new Date(
+    startDate.getTime() +
+    days * 24 * 60 * 60 * 1000
+  );
+
+  const plan = {
     id:Date.now(),
-
-    type:type,
-
-    name:
-      name ||
-      (days + " Days " + type),
-
+    name:name,
+    amount:Number(amount),
+    earning:Number(earning),
+    total:Number(total),
     days:Number(days),
-
-    amount:amount,
-
-    earning:earning,
-
-    total:total,
-
-    startedAt:start.toISOString(),
-
-    maturityAt:maturity.toISOString(),
-
+    type:type,
+    startDate:startDate.toISOString(),
+    maturityDate:maturityDate.toISOString(),
+    received:false,
     status:"Active"
-
   };
 
-  account.activePlans.push(active);
+  account.activePlans.push(plan);
 
-  addTransaction(
-    "Saving Plan",
-    amount,
-    active.name +
-      " activated"
-  );
+  account.transactions.unshift({
+    id:Date.now()+1,
+    type:"plan",
+    title:"Activated " + name,
+    amount:amount,
+    date:new Date().toISOString(),
+    status:"Active"
+  });
 
   saveAccount();
+  refreshUI();
 
-  updateBalance();
-
-  alert(
-    "Saving plan activated successfully!\n\n" +
-    active.name +
-    "\n" +
-    "Amount: " +
-    money(amount) +
-    "\n" +
-    "Maturity: " +
-    maturity.toLocaleDateString()
+  showToast(
+    name + " activated successfully"
   );
 
-  renderAll();
-};
+  showSection("home");
+}
 
 
-/* =========================================================
-   PLAN CARD
-   ========================================================= */
+/* DAYS */
 
-function planCard(plan){
+function getDaysRemaining(maturityDate){
 
-  var safeName =
-    plan.days +
-    " Days " +
-    plan.type;
+  const now = new Date();
+  const maturity = new Date(maturityDate);
 
-  return (
+  const difference =
+    maturity.getTime() - now.getTime();
 
-    '<div class="cse-plan">' +
+  if(difference <= 0){
+    return 0;
+  }
 
-      '<h4>' +
-        (plan.type === "Saving Tin"
-          ? "🐷 "
-          : "🐘 ") +
-        safeName +
-      '</h4>' +
-
-      '<div class="cse-type">' +
-        "Swipe to see more plans" +
-      '</div>' +
-
-      '<p>' +
-        '<strong>Amount:</strong> ' +
-        money(plan.amount) +
-      '</p>' +
-
-      '<p>' +
-        '<strong>Earning:</strong> ' +
-        money(plan.earning) +
-      '</p>' +
-
-      '<p>' +
-        '<strong>Total:</strong> ' +
-        money(plan.total) +
-      '</p>' +
-
-      '<p>' +
-        '<strong>Cycle:</strong> ' +
-        plan.days +
-        ' days' +
-      '</p>' +
-
-      '<button class="cse-btn" ' +
-        'onclick="choosePlan(' +
-        '\'' + safeName.replace(/'/g,"\\'") + '\',' +
-        plan.amount + ',' +
-        plan.earning + ',' +
-        plan.total + ',' +
-        plan.days + ',' +
-        '\'' + plan.type + '\'' +
-        ')">' +
-        'Activate Plan' +
-      '</button>' +
-
-    '</div>'
-
+  return Math.ceil(
+    difference /
+    (1000 * 60 * 60 * 24)
   );
 }
 
 
-/* =========================================================
-   RENDER PLANS
-   ========================================================= */
-
-function renderPlans(){
-
-  var area =
-    el("csePlansArea");
-
-  if(!area)
-    return;
-
-  var tins = "";
-
-  for(var i=0;i<SAVING_TINS.length;i++){
-    tins += planCard(SAVING_TINS[i]);
-  }
-
-  var elephants = "";
-
-  for(var j=0;j<SAVING_ELEPHANTS.length;j++){
-    elephants += planCard(SAVING_ELEPHANTS[j]);
-  }
-
-  area.innerHTML =
-
-    '<div class="cse-panel">' +
-
-      '<h2>🐷 Saving Tins</h2>' +
-
-      '<div class="cse-plans">' +
-        tins +
-      '</div>' +
-
-    '</div>' +
-
-    '<div class="cse-panel">' +
-
-      '<h2>🐘 Saving Elephants</h2>' +
-
-      '<div class="cse-plans">' +
-        elephants +
-      '</div>' +
-
-    '</div>' +
-
-    '<div class="cse-note">' +
-      'The amounts shown above are the configured plan values. ' +
-      'Actual payouts should be controlled by your secure backend.' +
-    '</div>';
-
+function isMatured(plan){
+  return new Date() >=
+    new Date(plan.maturityDate);
 }
 
 
-/* =========================================================
-   ACTIVE PLANS
-   ========================================================= */
+/* ACTIVE PLANS */
 
 function renderActivePlans(){
 
-  var area =
-    el("cseActivePlans");
+  const container =
+    document.getElementById("activePlansHome");
 
-  if(!area)
-    return;
+  if(!container) return;
 
-  if(!account.activePlans.length){
+  if(account.activePlans.length === 0){
 
-    area.innerHTML =
-      '<div class="cse-empty">' +
-      'You have no active saving plans yet.' +
+    container.innerHTML =
+      '<div class="empty">' +
+      'You have no active savings yet.<br>' +
+      'Choose a plan above to start saving.' +
       '</div>';
 
     return;
   }
 
-  var html = "";
+  let html = "";
 
   account.activePlans.forEach(function(plan){
 
-    var maturity =
-      new Date(plan.maturityAt);
+    if(plan.received){
+      return;
+    }
+
+    const remaining =
+      getDaysRemaining(plan.maturityDate);
+
+    const matured =
+      isMatured(plan);
 
     html +=
+      '<div class="plan-status active-plan">' +
 
-      '<div class="cse-active">' +
+      '<strong>' +
+      escapeHTML(plan.name) +
+      '</strong><br>' +
 
+      '<span style="color:#718096;">' +
+      formatMoney(plan.amount) +
+      ' saved • ' +
+      plan.days +
+      ' days' +
+      '</span><br><br>' +
+
+      (
+        matured
+        ?
+        '<strong style="color:#087f5b;">🎉 Matured!</strong>'
+        :
         '<strong>' +
-          plan.type +
-          ' — ' +
-          plan.days +
-          ' Days' +
-        '</strong>' +
+        remaining +
+        ' day' +
+        (remaining === 1 ? "" : "s") +
+        ' remaining</strong>'
+      ) +
 
-        '<br>' +
+      '<br>' +
 
-        'Amount: ' +
-        money(plan.amount) +
+      'Maturity total: <strong>' +
+      formatMoney(plan.total) +
+      '</strong>' +
 
-        '<br>' +
-
-        'Configured total: ' +
-        money(plan.total) +
-
-        '<br>' +
-
-        'Matures: ' +
-        maturity.toLocaleDateString() +
+      (
+        matured
+        ?
+        '<button class="receive-btn" onclick="receivePlan(' +
+        plan.id +
+        ')">' +
+        'Receive ' +
+        formatMoney(plan.total) +
+        '</button>'
+        :
+        '<button class="receive-btn" disabled>' +
+        'Available after maturity' +
+        '</button>'
+      ) +
 
       '</div>';
-
   });
 
-  area.innerHTML = html;
+  if(!html){
+    html =
+      '<div class="empty">No active plans.</div>';
+  }
+
+  container.innerHTML = html;
 }
 
 
-/* =========================================================
-   TRANSACTIONS / ACTIVITY
-   ========================================================= */
+/* RECEIVE */
+
+function receivePlan(id){
+
+  const index =
+    account.activePlans.findIndex(
+      function(plan){
+        return plan.id === id;
+      }
+    );
+
+  if(index === -1){
+    showToast("Saving plan not found.");
+    return;
+  }
+
+  const plan =
+    account.activePlans[index];
+
+  if(!isMatured(plan)){
+    showToast(
+      "This plan has not matured yet."
+    );
+    return;
+  }
+
+  if(plan.received){
+    showToast(
+      "This plan has already been received."
+    );
+    return;
+  }
+
+  const confirmReceive =
+    confirm(
+      "Receive " +
+      formatMoney(plan.total) +
+      " from " +
+      plan.name +
+      "?"
+    );
+
+  if(!confirmReceive){
+    return;
+  }
+
+  account.balance += plan.total;
+
+  plan.received = true;
+  plan.status = "Received";
+  plan.receivedDate =
+    new Date().toISOString();
+
+  account.transactions.unshift({
+    id:Date.now(),
+    type:"maturity",
+    title:"Received " + plan.name,
+    amount:plan.total,
+    date:new Date().toISOString(),
+    status:"Completed"
+  });
+
+  saveAccount();
+  refreshUI();
+
+  showToast(
+    formatMoney(plan.total) +
+    " added to your balance"
+  );
+}
+
+
+/* TRANSACTIONS */
 
 function renderTransactions(){
 
-  var area =
-    el("transactionList");
+  const list =
+    document.getElementById("transactionList");
 
-  if(!area)
-    return;
+  if(!list) return;
 
-  if(!account.transactions.length){
+  if(account.transactions.length === 0){
 
-    area.innerHTML =
-      '<div class="cse-empty">' +
+    list.innerHTML =
+      '<div class="empty">' +
       'No transactions yet.' +
       '</div>';
 
     return;
   }
 
-  var html = "";
+  let html = "";
 
-  account.transactions.forEach(function(tx){
+  account.transactions.forEach(
+    function(transaction){
 
-    var sign =
-      tx.type === "Deposit"
-        ? "+"
-        : "-";
+      const isPositive =
+        transaction.type === "deposit" ||
+        transaction.type === "maturity";
 
-    html +=
+      let amountText =
+        (isPositive ? "+" : "-") +
+        formatMoney(transaction.amount);
 
-      '<div class="cse-transaction">' +
+      let extra = "";
 
-        '<div class="cse-transaction-title">' +
-          tx.type +
-          ' ' +
-          sign +
-          money(tx.amou
-<script>
-/* =====================================================
-   CO SAVE & EARN — BUTTON FIX
-   Paste at the VERY END of dashboard.html
-   ===================================================== */
+      if(transaction.type === "withdrawal"){
 
-(function () {
-  "use strict";
+        extra =
+          '<br>' +
+          '<span style="font-size:11px;color:#718096;">' +
+          'Fee: ' +
+          formatMoney(transaction.fee) +
+          ' • Received: ' +
+          formatMoney(transaction.received) +
+          '</span>';
+      }
 
-  /* ---------- STORAGE ---------- */
+      html +=
+        '<div class="transaction">' +
 
-  var account = JSON.parse(
-    localStorage.getItem("coEarnerAccount") || "{}"
+        '<div>' +
+
+        '<div class="transaction-title">' +
+        escapeHTML(transaction.title) +
+        '</div>' +
+
+        '<div class="transaction-date">' +
+        new Date(
+          transaction.date
+        ).toLocaleString() +
+        '</div>' +
+
+        '<div style="font-size:11px;color:#718096;">' +
+        escapeHTML(
+          transaction.status || ""
+        ) +
+        '</div>' +
+
+        extra +
+
+        '</div>' +
+
+        '<div class="transaction-amount ' +
+        (isPositive ? "plus" : "minus") +
+        '">' +
+        amountText +
+        '</div>' +
+
+        '</div>';
+    }
   );
 
-  account.balance = Number(account.balance || 0);
-  account.transactions =
-    Array.isArray(account.transactions)
-      ? account.transactions
-      : [];
-  account.activePlans =
-    Array.isArray(account.activePlans)
-      ? account.activePlans
-      : [];
-  account.referrals =
-    Number(account.referrals || 0);
+  list.innerHTML = html;
+}
 
-  function save() {
-    localStorage.setItem(
-      "coEarnerAccount",
-      JSON.stringify(account)
+
+/* REFERRALS */
+
+function renderReferral(){
+
+  document.getElementById(
+    "myReferralCode"
+  ).textContent =
+    account.referralCode;
+
+  document.getElementById(
+    "referralCount"
+  ).textContent =
+    account.referrals;
+
+  const progress =
+    Math.min(account.referrals,100);
+
+  document.getElementById(
+    "referralProgress"
+  ).style.width =
+    progress + "%";
+}
+
+
+function copyReferral(){
+
+  const code =
+    account.referralCode;
+
+  if(
+    navigator.clipboard &&
+    navigator.clipboard.writeText
+  ){
+
+    navigator.clipboard.writeText(code)
+      .then(function(){
+        showToast(
+          "Referral code copied"
+        );
+      })
+      .catch(function(){
+        fallbackCopy(code);
+      });
+
+  }else{
+    fallbackCopy(code);
+  }
+}
+
+
+function fallbackCopy(text){
+
+  const textarea =
+    document.createElement("textarea");
+
+  textarea.value = text;
+
+  document.body.appendChild(
+    textarea
+  );
+
+  textarea.select();
+
+  try{
+    document.execCommand("copy");
+    showToast("Referral code copied");
+  }catch(error){
+    showToast(
+      "Copy failed. Your code is " +
+      text
     );
   }
 
-  function money(n) {
-    return "UGX " +
-      Number(n || 0).toLocaleString("en-US");
+  document.body.removeChild(
+    textarea
+  );
+}
+
+
+function shareReferral(){
+
+  const message =
+    "Join Co Save & Earn with my referral code: " +
+    account.referralCode;
+
+  if(navigator.share){
+
+    navigator.share({
+      title:"Co Save & Earn",
+      text:message
+    }).catch(function(){});
+
+  }else{
+
+    fallbackCopy(message);
+
+    showToast(
+      "Referral message copied"
+    );
   }
+}
 
-  function get(id) {
-    return document.getElementById(id);
-  }
 
-  /* ---------- SECTION BUTTONS ---------- */
+/* LOGOUT */
 
-  window.showSection = function(section) {
+function logout(){
 
-    /* Hide common sections */
-    document.querySelectorAll(
-      "main section, .section, [data-section]"
-    ).forEach(function(el) {
-
-      if (
-        el.tagName === "SECTION" ||
-        el.classList.contains("section")
-      ) {
-        el.style.display = "none";
-      }
-    });
-
-    /* Show requested section if it exists */
-    var target =
-      get(section) ||
-      get(section + "Section") ||
-      get(section + "-section");
-
-    if (target) {
-      target.style.display = "block";
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-      return;
-    }
-
-    /* If a page section wasn't found, don't break */
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-  };
-
-
-  /* ---------- BALANCE ---------- */
-
-  window.updateBalance = function() {
-
-    var balance = get("balance");
-
-    if (balance) {
-      balance.textContent =
-        money(account.balance);
-    }
-
-    save();
-  };
-
-
-  /* ---------- DEPOSIT ---------- */
-
-  window.depositMoney = function() {
-
-    var amountEl =
-      get("depositAmount");
-
-    var amount =
-      Number(
-        amountEl ? amountEl.value : 0
-      );
-
-    var message =
-      get("depositMessage");
-
-    if (!amount || amount < 20000) {
-
-      if (message) {
-        message.style.display = "block";
-        message.textContent =
-          "Minimum deposit is UGX 20,000.";
-      } else {
-        alert(
-          "Minimum deposit is UGX 20,000."
-        );
-      }
-
-      return;
-    }
-
-    account.balance += amount;
-
-    account.transactions.unshift({
-      type: "Deposit",
-      amount: amount,
-      date: new Date().toLocaleString(),
-      details: "Deposit"
-    });
-
-    save();
-    updateBalance();
-
-    if (message) {
-      message.style.display = "block";
-      message.textContent =
-        "Deposit successful: " +
-        money(amount);
-    } else {
-      alert(
-        "Deposit successful: " +
-        money(amount)
-      );
-    }
-
-    if (amountEl) {
-      amountEl.value = "";
-    }
-  };
-
-
-  /* ---------- WITHDRAW ---------- */
-
-  window.withdrawMoney = function() {
-
-    var amountEl =
-      get("withdrawAmount");
-
-    var amount =
-      Number(
-        amountEl ? amountEl.value : 0
-      );
-
-    var message =
-      get("withdrawMessage");
-
-    if (!amount || amount < 20000) {
-
-      if (message) {
-        message.style.display = "block";
-        message.textContent =
-          "Minimum withdrawal is UGX 20,000.";
-      } else {
-        alert(
-          "Minimum withdrawal is UGX 20,000."
-        );
-      }
-
-      return;
-    }
-
-    if (amount > account.balance) {
-
-      if (message) {
-        message.style.display = "block";
-        message.textContent =
-          "Insufficient balance. Your balance is " +
-          money(account.balance) + ".";
-      } else {
-        alert(
-          "Insufficient balance. Your balance is " +
-          money(account.balance) + "."
-        );
-      }
-
-      return;
-    }
-
-    /* 8% withdrawal charge */
-    var charge = amount * 0.08;
-
-    /* Amount user receives */
-    var received = amount - charge;
-
-    account.balance -= amount;
-
-    account.transactions.unshift({
-      type: "Withdrawal",
-      amount: amount,
-      date: new Date().toLocaleString(),
-      details:
-        "8% charge: " +
-        money(charge) +
-        " | Received: " +
-        money(received)
-    });
-
-    save();
-    updateBalance();
-
-    var text =
-      "Withdrawal successful.\n\n" +
-      "Requested: " +
-      money(amount) +
-      "\n8% charge: " +
-      money(charge) +
-      "\nYou receive: " +
-      money(received);
-
-    if (message) {
-      message.style.display = "block";
-      message.textContent =
-        text.replace(/\n/g, " ");
-    } else {
-      alert(text);
-    }
-
-    if (amountEl) {
-      amountEl.value = "";
-    }
-  };
-
-
-  /* ---------- SAVING PLANS ---------- */
-
-  window.choosePlan = function(
-    name,
-    amount,
-    earning,
-    total,
-    days,
-    type
-  ) {
-
-    amount = Number(amount);
-    earning = Number(earning);
-    total = Number(total);
-
-    /* Support the old 4-argument buttons */
-    if (!days) {
-
-      if (
-        name.indexOf("20 Days") !== -1
-      ) {
-        days = 20;
-      }
-
-      if (
-        name.indexOf("30 Days") !== -1
-      ) {
-        days = 30;
-      }
-    }
-
-    if (!type) {
-
-      type =
-        name.toLowerCase()
-          .indexOf("elephant") !== -1
-          ? "Saving Elephant"
-          : "Saving Tin";
-    }
-
-    if (!amount) {
-      alert(
-        "This saving plan could not be activated."
-      );
-      return;
-    }
-
-    if (account.balance < amount) {
-
-      var needed =
-        amount - account.balance;
-
-      var go =
-        confirm(
-          "You need " +
-          money(needed) +
-          " more to activate this plan.\n\n" +
-          "Do you want to deposit?"
-        );
-
-      if (go) {
-        showSection("deposit");
-      }
-
-      return;
-    }
-
-    account.balance -= amount;
-
-    var start =
-      new Date();
-
-    var maturity =
-      new Date(start);
-
-    maturity.setDate(
-      maturity.getDate() +
-      Number(days || 20)
+  const confirmLogout =
+    confirm(
+      "Are you sure you want to logout?"
     );
 
-    account.activePlans.push({
-
-      name: name,
-
-      type: type,
-
-      amount: amount,
-
-      earning: earning,
-
-      total: total,
-
-      days: Number(days || 20),
-
-      startedAt:
-        start.toISOString(),
-
-      maturityAt:
-        maturity.toISOString(),
-
-      status: "Active"
-    });
-
-    account.transactions.unshift({
-
-      type: "Saving Plan",
-
-      amount: amount,
-
-      date:
-        new Date().toLocaleString(),
-
-      details:
-        name + " activated"
-    });
-
-    save();
-    updateBalance();
-
-    alert(
-      name +
-      " activated successfully!\n\n" +
-      "Amount: " +
-      money(amount) +
-      "\nMaturity: " +
-      maturity.toLocaleDateString()
-    );
-  };
-
-
-  /* ---------- REFERRAL ---------- */
-
-  window.copyReferral = function() {
-
-    var input =
-      get("referralLink");
-
-    if (!input) {
-      alert("Referral link not found.");
-      return;
-    }
-
-    if (
-      navigator.clipboard &&
-      navigator.clipboard.writeText
-    ) {
-
-      navigator.clipboard.writeText(
-        input.value
-      ).then(function() {
-
-        alert(
-          "Referral link copied!"
-        );
-
-      });
-
-    } else {
-
-      input.select();
-      document.execCommand("copy");
-
-      alert(
-        "Referral link copied!"
-      );
-    }
-  };
-
-
-  window.shareReferral = function() {
-
-    var input =
-      get("referralLink");
-
-    var link =
-      input ? input.value : "";
-
-    if (navigator.share) {
-
-      navigator.share({
-        title: "Co Save & Earn",
-        text:
-          "Join me on Co Save & Earn.",
-        url: link
-      });
-
-    } else {
-
-      window.copyReferral();
-
-    }
-  };
-
-
-  /* ---------- PROFILE ---------- */
-
-  window.saveProfile = function() {
-
-    var name =
-      get("profileName");
-
-    var phone =
-      get("profilePhone");
-
-    var provider =
-      get("profileProvider");
-
-    if (name) {
-      account.name =
-        name.value.trim();
-    }
-
-    if (phone) {
-      account.phone =
-        phone.value.trim();
-    }
-
-    if (provider) {
-      account.provider =
-        provider.value;
-    }
-
-    save();
-
-    var message =
-      get("profileMessage");
-
-    if (message) {
-
-      message.style.display =
-        "block";
-
-      message.textContent =
-        "Profile saved successfully.";
-
-    } else {
-
-      alert(
-        "Profile saved successfully."
-      );
-    }
-  };
-
-
-  /* ---------- LOGOUT ---------- */
-
-  window.logout = function() {
-
-    if (
-      confirm(
-        "Are you sure you want to logout?"
-      )
-    ) {
-
-      window.location.href =
-        "login.html";
-    }
-  };
-
-
-  /* ---------- MAKE EXISTING BUTTONS CLICKABLE ---------- */
-
-  function connectButtons() {
-
-    document
-      .querySelectorAll("button")
-      .forEach(function(button) {
-
-        var text =
-          (
-            button.innerText ||
-            button.textContent ||
-            ""
-          )
-          .trim()
-          .toLowerCase();
-
-        /*
-         * Only add navigation when the button
-         * does not already have an onclick.
-         */
-
-        if (
-          !button.getAttribute("onclick")
-        ) {
-
-          if (
-            text.includes("deposit")
-          ) {
-
-            button.addEventListener(
-              "click",
-              function() {
-                showSection("deposit");
-              }
-            );
-          }
-
-          else if (
-            text.includes("withdraw")
-          ) {
-
-            button.addEventListener(
-              "click",
-              function() {
-                showSection("withdraw");
-              }
-            );
-          }
-
-          else if (
-            text.includes("refer")
-          ) {
-
-            button.addEventListener(
-              "click",
-              function() {
-                showSection("refer");
-              }
-            );
-          }
-
-          else if (
-            text.includes("profile")
-          ) {
-
-            button.addEventListener(
-              "click",
-              function() {
-                showSection("profile");
-              }
-            );
-          }
-
-          else if (
-            text.includes("activity") ||
-            text.includes("transaction")
-          ) {
-
-            button.addEventListener(
-              "click",
-              function() {
-                showSection("activity");
-              }
-            );
-          }
-
-          else if (
-            text.includes("home")
-          ) {
-
-            button.addEventListener(
-              "click",
-              function() {
-                showSection("home");
-              }
-            );
-          }
-        }
-
-      });
+  if(!confirmLogout){
+    return;
   }
 
+  localStorage.removeItem(
+    "coEarnerLoggedIn"
+  );
 
-  /* ---------- KEEP BALANCE DISPLAY UPDATED ---------- */
-
-  function start() {
-
-    updateBalance();
-
-    connectButtons();
-
-    /*
-     * Existing withdrawal amount preview
-     */
-
-    var withdrawal =
-      get("withdrawAmount");
-
-    if (withdrawal) {
-
-      withdrawal.addEventListener(
-        "input",
-        function() {
-
-          var amount =
-            Number(this.value || 0);
-
-          var preview =
-            get("withdrawPreview");
-
-          if (!preview)
-            return;
-
-          if (!amount) {
-
-            preview.textContent =
-              "8% withdrawal charge will be deducted.";
-
-            return;
-          }
-
-          var charge =
-            amount * 0.08;
-
-          var received =
-            amount - charge;
-
-          preview.textContent =
-            "Charge: " +
-            money(charge) +
-            " | You receive: " +
-            money(received);
-        }
-      );
-    }
-  }
+  window.location.href =
+    "index.html";
+}
 
 
-  if (
-    document.readyState ===
-    "loading"
-  ) {
+/* HTML SAFETY */
 
-    document.addEventListener(
-      "DOMContentLoaded",
-      start
-    );
+function escapeHTML(value){
 
-  } else {
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
 
-    start();
 
-  }
+/* REFRESH */
 
-})();
+function refreshUI(){
+
+  updateBalance();
+  loadProfile();
+  renderReferral();
+  renderTransactions();
+  renderActivePlans();
+}
+
+
+/* AUTO UPDATE SAVING DAYS */
+
+setInterval(function(){
+
+  renderActivePlans();
+
+},60000);
+
+
+/* START */
+
+refreshUI();
+
 </script>
+
+</body>
+  </html>
