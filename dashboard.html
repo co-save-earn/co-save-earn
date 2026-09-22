@@ -2989,3 +2989,692 @@ function depositMoney(){
 
 </body>
 </html>
+positName").value.trim();
+
+  const phone =
+    document.getElementById("depositNumber").value.trim();
+
+  const amount =
+    Number(document.getElementById("depositAmount").value);
+
+
+  if (!provider) {
+    showMessage(
+      "depositMessage",
+      "Please select your Mobile Money provider.",
+      "error"
+    );
+    return;
+  }
+
+
+  if (!name) {
+    showMessage(
+      "depositMessage",
+      "Please enter the Mobile Money account name.",
+      "error"
+    );
+    return;
+  }
+
+
+  if (!phone) {
+    showMessage(
+      "depositMessage",
+      "Please enter your Mobile Money number.",
+      "error"
+    );
+    return;
+  }
+
+
+  if (!amount || amount < 20000) {
+    showMessage(
+      "depositMessage",
+      "Minimum deposit is UGX 20,000.",
+      "error"
+    );
+    return;
+  }
+
+
+  account.provider = provider;
+
+  account.balance =
+    Number(account.balance || 0) + amount;
+
+
+  account.transactions.unshift({
+    type: "Deposit",
+    amount: amount,
+    date: new Date().toLocaleString(),
+    status: "Completed"
+  });
+
+
+  saveAccount();
+
+
+  document.getElementById(
+    "depositAmount"
+  ).value = "";
+
+
+  showMessage(
+    "depositMessage",
+    "Deposit recorded successfully. Your new balance is " +
+    money(account.balance),
+    "success"
+  );
+
+
+  updateDashboard();
+
+}
+
+
+/* =====================================
+   MESSAGE
+===================================== */
+
+function showMessage(id,text,type){
+
+  const box =
+    document.getElementById(id);
+
+  if(!box) return;
+
+  box.textContent = text;
+
+  box.className =
+    "message " + type;
+
+}
+
+
+/* =====================================
+   WITHDRAW
+===================================== */
+
+function withdrawMoney(){
+
+  const provider =
+    document.getElementById(
+      "withdrawProvider"
+    ).value;
+
+  const name =
+    document.getElementById(
+      "withdrawName"
+    ).value.trim();
+
+  const phone =
+    document.getElementById(
+      "withdrawNumber"
+    ).value.trim();
+
+  const amount =
+    Number(
+      document.getElementById(
+        "withdrawAmount"
+      ).value
+    );
+
+
+  if(!provider){
+
+    showMessage(
+      "withdrawMessage",
+      "Please select your Mobile Money provider.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!name){
+
+    showMessage(
+      "withdrawMessage",
+      "Please enter the Mobile Money account name.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!phone){
+
+    showMessage(
+      "withdrawMessage",
+      "Please enter your Mobile Money number.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!amount || amount < 20000){
+
+    showMessage(
+      "withdrawMessage",
+      "Minimum withdrawal is UGX 20,000.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(amount > account.balance){
+
+    showMessage(
+      "withdrawMessage",
+
+      "Insufficient balance. Available: " +
+      money(account.balance) +
+      ". You still need " +
+      money(amount - account.balance) +
+      ".",
+
+      "error"
+    );
+
+    return;
+  }
+
+
+  account.balance -= amount;
+
+
+  account.transactions.unshift({
+
+    type:"Withdrawal",
+
+    amount:amount,
+
+    date:
+      new Date().toLocaleString(),
+
+    status:"Completed"
+
+  });
+
+
+  saveAccount();
+
+
+  document.getElementById(
+    "withdrawAmount"
+  ).value = "";
+
+
+  showMessage(
+    "withdrawMessage",
+
+    "Withdrawal recorded successfully. Remaining balance: " +
+    money(account.balance),
+
+    "success"
+  );
+
+
+  updateDashboard();
+
+}
+
+
+/* =====================================
+   SAVING PLANS
+===================================== */
+
+function choosePlan(
+  planName,
+  amount,
+  earning,
+  total
+){
+
+  amount = Number(amount);
+  earning = Number(earning);
+  total = Number(total);
+
+
+  if(account.balance < amount){
+
+    const needed =
+      amount - account.balance;
+
+
+    const depositFirst =
+      confirm(
+
+        "INSUFFICIENT BALANCE\n\n" +
+
+        "Plan: " +
+        planName +
+
+        "\nRequired: " +
+        money(amount) +
+
+        "\nAvailable: " +
+        money(account.balance) +
+
+        "\nStill needed: " +
+        money(needed) +
+
+        "\n\nWould you like to deposit first?"
+
+      );
+
+
+    if(depositFirst){
+
+      showSection("deposit");
+
+    }
+
+
+    return;
+  }
+
+
+  const confirmed =
+    confirm(
+
+      "ACTIVATE SAVINGS PLAN?\n\n" +
+
+      planName +
+
+      "\nRequired: " +
+      money(amount) +
+
+      "\nEarnings: " +
+      money(earning) +
+
+      "\nTotal at maturity: " +
+      money(total)
+
+    );
+
+
+  if(!confirmed){
+
+    return;
+
+  }
+
+
+  let duration = 30;
+
+
+  if(
+    planName.indexOf("20 Days") !== -1
+  ){
+
+    duration = 20;
+
+  }
+
+
+  account.balance -= amount;
+
+
+  account.activePlans.push({
+
+    name:planName,
+
+    amount:amount,
+
+    earning:earning,
+
+    total:total,
+
+    duration:duration,
+
+    started:
+      new Date().toLocaleString(),
+
+    status:"Active"
+
+  });
+
+
+  account.transactions.unshift({
+
+    type:
+      "Savings - " + planName,
+
+    amount:amount,
+
+    date:
+      new Date().toLocaleString(),
+
+    status:"Active"
+
+  });
+
+
+  saveAccount();
+
+
+  alert(
+
+    planName +
+    " activated successfully!\n\n" +
+
+    "Amount saved: " +
+    money(amount) +
+
+    "\nEarnings: " +
+    money(earning) +
+
+    "\nTotal at maturity: " +
+    money(total)
+
+  );
+
+
+  updateDashboard();
+
+}
+
+
+/* =====================================
+   REFERRAL LINK
+===================================== */
+
+function getReferralLink(){
+
+  return (
+
+    window.location.origin +
+
+    window.location.pathname
+      .replace(
+        "dashboard.html",
+        ""
+      ) +
+
+    "index.html?ref=" +
+
+    account.referralCode
+
+  );
+
+}
+
+
+/* =====================================
+   COPY REFERRAL
+===================================== */
+
+function copyReferral(){
+
+  const link =
+    getReferralLink();
+
+
+  if(
+    navigator.clipboard &&
+    navigator.clipboard.writeText
+  ){
+
+    navigator.clipboard
+      .writeText(link)
+
+      .then(function(){
+
+        alert(
+          "Referral link copied successfully!"
+        );
+
+      })
+
+      .catch(function(){
+
+        fallbackCopy(link);
+
+      });
+
+  }else{
+
+    fallbackCopy(link);
+
+  }
+
+}
+
+
+function fallbackCopy(text){
+
+  const input =
+    document.createElement("input");
+
+  input.value = text;
+
+  document.body.appendChild(input);
+
+  input.select();
+
+  document.execCommand("copy");
+
+  document.body.removeChild(input);
+
+  alert(
+    "Referral link copied successfully!"
+  );
+
+}
+
+
+/* =====================================
+   SHARE REFERRAL
+===================================== */
+
+function shareReferral(){
+
+  const link =
+    getReferralLink();
+
+
+  if(navigator.share){
+
+    navigator.share({
+
+      title:
+        "Co Save & Earn",
+
+      text:
+        "Join me on Co Save & Earn and start saving with me!",
+
+      url:
+        link
+
+    }).catch(function(){});
+
+  }else{
+
+    copyReferral();
+
+  }
+
+}
+
+
+/* =====================================
+   REFERRAL REWARDS
+===================================== */
+
+function updateRewards(){
+
+  const reward10 =
+    document.getElementById(
+      "reward10"
+    );
+
+  const reward50 =
+    document.getElementById(
+      "reward50"
+    );
+
+  const reward100 =
+    document.getElementById(
+      "reward100"
+    );
+
+
+  if(reward10){
+
+    reward10.classList.toggle(
+      "locked",
+      account.referrals < 10
+    );
+
+  }
+
+
+  if(reward50){
+
+    reward50.classList.toggle(
+      "locked",
+      account.referrals < 50
+    );
+
+  }
+
+
+  if(reward100){
+
+    reward100.classList.toggle(
+      "locked",
+      account.referrals < 100
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   REFERRAL PROGRESS
+===================================== */
+
+function updateReferralProgress(){
+
+  const progress =
+    document.getElementById(
+      "referralProgress"
+    );
+
+  if(!progress) return;
+
+
+  if(account.referrals < 10){
+
+    progress.textContent =
+      account.referrals +
+      " / 10 referrals. " +
+      (10-account.referrals) +
+      " more to unlock UGX 20,000.";
+
+  }
+
+  else if(account.referrals < 50){
+
+    progress.textContent =
+      account.referrals +
+      " / 50 referrals. " +
+      (50-account.referrals) +
+      " more to unlock UGX 80,000.";
+
+  }
+
+  else if(account.referrals < 100){
+
+    progress.textContent =
+      account.referrals +
+      " / 100 referrals. " +
+      (100-account.referrals) +
+      " more to unlock UGX 130,000.";
+
+  }
+
+  else{
+
+    progress.textContent =
+      "100+ referrals reached. All referral milestones unlocked.";
+
+  }
+
+}
+
+
+/* =====================================
+   TRANSACTIONS
+===================================== */
+
+function updateTransactions(){
+
+  const list =
+    document.getElementById(
+      "transactionList"
+    );
+
+  if(!list) return;
+
+
+  if(
+    !account.transactions ||
+    account.transactions.length === 0
+  ){
+
+    list.innerHTML =
+      '<p class="info">No transactions yet.</p>';
+
+    return;
+
+  }
+
+
+  list.innerHTML = "";
+
+
+  account.transactions.forEach(
+    function(transaction){
+
+      const row =
+        document.createElement("div");
+
+      row.className =
+        "transaction";
+
+
+      const left =
+        document.createElement("div");
+
+      const right =
+        document.createElement("div");
+
+
+      left.innerHTML =
+        "<b>" +
+        transaction.type +
+        "</b><br>" +
+        "<small>" +
+        transaction.date +
+        "</small>";
+
+
+      const isDeposit =
+        transaction.type
+          .toLowerCase()
+          .indexOf("deposit") !== -1;
+
+
+      right.className =
+        isDeposit
+          ? "
