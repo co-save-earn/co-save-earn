@@ -2243,3 +2243,749 @@ function depositMoney(){
 
 
         if (!answer) retu
+</script>
+
+<script>
+/* =========================================================
+   CO SAVE & EARN — COMPLETE DASHBOARD BUTTON FIX
+   Paste this ONE block at the very end of dashboard.html
+========================================================= */
+
+(function () {
+
+  /* ---------- ACCOUNT ---------- */
+
+  let account = JSON.parse(
+    localStorage.getItem("coEarnerAccount") || "null"
+  );
+
+  if (!account) {
+    account = {
+      name: "",
+      phone: "",
+      password: "",
+      provider: "",
+      balance: 0,
+      referrals: 0,
+      referralCode: "CO" + Math.floor(100000 + Math.random() * 900000),
+      transactions: [],
+      activePlans: []
+    };
+
+    localStorage.setItem(
+      "coEarnerAccount",
+      JSON.stringify(account)
+    );
+  }
+
+  account.balance = Number(account.balance || 0);
+  account.referrals = Number(account.referrals || 0);
+  account.transactions = account.transactions || [];
+  account.activePlans = account.activePlans || [];
+
+  function saveAccount() {
+    localStorage.setItem(
+      "coEarnerAccount",
+      JSON.stringify(account)
+    );
+  }
+
+  function money(amount) {
+    return "UGX " + Number(amount || 0).toLocaleString();
+  }
+
+
+  /* ---------- DASHBOARD ---------- */
+
+  window.updateDashboard = function () {
+
+    const balanceIds = [
+      "balance",
+      "currentBalance",
+      "availableBalance",
+      "dashboardBalance"
+    ];
+
+    balanceIds.forEach(function (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = money(account.balance);
+      }
+    });
+
+
+    const nameIds = [
+      "userName",
+      "profileName",
+      "welcomeName"
+    ];
+
+    nameIds.forEach(function (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = account.name || "User";
+      }
+    });
+
+
+    const phoneIds = [
+      "userPhone",
+      "profilePhone"
+    ];
+
+    phoneIds.forEach(function (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = account.phone || "";
+      }
+    });
+
+
+    const referralIds = [
+      "referralCode",
+      "myReferralCode"
+    ];
+
+    referralIds.forEach(function (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = account.referralCode;
+      }
+    });
+
+
+    const countIds = [
+      "referralCount",
+      "referrals",
+      "peopleInvited"
+    ];
+
+    countIds.forEach(function (id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = account.referrals;
+      }
+    });
+
+
+    updateTransactions();
+    updateRewards();
+  };
+
+
+  /* ---------- SECTIONS ---------- */
+
+  window.showSection = function (section) {
+
+    document.querySelectorAll(".section").forEach(function (el) {
+      el.style.display = "none";
+    });
+
+    const selected = document.getElementById(section);
+
+    if (selected) {
+      selected.style.display = "block";
+    }
+
+    document.querySelectorAll(".nav-item").forEach(function (el) {
+      el.classList.remove("active");
+    });
+
+    const nav = document.querySelector(
+      '[data-section="' + section + '"]'
+    );
+
+    if (nav) {
+      nav.classList.add("active");
+    }
+
+    if (section === "profile") {
+      loadProfile();
+    }
+
+    updateDashboard();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
+
+  /* ---------- DEPOSIT ---------- */
+
+  window.depositMoney = function () {
+
+    const provider =
+      document.getElementById("depositProvider")?.value.trim() || "";
+
+    const name =
+      document.getElementById("depositName")?.value.trim() || "";
+
+    const phone =
+      document.getElementById("depositPhone")?.value.trim() || "";
+
+    const amount =
+      Number(
+        document.getElementById("depositAmount")?.value || 0
+      );
+
+
+    if (!provider) {
+      alert("Please select your mobile money provider.");
+      return;
+    }
+
+    if (!name) {
+      alert("Please enter the mobile money account name.");
+      return;
+    }
+
+    if (!phone) {
+      alert("Please enter the mobile money number.");
+      return;
+    }
+
+    if (amount < 20000) {
+      alert("Minimum deposit is UGX 20,000.");
+      return;
+    }
+
+
+    account.provider = provider;
+
+    account.balance += amount;
+
+    account.transactions.unshift({
+      type: "Deposit",
+      amount: amount,
+      date: new Date().toLocaleString(),
+      status: "Completed"
+    });
+
+    saveAccount();
+
+
+    const amountInput =
+      document.getElementById("depositAmount");
+
+    if (amountInput) {
+      amountInput.value = "";
+    }
+
+
+    alert(
+      "Deposit recorded successfully!\n\n" +
+      "Amount: " + money(amount) +
+      "\nNew balance: " + money(account.balance)
+    );
+
+    updateDashboard();
+  };
+
+
+  /* ---------- WITHDRAW ---------- */
+
+  window.withdrawMoney = function () {
+
+    const provider =
+      document.getElementById("withdrawProvider")?.value.trim() || "";
+
+    const name =
+      document.getElementById("withdrawName")?.value.trim() || "";
+
+    const phone =
+      document.getElementById("withdrawPhone")?.value.trim() || "";
+
+    const amount =
+      Number(
+        document.getElementById("withdrawAmount")?.value || 0
+      );
+
+
+    if (!provider) {
+      alert("Please select your mobile money provider.");
+      return;
+    }
+
+    if (!name) {
+      alert("Please enter the mobile money account name.");
+      return;
+    }
+
+    if (!phone) {
+      alert("Please enter the mobile money number.");
+      return;
+    }
+
+    if (amount < 20000) {
+      alert("Minimum withdrawal is UGX 20,000.");
+      return;
+    }
+
+    if (amount > account.balance) {
+      alert(
+        "Insufficient balance.\n\n" +
+        "Available: " + money(account.balance) +
+        "\nRequested: " + money(amount) +
+        "\nNeeded: " +
+        money(amount - account.balance)
+      );
+      return;
+    }
+
+
+    account.balance -= amount;
+
+    account.transactions.unshift({
+      type: "Withdrawal",
+      amount: amount,
+      date: new Date().toLocaleString(),
+      status: "Completed"
+    });
+
+    saveAccount();
+
+
+    const amountInput =
+      document.getElementById("withdrawAmount");
+
+    if (amountInput) {
+      amountInput.value = "";
+    }
+
+
+    alert(
+      "Withdrawal recorded successfully!\n\n" +
+      "Amount: " + money(amount) +
+      "\nRemaining balance: " +
+      money(account.balance)
+    );
+
+    updateDashboard();
+  };
+
+
+  /* ---------- SAVING TINS / ELEPHANTS ---------- */
+
+  window.choosePlan = function (
+    category,
+    duration,
+    amount,
+    earning,
+    total
+  ) {
+
+    amount = Number(amount);
+    earning = Number(earning);
+    total = Number(total);
+
+
+    if (account.balance < amount) {
+
+      const needed =
+        amount - account.balance;
+
+      const depositFirst = confirm(
+        "INSUFFICIENT BALANCE\n\n" +
+        "Plan: " + category +
+        "\nRequired: " + money(amount) +
+        "\nAvailable: " + money(account.balance) +
+        "\nStill needed: " + money(needed) +
+        "\n\nDeposit first?"
+      );
+
+      if (depositFirst) {
+        showSection("deposit");
+      }
+
+      return;
+    }
+
+
+    const confirmPlan = confirm(
+      "ACTIVATE SAVINGS PLAN?\n\n" +
+      category +
+      "\nDuration: " + duration + " days" +
+      "\nAmount: " + money(amount) +
+      "\nEarnings: " + money(earning) +
+      "\nTotal: " + money(total)
+    );
+
+
+    if (!confirmPlan) {
+      return;
+    }
+
+
+    account.balance -= amount;
+
+
+    account.activePlans.push({
+      category: category,
+      duration: duration,
+      amount: amount,
+      earning: earning,
+      total: total,
+      started: new Date().toLocaleString(),
+      status: "Active"
+    });
+
+
+    account.transactions.unshift({
+      type: "Savings - " + category,
+      amount: amount,
+      date: new Date().toLocaleString(),
+      status: "Active"
+    });
+
+
+    saveAccount();
+
+
+    alert(
+      category +
+      " activated successfully!\n\n" +
+      "Saved: " + money(amount) +
+      "\nMaturity amount: " + money(total)
+    );
+
+
+    updateDashboard();
+  };
+
+
+  /* ---------- REFERRAL LINK ---------- */
+
+  function referralLink() {
+
+    return (
+      window.location.origin +
+      window.location.pathname.replace(
+        "dashboard.html",
+        "index.html"
+      ) +
+      "?ref=" +
+      account.referralCode
+    );
+  }
+
+
+  window.copyReferral = function () {
+
+    const link = referralLink();
+
+
+    if (
+      navigator.clipboard &&
+      navigator.clipboard.writeText
+    ) {
+
+      navigator.clipboard.writeText(link)
+        .then(function () {
+          alert("Referral link copied!");
+        })
+        .catch(function () {
+          copyFallback(link);
+        });
+
+    } else {
+      copyFallback(link);
+    }
+  };
+
+
+  function copyFallback(text) {
+
+    const input =
+      document.createElement("input");
+
+    input.value = text;
+
+    document.body.appendChild(input);
+
+    input.select();
+
+    document.execCommand("copy");
+
+    document.body.removeChild(input);
+
+    alert("Referral link copied!");
+  }
+
+
+  window.shareReferral = function () {
+
+    const link = referralLink();
+
+    const message =
+      "Join me on Co Save & Earn!\n\n" +
+      link;
+
+
+    if (navigator.share) {
+
+      navigator.share({
+        title: "Co Save & Earn",
+        text: message,
+        url: link
+      }).catch(function () {});
+
+    } else {
+
+      copyReferral();
+
+    }
+  };
+
+
+  /* ---------- REFERRAL REWARDS ---------- */
+
+  function updateRewards() {
+
+    const rewards = [
+      {
+        id: "reward10",
+        target: 10,
+        reward: 20000
+      },
+      {
+        id: "reward50",
+        target: 50,
+        reward: 80000
+      },
+      {
+        id: "reward100",
+        target: 100,
+        reward: 130000
+      }
+    ];
+
+
+    rewards.forEach(function (item) {
+
+      const el =
+        document.getElementById(item.id);
+
+      if (!el) return;
+
+
+      if (account.referrals >= item.target) {
+
+        el.textContent =
+          "Earned - " + money(item.reward);
+
+      } else {
+
+        el.textContent =
+          account.referrals +
+          "/" +
+          item.target +
+          " referrals";
+
+      }
+
+    });
+  }
+
+
+  /* ---------- TRANSACTIONS ---------- */
+
+  function updateTransactions() {
+
+    const list =
+      document.getElementById(
+        "transactionsList"
+      );
+
+    if (!list) {
+      return;
+    }
+
+
+    if (
+      !account.transactions ||
+      account.transactions.length === 0
+    ) {
+
+      list.innerHTML =
+        "<p>No transactions yet.</p>";
+
+      return;
+    }
+
+
+    list.innerHTML = "";
+
+
+    account.transactions.forEach(function (transaction) {
+
+      const item =
+        document.createElement("div");
+
+      item.className =
+        "transaction-item";
+
+
+      const positive =
+        transaction.type
+          .toLowerCase()
+          .includes("deposit");
+
+
+      item.innerHTML =
+        "<strong>" +
+        transaction.type +
+        "</strong>" +
+        "<br>" +
+        "<span>" +
+        (positive ? "+" : "-") +
+        money(transaction.amount) +
+        "</span>" +
+        "<br>" +
+        "<small>" +
+        transaction.date +
+        "</small>" +
+        "<br>" +
+        "<small>" +
+        transaction.status +
+        "</small>";
+
+
+      list.appendChild(item);
+
+    });
+  }
+
+
+  /* ---------- PROFILE ---------- */
+
+  function loadProfile() {
+
+    const nameInput =
+      document.getElementById(
+        "profileNameInput"
+      );
+
+    const phoneInput =
+      document.getElementById(
+        "profilePhoneInput"
+      );
+
+
+    if (nameInput) {
+      nameInput.value =
+        account.name || "";
+    }
+
+
+    if (phoneInput) {
+      phoneInput.value =
+        account.phone || "";
+    }
+  }
+
+
+  window.saveProfile = function () {
+
+    const nameInput =
+      document.getElementById(
+        "profileNameInput"
+      );
+
+    const phoneInput =
+      document.getElementById(
+        "profilePhoneInput"
+      );
+
+
+    if (nameInput && nameInput.value.trim()) {
+      account.name =
+        nameInput.value.trim();
+    }
+
+
+    if (phoneInput && phoneInput.value.trim()) {
+      account.phone =
+        phoneInput.value.trim();
+    }
+
+
+    saveAccount();
+
+    updateDashboard();
+
+    alert(
+      "Profile updated successfully!"
+    );
+  };
+
+
+  /* ---------- LOGOUT ---------- */
+
+  window.logout = function () {
+
+    if (
+      !confirm(
+        "Are you sure you want to log out?"
+      )
+    ) {
+      return;
+    }
+
+
+    localStorage.removeItem(
+      "coLoggedIn"
+    );
+
+
+    window.location.href =
+      "login.html";
+  };
+
+
+  /* ---------- START DASHBOARD ---------- */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+      loadProfile();
+
+      updateDashboard();
+
+    }
+  );
+
+
+  /* ---------- MAKE FUNCTIONS AVAILABLE ---------- */
+
+  window.showSection =
+    window.showSection;
+
+  window.depositMoney =
+    window.depositMoney;
+
+  window.withdrawMoney =
+    window.withdrawMoney;
+
+  window.choosePlan =
+    window.choosePlan;
+
+  window.copyReferral =
+    window.copyReferral;
+
+  window.shareReferral =
+    window.shareReferral;
+
+  window.saveProfile =
+    window.saveProfile;
+
+  window.logout =
+    window.logout;
+
+})();
+</script>
+
+</body>
+</html>
