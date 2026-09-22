@@ -5227,3 +5227,105 @@ body * {
 
 })();
 </script>
+positName").value.trim();
+
+  const number =
+    document.getElementById("depositNumber").value.trim();
+
+  const amount =
+    Number(document.getElementById("depositAmount").value);
+
+  const message =
+    document.getElementById("depositMessage");
+
+  if (!provider || !name || !number || !amount) {
+    message.className = "message error";
+    message.textContent = "Please complete all deposit details.";
+    return;
+  }
+
+  if (amount < 20000) {
+    message.className = "message error";
+    message.textContent = "Minimum deposit is UGX 20,000.";
+    return;
+  }
+
+  account.balance += amount;
+
+  account.transactions.unshift({
+    type: "Deposit",
+    amount: amount,
+    date: new Date().toLocaleString()
+  });
+
+  saveAccount();
+  updateDashboard();
+
+  message.className = "message success";
+  message.textContent =
+    "Deposit of " + money(amount) + " recorded successfully.";
+
+}
+
+</script>
+
+<script>
+(function () {
+
+  function removeWhiteOverlay() {
+
+    document.documentElement.style.background = "#f4f7fa";
+    document.body.style.background = "#f4f7fa";
+    document.body.style.opacity = "1";
+    document.body.style.visibility = "visible";
+
+    const elements =
+      Array.from(document.body.querySelectorAll("*"));
+
+    elements.forEach(function (el) {
+
+      if (
+        el.tagName === "SCRIPT" ||
+        el.tagName === "STYLE" ||
+        el.classList.contains("bottom-nav") ||
+        el.closest(".bottom-nav")
+      ) {
+        return;
+      }
+
+      const style = window.getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
+
+      const fullScreen =
+        rect.width >= window.innerWidth * 0.90 &&
+        rect.height >= window.innerHeight * 0.90;
+
+      const fixed =
+        style.position === "fixed" ||
+        style.position === "absolute";
+
+      const white =
+        style.backgroundColor === "rgb(255, 255, 255)" ||
+        style.backgroundColor === "rgba(255, 255, 255, 1)";
+
+      if (fullScreen && fixed && white) {
+        el.remove();
+      }
+
+    });
+  }
+
+  removeWhiteOverlay();
+
+  window.addEventListener(
+    "load",
+    removeWhiteOverlay
+  );
+
+  setTimeout(removeWhiteOverlay, 200);
+  setTimeout(removeWhiteOverlay, 500);
+  setTimeout(removeWhiteOverlay, 1000);
+  setTimeout(removeWhiteOverlay, 2000);
+
+})();
+</script>
