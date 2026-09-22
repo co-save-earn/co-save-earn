@@ -3855,3 +3855,135 @@ function updateTransactions(){
 
 })();
         </script>
+<script>
+(function () {
+
+  function removeVisibleJavaScript() {
+
+    const codeSigns = [
+      "account.transactions.forEach",
+      "document.createElement",
+      "innerHTML",
+      "className =",
+      "transaction.type",
+      "isDeposit",
+      "transaction.date",
+      "list.innerHTML",
+      "function(",
+      "function (",
+      "const row =",
+      "const left =",
+      "const right =",
+      "createElement(\"div\")",
+      "createElement('div')",
+      "toLowerCase().indexOf",
+      "return; }",
+      "account.transactions"
+    ];
+
+    function scan(node) {
+
+      if (!node) return;
+
+      /* Never touch actual scripts */
+      if (
+        node.nodeType === Node.ELEMENT_NODE &&
+        node.tagName === "SCRIPT"
+      ) {
+        return;
+      }
+
+      /* Text node containing the broken JavaScript */
+      if (node.nodeType === Node.TEXT_NODE) {
+
+        const text = node.textContent || "";
+
+        const looksLikeCode =
+          codeSigns.some(sign => text.includes(sign));
+
+        if (looksLikeCode) {
+
+          const parent = node.parentElement;
+
+          if (parent) {
+
+            /* Remove the element containing the visible code */
+            if (
+              parent !== document.body &&
+              parent !== document.documentElement &&
+              !parent.closest("nav") &&
+              !parent.closest("header")
+            ) {
+              parent.remove();
+            } else {
+              node.remove();
+            }
+
+          } else {
+            node.remove();
+          }
+
+          return;
+        }
+      }
+
+      /* Scan children */
+      if (node.childNodes) {
+        Array.from(node.childNodes).forEach(scan);
+      }
+    }
+
+    Array.from(document.body.childNodes).forEach(scan);
+  }
+
+
+  function removeLargeCodeBlocks() {
+
+    document.querySelectorAll("div, p, section, article").forEach(el => {
+
+      if (el.closest("nav")) return;
+
+      const text = el.textContent || "";
+
+      const codeCount = [
+        "account.transactions",
+        "document.createElement",
+        "innerHTML",
+        "className",
+        "transaction.type",
+        "isDeposit",
+        "function(",
+        "const row",
+        "const left",
+        "const right"
+      ].filter(x => text.includes(x)).length;
+
+      /* A normal page section will not contain several JavaScript commands */
+      if (codeCount >= 2) {
+        el.remove();
+      }
+
+    });
+  }
+
+
+  function cleanPage() {
+    removeVisibleJavaScript();
+    removeLargeCodeBlocks();
+  }
+
+
+  /* Clean immediately */
+  cleanPage();
+
+  /* Clean after the page finishes loading */
+  document.addEventListener("DOMContentLoaded", cleanPage);
+
+  /* Clean again in case the old code appears after loading */
+  setTimeout(cleanPage, 300);
+  setTimeout(cleanPage, 800);
+  setTimeout(cleanPage, 1500);
+  setTimeout(cleanPage, 2500);
+
+})();
+    </script>
