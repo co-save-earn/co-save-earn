@@ -1,223 +1,1226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Co Save & Earn - Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Co Save & Earn Dashboard</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+}
 
-        body {
-            background: #f5f7fb;
-            color: #222;
-        }
+body{
+  background:#f4f7fa;
+  color:#172033;
+  padding-bottom:80px;
+}
 
-        header {
-            background: #176b4d;
-            color: white;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+button{
+  cursor:pointer;
+  border:0;
+}
 
-        header h1 {
-            font-size: 22px;
-        }
+.header{
+  background:linear-gradient(135deg,#183b56,#246b8f);
+  color:white;
+  padding:22px 18px;
+  border-radius:0 0 25px 25px;
+}
 
-        .logout {
-            background: white;
-            color: #176b4d;
-            border: none;
-            padding: 9px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+.header-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-        .container {
-            padding: 25px;
-            max-width: 1100px;
-            margin: auto;
-        }
+.logo{
+  font-size:21px;
+  font-weight:bold;
+}
 
-        .welcome {
-            margin-bottom: 25px;
-        }
+.header-small{
+  font-size:13px;
+  margin-top:5px;
+}
 
-        .welcome h2 {
-            margin-bottom: 8px;
-        }
+.profile-circle{
+  width:43px;
+  height:43px;
+  border-radius:50%;
+  background:white;
+  color:#183b56;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
 
-        .balance {
-            background: #176b4d;
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-        }
+.container{
+  width:94%;
+  max-width:900px;
+  margin:auto;
+}
 
-        .balance p {
-            margin-bottom: 10px;
-        }
+.section{
+  display:none;
+  padding:20px 0;
+}
 
-        .balance h2 {
-            font-size: 32px;
-        }
+.section.active{
+  display:block;
+}
 
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+.balance-card{
+  background:white;
+  margin-top:18px;
+  padding:22px;
+  border-radius:18px;
+  box-shadow:0 5px 20px #00000012;
+}
 
-        .card {
-            background: white;
-            padding: 22px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+.balance-label{
+  color:#687386;
+  font-size:14px;
+}
 
-        .card h3 {
-            margin-bottom: 10px;
-        }
+.balance{
+  font-size:30px;
+  font-weight:bold;
+  margin:8px 0 18px;
+}
 
-        .card p {
-            font-size: 24px;
-            font-weight: bold;
-        }
+.quick-actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
 
-        .actions {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-        }
+.action{
+  color:white;
+  padding:14px;
+  border-radius:11px;
+  font-weight:bold;
+}
 
-        .action {
-            background: white;
-            border: none;
-            padding: 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
+.deposit{
+  background:#18864b;
+}
 
-        .transactions {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-        }
+.withdraw{
+  background:#b84b4b;
+}
 
-        .transaction {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid #eee;
-        }
+.card{
+  background:white;
+  padding:18px;
+  border-radius:17px;
+  margin-bottom:15px;
+  box-shadow:0 4px 15px #0000000d;
+}
 
-        .positive {
-            color: green;
-        }
+h2{
+  margin-bottom:13px;
+}
 
-        .negative {
-            color: red;
-        }
+h3{
+  margin-bottom:8px;
+}
 
-        @media (max-width: 600px) {
-            .cards,
-            .actions {
-                grid-template-columns: 1fr;
-            }
+.info{
+  color:#687386;
+  font-size:14px;
+  line-height:1.5;
+}
 
-            .container {
-                padding: 15px;
-            }
-        }
-    </style>
+.notice{
+  background:#fff7dc;
+  border:1px solid #ecd475;
+  color:#705900;
+  padding:13px;
+  border-radius:11px;
+  margin:15px 0;
+  font-size:13px;
+}
+
+.swipe-area{
+  display:flex;
+  overflow-x:auto;
+  gap:15px;
+  padding:4px 2px 15px;
+  scroll-snap-type:x mandatory;
+}
+
+.swipe-area::-webkit-scrollbar{
+  display:none;
+}
+
+.plan{
+  min-width:285px;
+  scroll-snap-align:start;
+  background:white;
+  border-radius:17px;
+  padding:18px;
+  border:1px solid #e3e8ee;
+  box-shadow:0 4px 14px #0000000b;
+}
+
+.plan h3{
+  color:#183b56;
+}
+
+.plan-amount{
+  font-size:22px;
+  font-weight:bold;
+  margin:8px 0;
+}
+
+.plan-earn{
+  color:#18864b;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.popular{
+  display:inline-block;
+  background:#f3c847;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+.primary{
+  width:100%;
+  padding:13px;
+  margin-top:13px;
+  border-radius:10px;
+  background:#246b8f;
+  color:white;
+  font-weight:bold;
+}
+
+.green{
+  background:#18864b;
+}
+
+.red{
+  background:#b84b4b;
+}
+
+.input-group{
+  margin-bottom:14px;
+}
+
+label{
+  display:block;
+  font-size:14px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+input,select{
+  width:100%;
+  padding:13px;
+  border:1px solid #d5dce5;
+  border-radius:10px;
+  font-size:15px;
+}
+
+.message{
+  display:none;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:13px;
+  font-size:14px;
+}
+
+.success{
+  display:block;
+  background:#e5f7ed;
+  color:#12683b;
+}
+
+.error{
+  display:block;
+  background:#fde9e9;
+  color:#a12828;
+}
+
+.referral{
+  background:linear-gradient(135deg,#183b56,#246b8f);
+  color:white;
+  padding:20px;
+  border-radius:18px;
+}
+
+.referral-link{
+  background:white;
+  color:#222;
+  padding:12px;
+  border-radius:9px;
+  margin:13px 0;
+  word-break:break-all;
+  font-size:13px;
+}
+
+.small-btn{
+  background:white;
+  color:#183b56;
+  padding:10px 13px;
+  border-radius:9px;
+  font-weight:bold;
+  margin-right:5px;
+}
+
+.reward{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#f7f9fc;
+  padding:14px;
+  border-radius:11px;
+  margin-bottom:10px;
+}
+
+.reward.locked{
+  opacity:.5;
+}
+
+.reward-amount{
+  color:#18864b;
+  font-weight:bold;
+}
+
+.transaction{
+  display:flex;
+  justify-content:space-between;
+  padding:13px 0;
+  border-bottom:1px solid #edf0f3;
+  font-size:14px;
+}
+
+.green-text{
+  color:#18864b;
+}
+
+.red-text{
+  color:#b84b4b;
+}
+
+.avatar{
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:#246b8f;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:auto auto 15px;
+  font-size:30px;
+  font-weight:bold;
+}
+
+.bottom-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:68px;
+  background:white;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  box-shadow:0 -4px 15px #00000015;
+  z-index:100;
+}
+
+.nav-btn{
+  background:transparent;
+  color:#697586;
+  font-size:11px;
+}
+
+.nav-btn.active{
+  color:#246b8f;
+  font-weight:bold;
+}
+
+.nav-icon{
+  display:block;
+  font-size:20px;
+  margin-bottom:3px;
+}
+
+@media(max-width:500px){
+  .plan{
+    min-width:270px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<header>
-    <h1>Co Save & Earn</h1>
-    <button class="logout">Logout</button>
+<header class="header">
+  <div class="header-top">
+    <div>
+      <div class="logo">Co Save & Earn</div>
+      <div class="header-small">Save • Grow • Earn</div>
+    </div>
+
+    <div class="profile-circle" onclick="showSection('profile')">
+      <span id="headerInitial">U</span>
+    </div>
+  </div>
 </header>
 
 <div class="container">
 
-    <div class="welcome">
-        <h2>Welcome back! 👋</h2>
-        <p>Manage your savings and earnings.</p>
+<!-- ================= HOME ================= -->
+
+<section id="home" class="section active">
+
+  <div class="balance-card">
+
+    <div class="balance-label">Available Balance</div>
+
+    <div class="balance" id="balance">
+      UGX 0
     </div>
 
-    <div class="balance">
-        <p>Total Balance</p>
-        <h2>UGX 250,000</h2>
+    <div class="quick-actions">
+
+      <button class="action deposit"
+              onclick="showSection('deposit')">
+        + Deposit
+      </button>
+
+      <button class="action withdraw"
+              onclick="showSection('withdraw')">
+        − Withdraw
+      </button>
+
     </div>
 
-    <div class="cards">
+  </div>
 
-        <div class="card">
-            <h3>Total Savings</h3>
-            <p>UGX 200,000</p>
+  <div class="notice">
+    Minimum deposit: <b>UGX 20,000</b>
+    &nbsp; | &nbsp;
+    Minimum withdrawal: <b>UGX 20,000</b>
+  </div>
+
+
+  <!-- SAVING TINS -->
+
+  <div class="card">
+
+    <h2>🥫 Saving Tins</h2>
+
+    <p class="info">
+      Swipe right to see all Saving Tin plans.
+    </p>
+
+    <br>
+
+    <div class="swipe-area">
+
+      <div class="plan">
+
+        <h3>20 Days Saving Tin</h3>
+
+        <div class="plan-amount">
+          UGX 20,000
         </div>
 
-        <div class="card">
-            <h3>Total Earnings</h3>
-            <p>UGX 50,000</p>
+        <div class="plan-earn">
+          Earn: UGX 35,000
         </div>
 
-    </div>
+        <p class="info">
+          Total at maturity: UGX 55,000
+        </p>
 
-    <div class="actions">
-
-        <button class="action">
-            💰<br><br>
-            Save Money
+        <button class="primary"
+          onclick="choosePlan('20 Days Saving Tin',20000,35000,55000)">
+          Choose Plan
         </button>
 
-        <button class="action">
-            📈<br><br>
-            Earn
+      </div>
+
+
+      <div class="plan">
+
+        <span class="popular">
+          POPULAR
+        </span>
+
+        <h3>20 Days Saving Tin</h3>
+
+        <div class="plan-amount">
+          UGX 50,000
+        </div>
+
+        <div class="plan-earn">
+          Earn: UGX 85,000
+        </div>
+
+        <p class="info">
+          Total at maturity: UGX 135,000
+        </p>
+
+        <button class="primary"
+          onclick="choosePlan('20 Days Saving Tin',50000,85000,135000)">
+          Choose Plan
         </button>
 
-        <button class="action">
-            💸<br><br>
-            Withdraw
+      </div>
+
+
+      <div class="plan">
+
+        <h3>30 Days Saving Tin</h3>
+
+        <div class="plan-amount">
+          UGX 30,000
+        </div>
+
+        <div class="plan-earn">
+          Earn: UGX 90,000
+        </div>
+
+        <p class="info">
+          Total at maturity: UGX 120,000
+        </p>
+
+        <button class="primary"
+          onclick="choosePlan('30 Days Saving Tin',30000,90000,120000)">
+          Choose Plan
         </button>
+
+      </div>
+
+
+      <div class="plan">
+
+        <h3>30 Days Saving Tin</h3>
+
+        <div class="plan-amount">
+          UGX 100,000
+        </div>
+
+        <div class="plan-earn">
+          Earn: UGX 220,000
+        </div>
+
+        <p class="info">
+          Total at maturity: UGX 320,000
+        </p>
+
+        <button class="primary"
+          onclick="choosePlan('30 Days Saving Tin',100000,220000,320000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- SAVING ELEPHANTS -->
+
+  <div class="card">
+
+    <h2>🐘 Saving Elephants</h2>
+
+    <p class="info">
+      Swipe right to see all Saving Elephant plans.
+    </p>
+
+    <br>
+
+    <div class="swipe-area">
+
+      <div class="plan">
+
+        <h3>20 Days Saving Elephant</h3>
+
+        <div class="plan-amount">
+          UGX 30,000
+        </div>
+
+        <div class="plan-earn">
+          Earn: UGX 55,000
+        </div>
+
+        <p class="info">
+          Total at maturity: UGX 85,000
+        </p>
+
+        <button class="primary"
+          onclick="choosePlan('20 Days Saving Elephant',30000,55000,85000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan">
+
+        <h3>20 Days Saving Elephant</h3>
+
+        <div class="plan-amount">
+          UGX 100,000
+        </div>
+
+        <div class="plan-earn">
+          Earn: UGX 155,000
+        </div>
+
+        <p class="info">
+          Total at maturity: UGX 255,000
+        </p>
+
+        <button class="primary"
+          onclick="choosePlan('20 Days Saving Elephant',100000,155000,255000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan">
+
+        <h3>30 Days Saving Elephant</h3>
+
+        <div class="plan-amount">
+          UGX 20,000
+        </div>
+
+        <div class="plan-earn">
+          Earn: UGX 50,000
+        </div>
+
+        <p class="info">
+          Total at maturity: UGX 70,000
+        </p>
+
+        <button class="primary"
+          onclick="choosePlan('30 Days Saving Elephant',20000,50000,70000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan">
+
+        <span class="popular">
+          POPULAR
+        </span>
+
+        <h3>30 Days Saving Elephant</h3>
+
+        <div class="plan-amount">
+          UGX 50,000
+        </div>
+
+        <div class="plan-earn">
+          Earn: UGX 135,000
+        </div>
+
+        <p class="info">
+          Total at maturity: UGX 185,000
+        </p>
+
+        <button class="primary"
+          onclick="choosePlan('30 Days Saving Elephant',50000,135000,185000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ================= DEPOSIT ================= -->
+
+<section id="deposit" class="section">
+
+  <h2>💰 Deposit</h2>
+
+  <div class="notice">
+    Minimum deposit is <b>UGX 20,000</b>.
+  </div>
+
+  <div id="depositMessage" class="message"></div>
+
+  <div class="card">
+
+    <div class="input-group">
+      <label>Mobile Money Provider</label>
+
+      <select id="depositProvider">
+        <option value="">Select provider</option>
+        <option>MTN Mobile Money</option>
+        <option>Airtel Money</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Mobile Money Name</label>
+
+      <input id="depositName"
+             placeholder="Name registered on Mobile Money">
+    </div>
+
+    <div class="input-group">
+      <label>Mobile Money Number</label>
+
+      <input id="depositNumber"
+             type="tel"
+             placeholder="07XXXXXXXX">
+    </div>
+
+    <div class="input-group">
+      <label>Amount (UGX)</label>
+
+      <input id="depositAmount"
+             type="number"
+             min="20000"
+             placeholder="Minimum 20,000">
+    </div>
+
+    <button class="primary green"
+            onclick="depositMoney()">
+      Submit Deposit
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <h3>Deposit information</h3>
+
+    <p class="info">
+      Minimum deposit is UGX 20,000.
+      Enter your Mobile Money details and amount.
+      Actual Mobile Money processing should be connected
+      to your payment provider before this is used for real money.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ================= WITHDRAW ================= -->
+
+<section id="withdraw" class="section">
+
+  <h2>💸 Withdrawal</h2>
+
+  <div class="notice">
+    Minimum withdrawal is <b>UGX 20,000</b>.
+  </div>
+
+  <div id="withdrawMessage" class="message"></div>
+
+  <div class="card">
+
+    <div class="input-group">
+      <label>Mobile Money Provider</label>
+
+      <select id="withdrawProvider">
+        <option value="">Select provider</option>
+        <option>MTN Mobile Money</option>
+        <option>Airtel Money</option>
+      </select>
+    </div>
+
+    <div class="input-group">
+      <label>Mobile Money Name</label>
+
+      <input id="withdrawName"
+             placeholder="Name registered on Mobile Money">
+    </div>
+
+    <div class="input-group">
+      <label>Mobile Money Number</label>
+
+      <input id="withdrawNumber"
+             type="tel"
+             placeholder="07XXXXXXXX">
+    </div>
+
+    <div class="input-group">
+      <label>Amount (UGX)</label>
+
+      <input id="withdrawAmount"
+             type="number"
+             min="20000"
+             placeholder="Minimum 20,000">
+    </div>
+
+    <button class="primary red"
+            onclick="withdrawMoney()">
+      Request Withdrawal
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================= REFERRALS ================= -->
+
+<section id="referrals" class="section">
+
+  <h2>🔗 Invite & Earn</h2>
+
+  <div class="referral">
+
+    <h3>Your Referral Link</h3>
+
+    <div class="referral-link"
+         id="referralLink">
+    </div>
+
+    <button class="small-btn"
+            onclick="copyReferral()">
+      Copy Link
+    </button>
+
+    <button class="small-btn"
+            onclick="shareReferral()">
+      Share Link
+    </button>
+
+    <br><br>
+
+    <p>People Invited</p>
+
+    <h2 id="referralCount">0</h2>
+
+  </div>
+
+
+  <br>
+
+  <div class="card">
+
+    <h2>🎁 Rewards</h2>
+
+    <div class="reward" id="reward10">
+
+      <div>
+        <b>10 Referrals</b>
+        <p class="info">
+          Referral reward
+        </p>
+      </div>
+
+      <div class="reward-amount">
+        UGX 20,000
+      </div>
 
     </div>
 
-    <div class="transactions">
 
-        <h2>Recent Transactions</h2>
+    <div class="reward" id="reward50">
 
-        <div class="transaction">
-            <span>Saving Deposit</span>
-            <strong class="positive">+ UGX 20,000</strong>
-        </div>
+      <div>
+        <b>50 Referrals</b>
+        <p class="info">
+          Referral reward
+        </p>
+      </div>
 
-        <div class="transaction">
-            <span>Earning</span>
-            <strong class="positive">+ UGX 5,000</strong>
-        </div>
-
-        <div class="transaction">
-            <span>Withdrawal</span>
-            <strong class="negative">- UGX 10,000</strong>
-        </div>
+      <div class="reward-amount">
+        UGX 80,000
+      </div>
 
     </div>
+
+
+    <div class="reward" id="reward100">
+
+      <div>
+        <b>100 Referrals</b>
+        <p class="info">
+          Referral reward
+        </p>
+      </div>
+
+      <div class="reward-amount">
+        UGX 130,000
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>Referral Progress</h3>
+
+    <p class="info"
+       id="referralProgress">
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ================= TRANSACTIONS ================= -->
+
+<section id="transactions" class="section">
+
+  <h2>📊 Transactions</h2>
+
+  <div class="card"
+       id="transactionList">
+
+    <p class="info">
+      No transactions yet.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ================= PROFILE ================= -->
+
+<section id="profile" class="section">
+
+  <h2>👤 My Profile</h2>
+
+  <div class="card" style="text-align:center">
+
+    <div class="avatar"
+         id="profileAvatar">
+      U
+    </div>
+
+    <h3 id="profileDisplayName">
+      User
+    </h3>
+
+    <p class="info"
+       id="profileDisplayPhone">
+      Mobile number not added
+    </p>
+
+  </div>
+
+
+  <div id="profileMessage"
+       class="message">
+  </div>
+
+
+  <div class="card">
+
+    <div class="input-group">
+
+      <label>Full Name</label>
+
+      <input id="profileName"
+             placeholder="Full name">
+
+    </div>
+
+
+    <div class="input-group">
+
+      <label>Mobile Money Provider</label>
+
+      <select id="profileProvider">
+
+        <option value="">
+          Select provider
+        </option>
+
+        <option>
+          MTN Mobile Money
+        </option>
+
+        <option>
+          Airtel Money
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="input-group">
+
+      <label>Mobile Money Number</label>
+
+      <input id="profilePhone"
+             type="tel"
+             placeholder="07XXXXXXXX">
+
+    </div>
+
+
+    <button class="primary"
+            onclick="saveProfile()">
+      Save Profile
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <h3>Account Information</h3>
+
+    <p class="info">
+      Account ID:
+      <b id="accountId"></b>
+    </p>
+
+    <br>
+
+    <p class="info">
+      Referral Code:
+      <b id="myReferralCode"></b>
+    </p>
+
+  </div>
+
+
+  <button class="primary red"
+          onclick="logout()">
+    Log Out
+  </button>
+
+</section>
 
 </div>
 
-</body>
-  </html>
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<nav class="bottom-nav">
+
+  <button class="nav-btn active"
+          onclick="showSection('home',this)">
+    <span class="nav-icon">🏠</span>
+    Home
+  </button>
+
+  <button class="nav-btn"
+          onclick="showSection('deposit',this)">
+    <span class="nav-icon">💰</span>
+    Deposit
+  </button>
+
+  <button class="nav-btn"
+          onclick="showSection('withdraw',this)">
+    <span class="nav-icon">💸</span>
+    Withdraw
+  </button>
+
+  <button class="nav-btn"
+          onclick="showSection('referrals',this)">
+    <span class="nav-icon">🔗</span>
+    Refer
+  </button>
+
+  <button class="nav-btn"
+          onclick="showSection('profile',this)">
+    <span class="nav-icon">👤</span>
+    Profile
+  </button>
+
+</nav>
+
+
+<script>
+
+/* =====================================
+   ACCOUNT
+===================================== */
+
+let account =
+JSON.parse(localStorage.getItem("coEarnerAccount"))
+||
+{
+  name:"User",
+  phone:"",
+  password:"",
+  provider:"",
+  balance:0,
+  referralCode:"CO"+Math.floor(100000+Math.random()*900000),
+  referrals:0,
+  transactions:[],
+  activePlans:[]
+};
+
+function saveAccount(){
+
+  localStorage.setItem(
+    "coEarnerAccount",
+    JSON.stringify(account)
+  );
+
+}
+
+
+/* =====================================
+   MONEY FORMAT
+===================================== */
+
+function money(amount){
+
+  return "UGX " +
+    Number(amount).toLocaleString();
+
+}
+
+
+/* =====================================
+   DASHBOARD UPDATE
+===================================== */
+
+function updateDashboard(){
+
+  document.getElementById("balance")
+    .textContent=money(account.balance);
+
+
+  let initial =
+    account.name &&
+    account.name!=="User"
+    ? account.name.charAt(0).toUpperCase()
+    : "U";
+
+
+  document.getElementById("headerInitial")
+    .textContent=initial;
+
+  document.getElementById("profileAvatar")
+    .textContent=initial;
+
+
+  document.getElementById("profileDisplayName")
+    .textContent=account.name || "User";
+
+
+  document.getElementById("profileDisplayPhone")
+    .textContent=
+      account.phone
+      ?
+      account.provider+" • "+account.phone
+      :
+      "Mobile number not added";
+
+
+  document.getElementById("profileName")
+    .value=
+      account.name==="User"
+      ? ""
+      : account.name;
+
+
+  document.getElementById("profilePhone")
+    .value=account.phone;
+
+
+  document.getElementById("profileProvider")
+    .value=account.provider;
+
+
+  document.getElementById("referralCount")
+    .textContent=account.referrals;
+
+
+  document.getElementById("myReferralCode")
+    .textContent=account.referralCode;
+
+
+  document.getElementById("accountId")
+    .textContent="CE-"+account.referralCode;
+
+
+  const link=
+    window.location.origin+
+    window.location.pathname
+      .replace("dashboard.html","")+
+    "index.html?ref="+
+    account.referralCode;
+
+
+  document.getElementById("referralLink")
+    .textContent=link;
+
+
+  updateRewards();
+  updateReferralProgress();
+  updateTransactions();
+
+}
+
+
+/* =====================================
+   NAVIGATION
+===================================== */
+
+function showSection(id,button){
+
+  document.querySelectorAll(".section")
+    .forEach(section=>{
+      section.classList.remove("active");
+    });
+
+
+  document.getElementById(id)
+    .classList.add("active");
+
+
+  document.querySelectorAll(".nav-btn")
+    .forEach(btn=>{
+      btn.classList.remove("active");
+    });
+
+
+  if(button){
+    button.classList.add("active");
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================
+   DEPOSIT
+===================================== */
+
+function depositMoney(){
+
+  const provider=
+    document.getElementById("depositProvider").value;
+
+  const name=
+    document.getElementById("de
