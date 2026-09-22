@@ -4529,3 +4529,135 @@ function updateTransactions(){
 
 })();
 </script>
+<style>
+/* Hide the broken JavaScript text wherever it appears */
+body {
+  --remove-broken-code: none;
+}
+
+body * {
+  font-variant-ligatures: none;
+}
+</style>
+
+<script>
+(function () {
+
+  function removeBrokenText() {
+
+    const badPatterns = [
+      "account.transactions.forEach",
+      "account.transactions",
+      "document.createElement",
+      "transaction.type",
+      "transaction.date",
+      "isDeposit",
+      "list.innerHTML",
+      "left.innerHTML",
+      "right.innerHTML",
+      "row.className",
+      "const row =",
+      "const left =",
+      "const right =",
+      "function(transaction)",
+      "function (transaction)",
+      "toLowerCase().indexOf",
+      "createElement",
+      "innerHTML =",
+      "className =",
+      "No transactions yet."
+    ];
+
+    function clean(element) {
+
+      if (!element || element.nodeType !== 1) return;
+
+      if (
+        element.tagName === "SCRIPT" ||
+        element.tagName === "STYLE"
+      ) return;
+
+      const text = element.textContent || "";
+
+      let matches = 0;
+
+      badPatterns.forEach(function(pattern) {
+        if (text.indexOf(pattern) !== -1) {
+          matches++;
+        }
+      });
+
+      /*
+       * If an element contains several pieces of the broken
+       * JavaScript, remove that element completely.
+       */
+      if (matches >= 2) {
+
+        /*
+         * Never remove the navigation.
+         */
+        if (
+          element.closest("nav") ||
+          element.closest(".bottom-nav")
+        ) {
+          return;
+        }
+
+        element.remove();
+        return;
+      }
+
+      Array.from(element.children).forEach(clean);
+    }
+
+    clean(document.body);
+
+
+    /*
+     * Also remove individual text nodes containing
+     * the broken JavaScript.
+     */
+    const walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT
+    );
+
+    const nodes = [];
+    let node;
+
+    while (node = walker.nextNode()) {
+      nodes.push(node);
+    }
+
+    nodes.forEach(function(textNode) {
+
+      const text = textNode.nodeValue || "";
+
+      const isBroken =
+        badPatterns.some(function(pattern) {
+          return text.indexOf(pattern) !== -1;
+        });
+
+      if (isBroken) {
+        textNode.remove();
+      }
+
+    });
+
+  }
+
+
+  removeBrokenText();
+
+  window.addEventListener(
+    "load",
+    removeBrokenText
+  );
+
+  setTimeout(removeBrokenText, 300);
+  setTimeout(removeBrokenText, 800);
+  setTimeout(removeBrokenText, 1500);
+  setTimeout(removeBrokenText, 3000);
+
+})();
+    </script>
