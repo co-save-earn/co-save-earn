@@ -4950,3 +4950,690 @@ function renderTransactions(){
           ' ' +
           sign +
           money(tx.amou
+<script>
+/* =====================================================
+   CO SAVE & EARN — BUTTON FIX
+   Paste at the VERY END of dashboard.html
+   ===================================================== */
+
+(function () {
+  "use strict";
+
+  /* ---------- STORAGE ---------- */
+
+  var account = JSON.parse(
+    localStorage.getItem("coEarnerAccount") || "{}"
+  );
+
+  account.balance = Number(account.balance || 0);
+  account.transactions =
+    Array.isArray(account.transactions)
+      ? account.transactions
+      : [];
+  account.activePlans =
+    Array.isArray(account.activePlans)
+      ? account.activePlans
+      : [];
+  account.referrals =
+    Number(account.referrals || 0);
+
+  function save() {
+    localStorage.setItem(
+      "coEarnerAccount",
+      JSON.stringify(account)
+    );
+  }
+
+  function money(n) {
+    return "UGX " +
+      Number(n || 0).toLocaleString("en-US");
+  }
+
+  function get(id) {
+    return document.getElementById(id);
+  }
+
+  /* ---------- SECTION BUTTONS ---------- */
+
+  window.showSection = function(section) {
+
+    /* Hide common sections */
+    document.querySelectorAll(
+      "main section, .section, [data-section]"
+    ).forEach(function(el) {
+
+      if (
+        el.tagName === "SECTION" ||
+        el.classList.contains("section")
+      ) {
+        el.style.display = "none";
+      }
+    });
+
+    /* Show requested section if it exists */
+    var target =
+      get(section) ||
+      get(section + "Section") ||
+      get(section + "-section");
+
+    if (target) {
+      target.style.display = "block";
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+      return;
+    }
+
+    /* If a page section wasn't found, don't break */
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
+
+  /* ---------- BALANCE ---------- */
+
+  window.updateBalance = function() {
+
+    var balance = get("balance");
+
+    if (balance) {
+      balance.textContent =
+        money(account.balance);
+    }
+
+    save();
+  };
+
+
+  /* ---------- DEPOSIT ---------- */
+
+  window.depositMoney = function() {
+
+    var amountEl =
+      get("depositAmount");
+
+    var amount =
+      Number(
+        amountEl ? amountEl.value : 0
+      );
+
+    var message =
+      get("depositMessage");
+
+    if (!amount || amount < 20000) {
+
+      if (message) {
+        message.style.display = "block";
+        message.textContent =
+          "Minimum deposit is UGX 20,000.";
+      } else {
+        alert(
+          "Minimum deposit is UGX 20,000."
+        );
+      }
+
+      return;
+    }
+
+    account.balance += amount;
+
+    account.transactions.unshift({
+      type: "Deposit",
+      amount: amount,
+      date: new Date().toLocaleString(),
+      details: "Deposit"
+    });
+
+    save();
+    updateBalance();
+
+    if (message) {
+      message.style.display = "block";
+      message.textContent =
+        "Deposit successful: " +
+        money(amount);
+    } else {
+      alert(
+        "Deposit successful: " +
+        money(amount)
+      );
+    }
+
+    if (amountEl) {
+      amountEl.value = "";
+    }
+  };
+
+
+  /* ---------- WITHDRAW ---------- */
+
+  window.withdrawMoney = function() {
+
+    var amountEl =
+      get("withdrawAmount");
+
+    var amount =
+      Number(
+        amountEl ? amountEl.value : 0
+      );
+
+    var message =
+      get("withdrawMessage");
+
+    if (!amount || amount < 20000) {
+
+      if (message) {
+        message.style.display = "block";
+        message.textContent =
+          "Minimum withdrawal is UGX 20,000.";
+      } else {
+        alert(
+          "Minimum withdrawal is UGX 20,000."
+        );
+      }
+
+      return;
+    }
+
+    if (amount > account.balance) {
+
+      if (message) {
+        message.style.display = "block";
+        message.textContent =
+          "Insufficient balance. Your balance is " +
+          money(account.balance) + ".";
+      } else {
+        alert(
+          "Insufficient balance. Your balance is " +
+          money(account.balance) + "."
+        );
+      }
+
+      return;
+    }
+
+    /* 8% withdrawal charge */
+    var charge = amount * 0.08;
+
+    /* Amount user receives */
+    var received = amount - charge;
+
+    account.balance -= amount;
+
+    account.transactions.unshift({
+      type: "Withdrawal",
+      amount: amount,
+      date: new Date().toLocaleString(),
+      details:
+        "8% charge: " +
+        money(charge) +
+        " | Received: " +
+        money(received)
+    });
+
+    save();
+    updateBalance();
+
+    var text =
+      "Withdrawal successful.\n\n" +
+      "Requested: " +
+      money(amount) +
+      "\n8% charge: " +
+      money(charge) +
+      "\nYou receive: " +
+      money(received);
+
+    if (message) {
+      message.style.display = "block";
+      message.textContent =
+        text.replace(/\n/g, " ");
+    } else {
+      alert(text);
+    }
+
+    if (amountEl) {
+      amountEl.value = "";
+    }
+  };
+
+
+  /* ---------- SAVING PLANS ---------- */
+
+  window.choosePlan = function(
+    name,
+    amount,
+    earning,
+    total,
+    days,
+    type
+  ) {
+
+    amount = Number(amount);
+    earning = Number(earning);
+    total = Number(total);
+
+    /* Support the old 4-argument buttons */
+    if (!days) {
+
+      if (
+        name.indexOf("20 Days") !== -1
+      ) {
+        days = 20;
+      }
+
+      if (
+        name.indexOf("30 Days") !== -1
+      ) {
+        days = 30;
+      }
+    }
+
+    if (!type) {
+
+      type =
+        name.toLowerCase()
+          .indexOf("elephant") !== -1
+          ? "Saving Elephant"
+          : "Saving Tin";
+    }
+
+    if (!amount) {
+      alert(
+        "This saving plan could not be activated."
+      );
+      return;
+    }
+
+    if (account.balance < amount) {
+
+      var needed =
+        amount - account.balance;
+
+      var go =
+        confirm(
+          "You need " +
+          money(needed) +
+          " more to activate this plan.\n\n" +
+          "Do you want to deposit?"
+        );
+
+      if (go) {
+        showSection("deposit");
+      }
+
+      return;
+    }
+
+    account.balance -= amount;
+
+    var start =
+      new Date();
+
+    var maturity =
+      new Date(start);
+
+    maturity.setDate(
+      maturity.getDate() +
+      Number(days || 20)
+    );
+
+    account.activePlans.push({
+
+      name: name,
+
+      type: type,
+
+      amount: amount,
+
+      earning: earning,
+
+      total: total,
+
+      days: Number(days || 20),
+
+      startedAt:
+        start.toISOString(),
+
+      maturityAt:
+        maturity.toISOString(),
+
+      status: "Active"
+    });
+
+    account.transactions.unshift({
+
+      type: "Saving Plan",
+
+      amount: amount,
+
+      date:
+        new Date().toLocaleString(),
+
+      details:
+        name + " activated"
+    });
+
+    save();
+    updateBalance();
+
+    alert(
+      name +
+      " activated successfully!\n\n" +
+      "Amount: " +
+      money(amount) +
+      "\nMaturity: " +
+      maturity.toLocaleDateString()
+    );
+  };
+
+
+  /* ---------- REFERRAL ---------- */
+
+  window.copyReferral = function() {
+
+    var input =
+      get("referralLink");
+
+    if (!input) {
+      alert("Referral link not found.");
+      return;
+    }
+
+    if (
+      navigator.clipboard &&
+      navigator.clipboard.writeText
+    ) {
+
+      navigator.clipboard.writeText(
+        input.value
+      ).then(function() {
+
+        alert(
+          "Referral link copied!"
+        );
+
+      });
+
+    } else {
+
+      input.select();
+      document.execCommand("copy");
+
+      alert(
+        "Referral link copied!"
+      );
+    }
+  };
+
+
+  window.shareReferral = function() {
+
+    var input =
+      get("referralLink");
+
+    var link =
+      input ? input.value : "";
+
+    if (navigator.share) {
+
+      navigator.share({
+        title: "Co Save & Earn",
+        text:
+          "Join me on Co Save & Earn.",
+        url: link
+      });
+
+    } else {
+
+      window.copyReferral();
+
+    }
+  };
+
+
+  /* ---------- PROFILE ---------- */
+
+  window.saveProfile = function() {
+
+    var name =
+      get("profileName");
+
+    var phone =
+      get("profilePhone");
+
+    var provider =
+      get("profileProvider");
+
+    if (name) {
+      account.name =
+        name.value.trim();
+    }
+
+    if (phone) {
+      account.phone =
+        phone.value.trim();
+    }
+
+    if (provider) {
+      account.provider =
+        provider.value;
+    }
+
+    save();
+
+    var message =
+      get("profileMessage");
+
+    if (message) {
+
+      message.style.display =
+        "block";
+
+      message.textContent =
+        "Profile saved successfully.";
+
+    } else {
+
+      alert(
+        "Profile saved successfully."
+      );
+    }
+  };
+
+
+  /* ---------- LOGOUT ---------- */
+
+  window.logout = function() {
+
+    if (
+      confirm(
+        "Are you sure you want to logout?"
+      )
+    ) {
+
+      window.location.href =
+        "login.html";
+    }
+  };
+
+
+  /* ---------- MAKE EXISTING BUTTONS CLICKABLE ---------- */
+
+  function connectButtons() {
+
+    document
+      .querySelectorAll("button")
+      .forEach(function(button) {
+
+        var text =
+          (
+            button.innerText ||
+            button.textContent ||
+            ""
+          )
+          .trim()
+          .toLowerCase();
+
+        /*
+         * Only add navigation when the button
+         * does not already have an onclick.
+         */
+
+        if (
+          !button.getAttribute("onclick")
+        ) {
+
+          if (
+            text.includes("deposit")
+          ) {
+
+            button.addEventListener(
+              "click",
+              function() {
+                showSection("deposit");
+              }
+            );
+          }
+
+          else if (
+            text.includes("withdraw")
+          ) {
+
+            button.addEventListener(
+              "click",
+              function() {
+                showSection("withdraw");
+              }
+            );
+          }
+
+          else if (
+            text.includes("refer")
+          ) {
+
+            button.addEventListener(
+              "click",
+              function() {
+                showSection("refer");
+              }
+            );
+          }
+
+          else if (
+            text.includes("profile")
+          ) {
+
+            button.addEventListener(
+              "click",
+              function() {
+                showSection("profile");
+              }
+            );
+          }
+
+          else if (
+            text.includes("activity") ||
+            text.includes("transaction")
+          ) {
+
+            button.addEventListener(
+              "click",
+              function() {
+                showSection("activity");
+              }
+            );
+          }
+
+          else if (
+            text.includes("home")
+          ) {
+
+            button.addEventListener(
+              "click",
+              function() {
+                showSection("home");
+              }
+            );
+          }
+        }
+
+      });
+  }
+
+
+  /* ---------- KEEP BALANCE DISPLAY UPDATED ---------- */
+
+  function start() {
+
+    updateBalance();
+
+    connectButtons();
+
+    /*
+     * Existing withdrawal amount preview
+     */
+
+    var withdrawal =
+      get("withdrawAmount");
+
+    if (withdrawal) {
+
+      withdrawal.addEventListener(
+        "input",
+        function() {
+
+          var amount =
+            Number(this.value || 0);
+
+          var preview =
+            get("withdrawPreview");
+
+          if (!preview)
+            return;
+
+          if (!amount) {
+
+            preview.textContent =
+              "8% withdrawal charge will be deducted.";
+
+            return;
+          }
+
+          var charge =
+            amount * 0.08;
+
+          var received =
+            amount - charge;
+
+          preview.textContent =
+            "Charge: " +
+            money(charge) +
+            " | You receive: " +
+            money(received);
+        }
+      );
+    }
+  }
+
+
+  if (
+    document.readyState ===
+    "loading"
+  ) {
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      start
+    );
+
+  } else {
+
+    start();
+
+  }
+
+})();
+</script>
