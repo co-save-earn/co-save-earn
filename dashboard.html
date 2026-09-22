@@ -3735,3 +3735,1218 @@ label{
 
 })();
 </script>
+</script>
+
+<style>
+/* =========================================================
+   CO SAVE & EARN — COMPLETE DASHBOARD FIX
+   APPEND THIS AT THE VERY END OF dashboard.html
+   ========================================================= */
+
+#cseExtraArea{
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+  padding:0 12px 100px;
+}
+
+.cse-panel{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  margin:15px 0;
+  box-shadow:0 5px 20px rgba(0,0,0,.07);
+}
+
+.cse-panel h2,
+.cse-panel h3{
+  margin-bottom:12px;
+}
+
+.cse-note{
+  background:#f4f8f6;
+  border-radius:12px;
+  padding:12px;
+  margin:10px 0;
+  font-size:13px;
+  color:#566;
+}
+
+.cse-plans{
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  padding:5px 2px 15px;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+}
+
+.cse-plans::-webkit-scrollbar{
+  display:none;
+}
+
+.cse-plan{
+  min-width:275px;
+  max-width:290px;
+  flex:0 0 275px;
+  scroll-snap-align:start;
+  background:#fff;
+  border-radius:18px;
+  padding:17px;
+  box-shadow:0 4px 18px rgba(0,0,0,.08);
+  border:1px solid #edf0ee;
+}
+
+.cse-plan h4{
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.cse-plan .cse-type{
+  font-size:13px;
+  color:#667;
+  margin-bottom:12px;
+}
+
+.cse-plan p{
+  margin:7px 0;
+  font-size:14px;
+}
+
+.cse-plan strong{
+  color:#123;
+}
+
+.cse-btn{
+  width:100%;
+  border:0;
+  border-radius:11px;
+  padding:12px;
+  margin-top:12px;
+  background:#176b4d;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.cse-btn:active{
+  transform:scale(.98);
+}
+
+.cse-btn.gold{
+  background:#c18a16;
+}
+
+.cse-btn.red{
+  background:#b83a3a;
+}
+
+.cse-btn.blue{
+  background:#245ca8;
+}
+
+.cse-input{
+  width:100%;
+  padding:12px;
+  border:1px solid #d9dfdc;
+  border-radius:10px;
+  margin:7px 0;
+  font-size:15px;
+  outline:none;
+}
+
+.cse-input:focus{
+  border-color:#176b4d;
+}
+
+.cse-row{
+  display:flex;
+  gap:10px;
+}
+
+.cse-row > *{
+  flex:1;
+}
+
+.cse-message{
+  display:none;
+  padding:11px;
+  border-radius:10px;
+  margin-top:10px;
+  font-size:14px;
+}
+
+.cse-success{
+  background:#e8f7ee;
+  color:#14633d;
+}
+
+.cse-error{
+  background:#fdecec;
+  color:#9c2525;
+}
+
+.cse-info{
+  background:#edf4ff;
+  color:#24538c;
+}
+
+.cse-transaction{
+  padding:13px 0;
+  border-bottom:1px solid #edf0ee;
+}
+
+.cse-transaction:last-child{
+  border-bottom:0;
+}
+
+.cse-transaction-title{
+  font-weight:bold;
+}
+
+.cse-transaction-meta{
+  font-size:12px;
+  color:#777;
+  margin-top:4px;
+}
+
+.cse-active{
+  border-left:4px solid #176b4d;
+  padding:12px;
+  background:#f5faf7;
+  border-radius:10px;
+  margin:8px 0;
+}
+
+.cse-ref-code{
+  background:#f2f5f3;
+  border-radius:10px;
+  padding:12px;
+  font-weight:bold;
+  letter-spacing:1px;
+  text-align:center;
+  margin:10px 0;
+}
+
+.cse-progress{
+  height:10px;
+  background:#e7ece9;
+  border-radius:20px;
+  overflow:hidden;
+  margin:10px 0;
+}
+
+.cse-progress-fill{
+  height:100%;
+  width:0%;
+  background:#176b4d;
+  border-radius:20px;
+  transition:.3s;
+}
+
+.cse-empty{
+  text-align:center;
+  color:#777;
+  padding:20px 5px;
+}
+
+.cse-nav-extra{
+  font-size:11px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+@media(max-width:600px){
+  .cse-row{
+    flex-direction:column;
+    gap:0;
+  }
+
+  .cse-plan{
+    min-width:82vw;
+  }
+}
+</style>
+
+
+<script>
+(function(){
+
+"use strict";
+
+/* =========================================================
+   STORAGE
+   ========================================================= */
+
+var STORAGE_KEY = "coEarnerAccount";
+
+function getAccount(){
+
+  var defaultAccount = {
+    name:"User",
+    phone:"",
+    password:"",
+    provider:"",
+    balance:0,
+    referralCode:"CO" + Math.floor(100000 + Math.random()*900000),
+    referrals:0,
+    transactions:[],
+    activePlans:[]
+  };
+
+  try{
+
+    var saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+
+    if(!saved || typeof saved !== "object"){
+      saved = defaultAccount;
+    }
+
+    saved.name = saved.name || "User";
+    saved.phone = saved.phone || "";
+    saved.provider = saved.provider || "";
+    saved.balance = Number(saved.balance) || 0;
+    saved.referrals = Number(saved.referrals) || 0;
+    saved.transactions = Array.isArray(saved.transactions)
+      ? saved.transactions : [];
+    saved.activePlans = Array.isArray(saved.activePlans)
+      ? saved.activePlans : [];
+
+    if(!saved.referralCode){
+      saved.referralCode =
+        "CO" + Math.floor(100000 + Math.random()*900000);
+    }
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(saved)
+    );
+
+    return saved;
+
+  }catch(e){
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(defaultAccount)
+    );
+
+    return defaultAccount;
+  }
+}
+
+var account = getAccount();
+
+function saveAccount(){
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(account)
+  );
+}
+
+
+/* =========================================================
+   MONEY
+   ========================================================= */
+
+function money(amount){
+  return "UGX " + Number(amount || 0).toLocaleString("en-US");
+}
+
+
+/* =========================================================
+   FIND ELEMENT
+   ========================================================= */
+
+function el(id){
+  return document.getElementById(id);
+}
+
+
+/* =========================================================
+   MESSAGE
+   ========================================================= */
+
+function showMessage(id,message,type){
+
+  var box = el(id);
+
+  if(!box){
+    alert(message);
+    return;
+  }
+
+  box.textContent = message;
+  box.className =
+    "cse-message " +
+    (type === "error"
+      ? "cse-error"
+      : type === "info"
+      ? "cse-info"
+      : "cse-success");
+
+  box.style.display = "block";
+
+  setTimeout(function(){
+    if(box){
+      box.style.display = "none";
+    }
+  },5000);
+}
+
+
+/* =========================================================
+   BALANCE
+   ========================================================= */
+
+function updateBalance(){
+
+  var b = el("balance");
+
+  if(b){
+    b.textContent = money(account.balance);
+  }
+
+  saveAccount();
+}
+
+
+/* =========================================================
+   PROFILE DISPLAY
+   ========================================================= */
+
+function updateProfileDisplay(){
+
+  var name =
+    account.name || "User";
+
+  if(el("profileDisplayName"))
+    el("profileDisplayName").textContent = name;
+
+  if(el("profileDisplayPhone"))
+    el("profileDisplayPhone").textContent =
+      account.phone || "";
+
+  if(el("profileName"))
+    el("profileName").value =
+      account.name || "";
+
+  if(el("profilePhone"))
+    el("profilePhone").value =
+      account.phone || "";
+
+  if(el("profileProvider"))
+    el("profileProvider").value =
+      account.provider || "";
+
+  if(el("headerInitial"))
+    el("headerInitial").textContent =
+      name.charAt(0).toUpperCase();
+
+  if(el("profileAvatar"))
+    el("profileAvatar").textContent =
+      name.charAt(0).toUpperCase();
+
+  if(el("accountId"))
+    el("accountId").textContent =
+      account.phone || account.referralCode;
+
+}
+
+
+/* =========================================================
+   TRANSACTIONS
+   ========================================================= */
+
+function addTransaction(type,amount,details){
+
+  account.transactions.unshift({
+
+    id:Date.now(),
+
+    type:type,
+
+    amount:Number(amount) || 0,
+
+    details:details || "",
+
+    date:new Date().toLocaleString()
+
+  });
+
+  saveAccount();
+
+  renderTransactions();
+}
+
+
+/* =========================================================
+   DEPOSIT
+   MINIMUM = UGX 20,000
+   ========================================================= */
+
+window.depositMoney = function(){
+
+  var provider =
+    el("depositProvider")
+      ? el("depositProvider").value.trim()
+      : "";
+
+  var name =
+    el("depositName")
+      ? el("depositName").value.trim()
+      : "";
+
+  var number =
+    el("depositNumber")
+      ? el("depositNumber").value.trim()
+      : "";
+
+  var amount =
+    el("depositAmount")
+      ? Number(el("depositAmount").value)
+      : 0;
+
+  if(!provider){
+    showMessage(
+      "depositMessage",
+      "Please select your Mobile Money provider.",
+      "error"
+    );
+    return;
+  }
+
+  if(!name){
+    showMessage(
+      "depositMessage",
+      "Please enter the Mobile Money account name.",
+      "error"
+    );
+    return;
+  }
+
+  if(!number){
+    showMessage(
+      "depositMessage",
+      "Please enter the Mobile Money number.",
+      "error"
+    );
+    return;
+  }
+
+  if(!amount || amount < 20000){
+    showMessage(
+      "depositMessage",
+      "Minimum deposit is UGX 20,000.",
+      "error"
+    );
+    return;
+  }
+
+  /*
+    This updates the dashboard balance locally.
+    Real Mobile Money collection requires a secure backend
+    and a payment provider.
+  */
+
+  account.balance += amount;
+
+  addTransaction(
+    "Deposit",
+    amount,
+    provider + " • " + number
+  );
+
+  saveAccount();
+
+  updateBalance();
+
+  showMessage(
+    "depositMessage",
+    "Deposit recorded successfully: " +
+      money(amount),
+    "success"
+  );
+
+  if(el("depositAmount"))
+    el("depositAmount").value = "";
+
+  renderAll();
+};
+
+
+/* =========================================================
+   WITHDRAWAL PREVIEW
+   MINIMUM = UGX 20,000
+   CHARGE = 8%
+   ========================================================= */
+
+function updateWithdrawalPreview(){
+
+  var amount =
+    el("withdrawAmount")
+      ? Number(el("withdrawAmount").value)
+      : 0;
+
+  var preview =
+    el("withdrawPreview");
+
+  if(!preview)
+    return;
+
+  if(!amount || amount <= 0){
+
+    preview.textContent =
+      "8% withdrawal charge will be deducted.";
+
+    return;
+  }
+
+  var fee = amount * 0.08;
+
+  var received = amount - fee;
+
+  preview.textContent =
+    "Charge: " + money(fee) +
+    " • You receive: " + money(received);
+}
+
+
+/* =========================================================
+   WITHDRAW
+   ========================================================= */
+
+window.withdrawMoney = function(){
+
+  var provider =
+    el("withdrawProvider")
+      ? el("withdrawProvider").value.trim()
+      : "";
+
+  var name =
+    el("withdrawName")
+      ? el("withdrawName").value.trim()
+      : "";
+
+  var number =
+    el("withdrawNumber")
+      ? el("withdrawNumber").value.trim()
+      : "";
+
+  var amount =
+    el("withdrawAmount")
+      ? Number(el("withdrawAmount").value)
+      : 0;
+
+  if(!provider){
+
+    showMessage(
+      "withdrawMessage",
+      "Please select your Mobile Money provider.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(!name){
+
+    showMessage(
+      "withdrawMessage",
+      "Please enter the Mobile Money account name.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(!number){
+
+    showMessage(
+      "withdrawMessage",
+      "Please enter the Mobile Money number.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(!amount || amount < 20000){
+
+    showMessage(
+      "withdrawMessage",
+      "Minimum withdrawal is UGX 20,000.",
+      "error"
+    );
+
+    return;
+  }
+
+  if(amount > account.balance){
+
+    showMessage(
+      "withdrawMessage",
+      "Insufficient balance. Your balance is " +
+        money(account.balance) + ".",
+      "error"
+    );
+
+    return;
+  }
+
+  var fee = amount * 0.08;
+
+  var received = amount - fee;
+
+  /*
+    The requested withdrawal amount is removed
+    from the account.
+
+    The 8% charge is taken from that amount.
+
+    Example:
+    UGX 20,000 withdrawal
+    8% charge = UGX 1,600
+    Amount received = UGX 18,400
+  */
+
+  account.balance -= amount;
+
+  addTransaction(
+    "Withdrawal",
+    amount,
+    provider +
+      " • " +
+      number +
+      " • Charge " +
+      money(fee) +
+      " • Received " +
+      money(received)
+  );
+
+  saveAccount();
+
+  updateBalance();
+
+  showMessage(
+    "withdrawMessage",
+    "Withdrawal recorded. " +
+      money(received) +
+      " will be received after the 8% charge.",
+    "success"
+  );
+
+  if(el("withdrawAmount"))
+    el("withdrawAmount").value = "";
+
+  updateWithdrawalPreview();
+
+  renderAll();
+};
+
+
+/* =========================================================
+   EXACT SAVING PLANS
+   ========================================================= */
+
+var SAVING_TINS = [
+
+  {
+    type:"Saving Tin",
+    days:20,
+    amount:20000,
+    earning:35000,
+    total:55000
+  },
+
+  {
+    type:"Saving Tin",
+    days:20,
+    amount:50000,
+    earning:85000,
+    total:135000
+  },
+
+  {
+    type:"Saving Tin",
+    days:30,
+    amount:30000,
+    earning:90000,
+    total:120000
+  },
+
+  {
+    type:"Saving Tin",
+    days:30,
+    amount:100000,
+    earning:220000,
+    total:320000
+  }
+
+];
+
+var SAVING_ELEPHANTS = [
+
+  {
+    type:"Saving Elephant",
+    days:20,
+    amount:30000,
+    earning:55000,
+    total:85000
+  },
+
+  {
+    type:"Saving Elephant",
+    days:20,
+    amount:100000,
+    earning:155000,
+    total:255000
+  },
+
+  {
+    type:"Saving Elephant",
+    days:30,
+    amount:20000,
+    earning:50000,
+    total:70000
+  },
+
+  {
+    type:"Saving Elephant",
+    days:30,
+    amount:50000,
+    earning:135000,
+    total:185000
+  }
+
+];
+
+
+/* =========================================================
+   FIND PLAN
+   ========================================================= */
+
+function findPlan(type,days,amount){
+
+  var list =
+    type === "Saving Elephant"
+      ? SAVING_ELEPHANTS
+      : SAVING_TINS;
+
+  for(var i=0;i<list.length;i++){
+
+    if(
+      list[i].days === Number(days) &&
+      list[i].amount === Number(amount)
+    ){
+      return list[i];
+    }
+
+  }
+
+  return null;
+}
+
+
+/* =========================================================
+   COMPATIBILITY WITH OLD 4-ARG BUTTONS
+   ========================================================= */
+
+function inferPlanTypeAndDays(name,amount){
+
+  var type =
+    String(name).toLowerCase().indexOf("elephant") >= 0
+      ? "Saving Elephant"
+      : "Saving Tin";
+
+  var days = 0;
+
+  var possible =
+    type === "Saving Elephant"
+      ? SAVING_ELEPHANTS
+      : SAVING_TINS;
+
+  for(var i=0;i<possible.length;i++){
+
+    if(
+      possible[i].amount === Number(amount)
+    ){
+
+      /*
+        For duplicate amounts, use the name
+        where possible.
+      */
+
+      if(
+        String(name)
+          .toLowerCase()
+          .indexOf(String(possible[i].days)) >= 0
+      ){
+
+        days = possible[i].days;
+        break;
+
+      }
+
+      if(!days)
+        days = possible[i].days;
+    }
+  }
+
+  return {
+    type:type,
+    days:days
+  };
+}
+
+
+/* =========================================================
+   ACTIVATE PLAN
+   ========================================================= */
+
+window.choosePlan = function(
+  name,
+  amount,
+  earning,
+  total,
+  days,
+  type
+){
+
+  amount = Number(amount);
+  earning = Number(earning);
+  total = Number(total);
+
+  if(!days || !type){
+
+    var inferred =
+      inferPlanTypeAndDays(name,amount);
+
+    type = type || inferred.type;
+    days = days || inferred.days;
+  }
+
+  var exactPlan =
+    findPlan(type,days,amount);
+
+  if(exactPlan){
+
+    earning = exactPlan.earning;
+    total = exactPlan.total;
+
+  }
+
+  if(!amount || !days){
+
+    alert("This saving plan could not be identified.");
+    return;
+  }
+
+  if(account.balance < amount){
+
+    var needed =
+      amount - account.balance;
+
+    var goDeposit =
+      confirm(
+        "You need " +
+        money(needed) +
+        " more to activate this plan.\n\n" +
+        "Would you like to open Deposit?"
+      );
+
+    if(goDeposit){
+      showSection("deposit");
+    }
+
+    return;
+  }
+
+  var start =
+    new Date();
+
+  var maturity =
+    new Date(start.getTime());
+
+  maturity.setDate(
+    maturity.getDate() + Number(days)
+  );
+
+  account.balance -= amount;
+
+  var active = {
+
+    id:Date.now(),
+
+    type:type,
+
+    name:
+      name ||
+      (days + " Days " + type),
+
+    days:Number(days),
+
+    amount:amount,
+
+    earning:earning,
+
+    total:total,
+
+    startedAt:start.toISOString(),
+
+    maturityAt:maturity.toISOString(),
+
+    status:"Active"
+
+  };
+
+  account.activePlans.push(active);
+
+  addTransaction(
+    "Saving Plan",
+    amount,
+    active.name +
+      " activated"
+  );
+
+  saveAccount();
+
+  updateBalance();
+
+  alert(
+    "Saving plan activated successfully!\n\n" +
+    active.name +
+    "\n" +
+    "Amount: " +
+    money(amount) +
+    "\n" +
+    "Maturity: " +
+    maturity.toLocaleDateString()
+  );
+
+  renderAll();
+};
+
+
+/* =========================================================
+   PLAN CARD
+   ========================================================= */
+
+function planCard(plan){
+
+  var safeName =
+    plan.days +
+    " Days " +
+    plan.type;
+
+  return (
+
+    '<div class="cse-plan">' +
+
+      '<h4>' +
+        (plan.type === "Saving Tin"
+          ? "🐷 "
+          : "🐘 ") +
+        safeName +
+      '</h4>' +
+
+      '<div class="cse-type">' +
+        "Swipe to see more plans" +
+      '</div>' +
+
+      '<p>' +
+        '<strong>Amount:</strong> ' +
+        money(plan.amount) +
+      '</p>' +
+
+      '<p>' +
+        '<strong>Earning:</strong> ' +
+        money(plan.earning) +
+      '</p>' +
+
+      '<p>' +
+        '<strong>Total:</strong> ' +
+        money(plan.total) +
+      '</p>' +
+
+      '<p>' +
+        '<strong>Cycle:</strong> ' +
+        plan.days +
+        ' days' +
+      '</p>' +
+
+      '<button class="cse-btn" ' +
+        'onclick="choosePlan(' +
+        '\'' + safeName.replace(/'/g,"\\'") + '\',' +
+        plan.amount + ',' +
+        plan.earning + ',' +
+        plan.total + ',' +
+        plan.days + ',' +
+        '\'' + plan.type + '\'' +
+        ')">' +
+        'Activate Plan' +
+      '</button>' +
+
+    '</div>'
+
+  );
+}
+
+
+/* =========================================================
+   RENDER PLANS
+   ========================================================= */
+
+function renderPlans(){
+
+  var area =
+    el("csePlansArea");
+
+  if(!area)
+    return;
+
+  var tins = "";
+
+  for(var i=0;i<SAVING_TINS.length;i++){
+    tins += planCard(SAVING_TINS[i]);
+  }
+
+  var elephants = "";
+
+  for(var j=0;j<SAVING_ELEPHANTS.length;j++){
+    elephants += planCard(SAVING_ELEPHANTS[j]);
+  }
+
+  area.innerHTML =
+
+    '<div class="cse-panel">' +
+
+      '<h2>🐷 Saving Tins</h2>' +
+
+      '<div class="cse-plans">' +
+        tins +
+      '</div>' +
+
+    '</div>' +
+
+    '<div class="cse-panel">' +
+
+      '<h2>🐘 Saving Elephants</h2>' +
+
+      '<div class="cse-plans">' +
+        elephants +
+      '</div>' +
+
+    '</div>' +
+
+    '<div class="cse-note">' +
+      'The amounts shown above are the configured plan values. ' +
+      'Actual payouts should be controlled by your secure backend.' +
+    '</div>';
+
+}
+
+
+/* =========================================================
+   ACTIVE PLANS
+   ========================================================= */
+
+function renderActivePlans(){
+
+  var area =
+    el("cseActivePlans");
+
+  if(!area)
+    return;
+
+  if(!account.activePlans.length){
+
+    area.innerHTML =
+      '<div class="cse-empty">' +
+      'You have no active saving plans yet.' +
+      '</div>';
+
+    return;
+  }
+
+  var html = "";
+
+  account.activePlans.forEach(function(plan){
+
+    var maturity =
+      new Date(plan.maturityAt);
+
+    html +=
+
+      '<div class="cse-active">' +
+
+        '<strong>' +
+          plan.type +
+          ' — ' +
+          plan.days +
+          ' Days' +
+        '</strong>' +
+
+        '<br>' +
+
+        'Amount: ' +
+        money(plan.amount) +
+
+        '<br>' +
+
+        'Configured total: ' +
+        money(plan.total) +
+
+        '<br>' +
+
+        'Matures: ' +
+        maturity.toLocaleDateString() +
+
+      '</div>';
+
+  });
+
+  area.innerHTML = html;
+}
+
+
+/* =========================================================
+   TRANSACTIONS / ACTIVITY
+   ========================================================= */
+
+function renderTransactions(){
+
+  var area =
+    el("transactionList");
+
+  if(!area)
+    return;
+
+  if(!account.transactions.length){
+
+    area.innerHTML =
+      '<div class="cse-empty">' +
+      'No transactions yet.' +
+      '</div>';
+
+    return;
+  }
+
+  var html = "";
+
+  account.transactions.forEach(function(tx){
+
+    var sign =
+      tx.type === "Deposit"
+        ? "+"
+        : "-";
+
+    html +=
+
+      '<div class="cse-transaction">' +
+
+        '<div class="cse-transaction-title">' +
+          tx.type +
+          ' ' +
+          sign +
+          money(tx.amou
