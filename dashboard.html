@@ -5158,3 +5158,72 @@ body * {
 
 })();
 </script>
+<script>
+(function () {
+
+  function removeWhiteOverlay() {
+
+    document.documentElement.style.background = "#f5f7fa";
+    document.body.style.background = "#f5f7fa";
+    document.body.style.opacity = "1";
+    document.body.style.visibility = "visible";
+    document.body.style.overflow = "auto";
+
+    document.querySelectorAll("*").forEach(function (el) {
+
+      const style = window.getComputedStyle(el);
+
+      if (el.tagName === "SCRIPT" || el.tagName === "STYLE") {
+        return;
+      }
+
+      const position = style.position;
+      const zIndex = parseInt(style.zIndex);
+
+      /*
+       Remove only fixed/absolute full-screen white overlays.
+      */
+      if (
+        (position === "fixed" || position === "absolute") &&
+        !isNaN(zIndex) &&
+        zIndex >= 100 &&
+        el !== document.body
+      ) {
+
+        const rect = el.getBoundingClientRect();
+
+        if (
+          rect.width >= window.innerWidth * 0.9 &&
+          rect.height >= window.innerHeight * 0.9
+        ) {
+
+          const bg = style.backgroundColor;
+
+          if (
+            bg === "rgb(255, 255, 255)" ||
+            bg === "rgba(255, 255, 255, 1)" ||
+            bg === "white"
+          ) {
+            el.remove();
+          }
+        }
+      }
+
+    });
+
+  }
+
+  removeWhiteOverlay();
+
+  window.addEventListener(
+    "load",
+    removeWhiteOverlay
+  );
+
+  setTimeout(removeWhiteOverlay, 200);
+  setTimeout(removeWhiteOverlay, 500);
+  setTimeout(removeWhiteOverlay, 1000);
+  setTimeout(removeWhiteOverlay, 2000);
+
+})();
+</script>
