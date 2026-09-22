@@ -3678,3 +3678,79 @@ function updateTransactions(){
       right.className =
         isDeposit
           ? "
+<script>
+(function () {
+
+  function removeBrokenCode() {
+    const badWords = [
+      'positName").value.trim();',
+      'document.getElementById("depositNumber")',
+      'document.getElementById("depositAmount")',
+      'function showMessage',
+      'MESSAGE',
+      'Minimum deposit is UGX 20,000',
+      'account.transactions.unshift'
+    ];
+
+    function clean(node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent || "";
+
+        if (
+          badWords.some(word => text.includes(word)) &&
+          (
+            text.includes('positName').toString() ||
+            text.includes('function showMessage') ||
+            text.includes('document.getElementById')
+          )
+        ) {
+          node.remove();
+        }
+
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+
+        if (node.tagName === "SCRIPT") return;
+
+        Array.from(node.childNodes).forEach(clean);
+      }
+    }
+
+    Array.from(document.body.childNodes).forEach(clean);
+  }
+
+  function hideBrokenText() {
+    const elements = document.body.querySelectorAll("*");
+
+    elements.forEach(el => {
+      if (el.tagName === "SCRIPT" || el.children.length > 0) return;
+
+      const text = (el.textContent || "").trim();
+
+      if (
+        text.includes('positName").value.trim();') ||
+        (
+          text.includes("function showMessage") &&
+          text.includes("depositMessage")
+        )
+      ) {
+        el.remove();
+      }
+    });
+  }
+
+  function runFix() {
+    removeBrokenCode();
+    hideBrokenText();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", runFix);
+  } else {
+    runFix();
+  }
+
+  setTimeout(runFix, 300);
+  setTimeout(runFix, 1000);
+
+})();
+    </script>
