@@ -5329,3 +5329,99 @@ positName").value.trim();
 
 })();
 </script>
+<style>
+html, body {
+  background: #f4f7fa !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+}
+
+.section {
+  display: none !important;
+}
+
+#home.section.active,
+#deposit.section.active,
+#withdraw.section.active,
+#referrals.section.active,
+#transactions.section.active,
+#profile.section.active {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.bottom-nav {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 999999 !important;
+}
+
+/* Remove accidental full-screen white overlays */
+body > div:not(.bottom-nav) {
+  position: static !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+body > div[style*="position: fixed"],
+body > div[style*="position:fixed"] {
+  display: none !important;
+}
+
+/* Keep the actual dashboard above accidental overlays */
+header,
+main,
+.section,
+.card,
+.hero,
+.referral,
+.plan,
+.bottom-nav {
+  position: relative;
+  z-index: 10;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  document.documentElement.style.background = "#f4f7fa";
+  document.body.style.background = "#f4f7fa";
+  document.body.style.opacity = "1";
+  document.body.style.visibility = "visible";
+
+  const sections = document.querySelectorAll(".section");
+
+  if (sections.length) {
+    sections.forEach(function(section) {
+      section.classList.remove("active");
+    });
+
+    const home = document.getElementById("home");
+
+    if (home) {
+      home.classList.add("active");
+      home.style.display = "block";
+      home.style.visibility = "visible";
+      home.style.opacity = "1";
+    }
+  }
+
+  const nav = document.querySelector(".bottom-nav");
+
+  if (nav) {
+    nav.style.display = "flex";
+    nav.style.visibility = "visible";
+    nav.style.opacity = "1";
+    nav.style.zIndex = "999999";
+  }
+
+  if (typeof updateDashboard === "function") {
+    updateDashboard();
+  }
+
+});
+    </script>
