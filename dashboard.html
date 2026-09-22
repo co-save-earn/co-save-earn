@@ -1350,3 +1350,1352 @@ label{
 <!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supa
+<script>
+/* =========================================================
+   CO SAVE & EARN — DASHBOARD BUTTON REPAIR
+   Paste this whole block at the VERY END of dashboard.html
+========================================================= */
+
+(function () {
+
+  /* -------------------------------------------------------
+     ACCOUNT STORAGE
+  ------------------------------------------------------- */
+
+  let account = {};
+
+  try {
+    account =
+      JSON.parse(
+        localStorage.getItem("coEarnerAccount")
+      ) || {};
+  } catch (e) {
+    account = {};
+  }
+
+  account.name =
+    account.name || "User";
+
+  account.phone =
+    account.phone || "";
+
+  account.provider =
+    account.provider || "";
+
+  account.balance =
+    Number(account.balance || 0);
+
+  account.referralCode =
+    account.referralCode ||
+    (
+      "CO" +
+      Math.floor(
+        100000 +
+        Math.random() * 900000
+      )
+    );
+
+  account.referrals =
+    Number(account.referrals || 0);
+
+  account.transactions =
+    Array.isArray(account.transactions)
+      ? account.transactions
+      : [];
+
+  account.activePlans =
+    Array.isArray(account.activePlans)
+      ? account.activePlans
+      : [];
+
+
+  function saveAccount() {
+
+    localStorage.setItem(
+      "coEarnerAccount",
+      JSON.stringify(account)
+    );
+
+  }
+
+
+  function money(amount) {
+
+    return (
+      "UGX " +
+      Number(amount || 0).toLocaleString()
+    );
+
+  }
+
+
+  /* -------------------------------------------------------
+     SECTION NAVIGATION
+  ------------------------------------------------------- */
+
+  window.showSection = function (id, button) {
+
+    document
+      .querySelectorAll(".section")
+      .forEach(function (section) {
+
+        section.classList.remove("active");
+
+        section.style.display = "none";
+
+      });
+
+
+    const selected =
+      document.getElementById(id);
+
+
+    if (!selected) {
+
+      return;
+
+    }
+
+
+    selected.classList.add("active");
+
+    selected.style.display = "block";
+
+
+    document
+      .querySelectorAll(".nav-btn, .nav")
+      .forEach(function (btn) {
+
+        btn.classList.remove("active");
+
+      });
+
+
+    if (button) {
+
+      button.classList.add("active");
+
+    }
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  };
+
+
+  /* -------------------------------------------------------
+     UPDATE DASHBOARD
+  ------------------------------------------------------- */
+
+  function updateDashboard() {
+
+    const balance =
+      document.getElementById("balance");
+
+    if (balance) {
+
+      balance.textContent =
+        money(account.balance);
+
+    }
+
+
+    const name =
+      account.name || "User";
+
+
+    const initial =
+      name.charAt(0).toUpperCase();
+
+
+    const headerInitial =
+      document.getElementById(
+        "headerInitial"
+      );
+
+    if (headerInitial) {
+
+      headerInitial.textContent =
+        initial;
+
+    }
+
+
+    const welcomeName =
+      document.getElementById(
+        "welcomeName"
+      );
+
+    if (welcomeName) {
+
+      welcomeName.textContent =
+        name;
+
+    }
+
+
+    const profileAvatar =
+      document.getElementById(
+        "profileAvatar"
+      );
+
+    if (profileAvatar) {
+
+      profileAvatar.textContent =
+        initial;
+
+    }
+
+
+    const profileDisplayName =
+      document.getElementById(
+        "profileDisplayName"
+      );
+
+    if (profileDisplayName) {
+
+      profileDisplayName.textContent =
+        name;
+
+    }
+
+
+    const profileDisplayPhone =
+      document.getElementById(
+        "profileDisplayPhone"
+      );
+
+    if (profileDisplayPhone) {
+
+      profileDisplayPhone.textContent =
+        account.phone
+          ? (
+              account.provider
+                ? account.provider + " • "
+                : ""
+            ) + account.phone
+          : "Mobile number not added";
+
+    }
+
+
+    const profileName =
+      document.getElementById(
+        "profileName"
+      );
+
+    if (profileName) {
+
+      profileName.value =
+        name === "User"
+          ? ""
+          : name;
+
+    }
+
+
+    const profileProvider =
+      document.getElementById(
+        "profileProvider"
+      );
+
+    if (profileProvider) {
+
+      profileProvider.value =
+        account.provider;
+
+    }
+
+
+    const profilePhone =
+      document.getElementById(
+        "profilePhone"
+      );
+
+    if (profilePhone) {
+
+      profilePhone.value =
+        account.phone;
+
+    }
+
+
+    const accountId =
+      document.getElementById(
+        "accountId"
+      );
+
+    if (accountId) {
+
+      accountId.textContent =
+        "CE-" +
+        account.referralCode;
+
+    }
+
+
+    const referralCount =
+      document.getElementById(
+        "referralCount"
+      );
+
+    if (referralCount) {
+
+      referralCount.textContent =
+        account.referrals;
+
+    }
+
+
+    const myReferralCode =
+      document.getElementById(
+        "myReferralCode"
+      );
+
+    if (myReferralCode) {
+
+      myReferralCode.textContent =
+        account.referralCode;
+
+    }
+
+
+    const profileReferralCode =
+      document.getElementById(
+        "profileReferralCode"
+      );
+
+    if (profileReferralCode) {
+
+      profileReferralCode.textContent =
+        account.referralCode;
+
+    }
+
+
+    const referralLink =
+      document.getElementById(
+        "referralLink"
+      );
+
+    if (referralLink) {
+
+      referralLink.textContent =
+        window.location.origin +
+        window.location.pathname
+          .replace(
+            "dashboard.html",
+            ""
+          ) +
+        "index.html?ref=" +
+        account.referralCode;
+
+    }
+
+
+    updateTransactions();
+
+    updateActivePlans();
+
+    updateReferralRewards();
+
+  }
+
+
+  /* -------------------------------------------------------
+     MESSAGE
+  ------------------------------------------------------- */
+
+  function message(id, text, type) {
+
+    const box =
+      document.getElementById(id);
+
+    if (!box) {
+
+      alert(text);
+
+      return;
+
+    }
+
+
+    box.className =
+      "message show " +
+      type;
+
+    box.textContent =
+      text;
+
+  }
+
+
+  /* -------------------------------------------------------
+     DEPOSIT
+  ------------------------------------------------------- */
+
+  window.depositMoney = function () {
+
+    const provider =
+      document.getElementById(
+        "depositProvider"
+      )?.value;
+
+    const name =
+      document.getElementById(
+        "depositName"
+      )?.value.trim();
+
+    const number =
+      document.getElementById(
+        "depositNumber"
+      )?.value.trim();
+
+    const amount =
+      Number(
+        document.getElementById(
+          "depositAmount"
+        )?.value
+      );
+
+
+    if (
+      !provider ||
+      !name ||
+      !number ||
+      !amount
+    ) {
+
+      message(
+        "depositMessage",
+        "Please complete all deposit details.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (amount < 20000) {
+
+      message(
+        "depositMessage",
+        "Minimum deposit is UGX 20,000.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    account.balance += amount;
+
+
+    account.transactions.unshift({
+
+      type: "Deposit",
+
+      amount: amount,
+
+      details:
+        provider +
+        " • " +
+        number,
+
+      date:
+        new Date().toLocaleString()
+
+    });
+
+
+    saveAccount();
+
+    updateDashboard();
+
+
+    const amountInput =
+      document.getElementById(
+        "depositAmount"
+      );
+
+    if (amountInput) {
+
+      amountInput.value = "";
+
+    }
+
+
+    message(
+      "depositMessage",
+      "Deposit of " +
+      money(amount) +
+      " recorded successfully.",
+      "success"
+    );
+
+  };
+
+
+  /* -------------------------------------------------------
+     WITHDRAW
+  ------------------------------------------------------- */
+
+  window.withdrawMoney = function () {
+
+    const provider =
+      document.getElementById(
+        "withdrawProvider"
+      )?.value;
+
+    const name =
+      document.getElementById(
+        "withdrawName"
+      )?.value.trim();
+
+    const number =
+      document.getElementById(
+        "withdrawNumber"
+      )?.value.trim();
+
+    const amount =
+      Number(
+        document.getElementById(
+          "withdrawAmount"
+        )?.value
+      );
+
+
+    if (
+      !provider ||
+      !name ||
+      !number ||
+      !amount
+    ) {
+
+      message(
+        "withdrawMessage",
+        "Please complete all withdrawal details.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (amount < 20000) {
+
+      message(
+        "withdrawMessage",
+        "Minimum withdrawal is UGX 20,000.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    if (amount > account.balance) {
+
+      message(
+        "withdrawMessage",
+
+        "Insufficient balance. " +
+
+        "Available: " +
+        money(account.balance) +
+
+        ". You need " +
+        money(
+          amount -
+          account.balance
+        ) +
+        " more.",
+
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    account.balance -= amount;
+
+
+    account.transactions.unshift({
+
+      type: "Withdrawal",
+
+      amount: amount,
+
+      details:
+        provider +
+        " • " +
+        number,
+
+      date:
+        new Date().toLocaleString()
+
+    });
+
+
+    saveAccount();
+
+    updateDashboard();
+
+
+    const amountInput =
+      document.getElementById(
+        "withdrawAmount"
+      );
+
+    if (amountInput) {
+
+      amountInput.value = "";
+
+    }
+
+
+    message(
+      "withdrawMessage",
+
+      "Withdrawal of " +
+      money(amount) +
+      " recorded successfully.",
+
+      "success"
+    );
+
+  };
+
+
+  /* -------------------------------------------------------
+     SAVING PLANS
+  ------------------------------------------------------- */
+
+  window.choosePlan = function (
+    planName,
+    amount,
+    earning,
+    total
+  ) {
+
+    amount =
+      Number(amount);
+
+    earning =
+      Number(earning);
+
+    total =
+      Number(total);
+
+
+    if (account.balance < amount) {
+
+      const needed =
+        amount -
+        account.balance;
+
+
+      const goDeposit =
+        confirm(
+
+          "You need " +
+          money(amount) +
+          " to activate this plan.\n\n" +
+
+          "Available balance: " +
+          money(account.balance) +
+          "\n\n" +
+
+          "You need: " +
+          money(needed) +
+          " more.\n\n" +
+
+          "Go to Deposit?"
+
+        );
+
+
+      if (goDeposit) {
+
+        window.showSection(
+          "deposit"
+        );
+
+      }
+
+      return;
+
+    }
+
+
+    const confirmPlan =
+      confirm(
+
+        "Activate " +
+        planName +
+        "?\n\n" +
+
+        "Amount: " +
+        money(amount) +
+
+        "\nEarning: " +
+        money(earning) +
+
+        "\nTotal: " +
+        money(total)
+
+      );
+
+
+    if (!confirmPlan) {
+
+      return;
+
+    }
+
+
+    account.balance -= amount;
+
+
+    account.activePlans.unshift({
+
+      name:
+        planName,
+
+      amount:
+        amount,
+
+      earning:
+        earning,
+
+      total:
+        total,
+
+      date:
+        new Date().toLocaleString(),
+
+      status:
+        "Active"
+
+    });
+
+
+    account.transactions.unshift({
+
+      type:
+        "Saving Plan",
+
+      amount:
+        amount,
+
+      details:
+        planName,
+
+      date:
+        new Date().toLocaleString()
+
+    });
+
+
+    saveAccount();
+
+    updateDashboard();
+
+
+    alert(
+      planName +
+      " activated successfully."
+    );
+
+
+    window.showSection(
+      "home"
+    );
+
+  };
+
+
+  /* -------------------------------------------------------
+     ACTIVE SAVING PLANS
+  ------------------------------------------------------- */
+
+  function updateActivePlans() {
+
+    const box =
+      document.getElementById(
+        "activePlans"
+      );
+
+    if (!box) {
+
+      return;
+
+    }
+
+
+    if (
+      !account.activePlans.length
+    ) {
+
+      box.innerHTML =
+        '<div class="empty">' +
+        'No active saving plans yet.' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      account.activePlans
+        .map(function (plan) {
+
+          return (
+
+            '<div class="active-plan">' +
+
+              '<strong>' +
+              escapeHTML(
+                plan.name
+              ) +
+              '</strong>' +
+
+              '<p class="info">' +
+              'Amount: ' +
+              '<strong>' +
+              money(plan.amount) +
+              '</strong>' +
+              '</p>' +
+
+              '<p class="info">' +
+              'Earning: ' +
+              '<strong>' +
+              money(plan.earning) +
+              '</strong>' +
+              '</p>' +
+
+              '<p class="info">' +
+              'Total: ' +
+              '<strong>' +
+              money(plan.total) +
+              '</strong>' +
+              '</p>' +
+
+              '<p class="date">' +
+              'Started: ' +
+              escapeHTML(
+                plan.date
+              ) +
+              '</p>' +
+
+            '</div>'
+
+          );
+
+        })
+        .join("");
+
+  }
+
+
+  /* -------------------------------------------------------
+     TRANSACTIONS / ACTIVITY
+  ------------------------------------------------------- */
+
+  function updateTransactions() {
+
+    const box =
+      document.getElementById(
+        "transactionList"
+      );
+
+    if (!box) {
+
+      return;
+
+    }
+
+
+    if (
+      !account.transactions.length
+    ) {
+
+      box.innerHTML =
+        '<div class="empty">' +
+        'No transactions yet.' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    box.innerHTML =
+      account.transactions
+        .map(function (item) {
+
+          const type =
+            item.type ||
+            "Transaction";
+
+          const amount =
+            Number(
+              item.amount || 0
+            );
+
+
+          let colour =
+            "gold";
+
+
+          if (
+            type
+              .toLowerCase()
+              .includes("deposit")
+          ) {
+
+            colour =
+              "green";
+
+          }
+
+
+          if (
+            type
+              .toLowerCase()
+              .includes("withdraw")
+          ) {
+
+            colour =
+              "red";
+
+          }
+
+
+          return (
+
+            '<div class="transaction">' +
+
+              '<div>' +
+
+                '<div class="tname">' +
+                escapeHTML(type) +
+                '</div>' +
+
+                '<div class="date">' +
+                escapeHTML(
+                  item.details || ""
+                ) +
+                '</div>' +
+
+                '<div class="date">' +
+                escapeHTML(
+                  item.date || ""
+                ) +
+                '</div>' +
+
+              '</div>' +
+
+              '<strong class="' +
+              colour +
+              '">' +
+
+              money(amount) +
+
+              '</strong>' +
+
+            '</div>'
+
+          );
+
+        })
+        .join("");
+
+  }
+
+
+  /* -------------------------------------------------------
+     REFERRAL REWARDS
+  ------------------------------------------------------- */
+
+  function updateReferralRewards() {
+
+    const count =
+      Number(
+        account.referrals || 0
+      );
+
+
+    const countBox =
+      document.getElementById(
+        "referralCount"
+      );
+
+    if (countBox) {
+
+      countBox.textContent =
+        count;
+
+    }
+
+
+    const codeBox =
+      document.getElementById(
+        "myReferralCode"
+      );
+
+    if (codeBox) {
+
+      codeBox.textContent =
+        account.referralCode;
+
+    }
+
+
+    const profileCode =
+      document.getElementById(
+        "profileReferralCode"
+      );
+
+    if (profileCode) {
+
+      profileCode.textContent =
+        account.referralCode;
+
+    }
+
+
+    const linkBox =
+      document.getElementById(
+        "referralLink"
+      );
+
+    if (linkBox) {
+
+      linkBox.textContent =
+        window.location.origin +
+        window.location.pathname
+          .replace(
+            "dashboard.html",
+            ""
+          ) +
+        "index.html?ref=" +
+        account.referralCode;
+
+    }
+
+
+    const reward10 =
+      document.getElementById(
+        "reward10"
+      );
+
+    const reward50 =
+      document.getElementById(
+        "reward50"
+      );
+
+    const reward100 =
+      document.getElementById(
+        "reward100"
+      );
+
+
+    if (reward10) {
+
+      reward10.classList.toggle(
+        "unlocked",
+        count >= 10
+      );
+
+    }
+
+
+    if (reward50) {
+
+      reward50.classList.toggle(
+        "unlocked",
+        count >= 50
+      );
+
+    }
+
+
+    if (reward100) {
+
+      reward100.classList.toggle(
+        "unlocked",
+        count >= 100
+      );
+
+    }
+
+
+    const progress =
+      document.getElementById(
+        "referralProgress"
+      );
+
+
+    if (progress) {
+
+      if (count >= 100) {
+
+        progress.textContent =
+          "You have reached 100 referrals.";
+
+      }
+      else if (count >= 50) {
+
+        progress.textContent =
+          (100 - count) +
+          " more referral(s) to reach 100.";
+
+      }
+      else if (count >= 10) {
+
+        progress.textContent =
+          (50 - count) +
+          " more referral(s) to reach 50.";
+
+      }
+      else {
+
+        progress.textContent =
+          (10 - count) +
+          " more referral(s) to reach 10.";
+
+      }
+
+    }
+
+
+    const bar =
+      document.getElementById(
+        "referralBar"
+      );
+
+
+    if (bar) {
+
+      let target = 10;
+
+      if (count >= 10) {
+        target = 50;
+      }
+
+      if (count >= 50) {
+        target = 100;
+      }
+
+      if (count >= 100) {
+        target = 100;
+      }
+
+
+      bar.style.width =
+        Math.min(
+          (count / target) * 100,
+          100
+        ) +
+        "%";
+
+    }
+
+  }
+
+
+  /* -------------------------------------------------------
+     COPY REFERRAL
+  ------------------------------------------------------- */
+
+  window.copyReferral = function () {
+
+    const box =
+      document.getElementById(
+        "referralLink"
+      );
+
+    if (!box) {
+
+      return;
+
+    }
+
+
+    const text =
+      box.textContent;
+
+
+    if (
+      navigator.clipboard &&
+      navigator.clipboard.writeText
+    ) {
+
+      navigator.clipboard
+        .writeText(text)
+        .then(function () {
+
+          alert(
+            "Referral link copied!"
+          );
+
+        })
+        .catch(function () {
+
+          oldCopy(text);
+
+        });
+
+    }
+    else {
+
+      oldCopy(text);
+
+    }
+
+  };
+
+
+  function oldCopy(text) {
+
+    const input =
+      document.createElement(
+        "input"
+      );
+
+    input.value =
+      text;
+
+    document.body.appendChild(
+      input
+    );
+
+    input.select();
+
+    document.execCommand(
+      "copy"
+    );
+
+    input.remove();
+
+    alert(
+      "Referral link copied!"
+    );
+
+  }
+
+
+  /* -------------------------------------------------------
+     SHARE REFERRAL
+  ------------------------------------------------------- */
+
+  window.shareReferral = function () {
+
+    const link =
+      document.getElementById(
+        "referralLink"
+      )?.textContent ||
+      "";
+
+
+    if (
+      navigator.share
+    ) {
+
+      navigator.share({
+
+        title:
+          "Co Save & Earn",
+
+        text:
+          "Join me on Co Save & Earn.",
+
+        url:
+          link
+
+      })
+      .catch(function () {});
+
+    }
+    else {
+
+      oldCopy(link);
+
+    }
+
+  };
+
+
+  /* -------------------------------------------------------
+     PROFILE
+  ------------------------------------------------------- */
+
+  window.saveProfile = function () {
+
+    const name =
+      document.getElementById(
+        "profileName"
+      )?.value.trim();
+
+    const provider =
+      document.getElementById(
+        "profileProvider"
+      )?.value;
+
+    const phone =
+      document.getElementById(
+        "profilePhone"
+      )?.value.trim();
+
+
+    if (!name) {
+
+      message(
+        "profileMessage",
+        "Please enter your name.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    account.name =
+      name;
+
+    account.provider =
+      provider || "";
+
+    account.phone =
+      phone || "";
+
+
+    saveAccount();
+
+    updateDashboard();
+
+
+    message(
+      "profileMessage",
+      "Profile saved successfully.",
+      "success"
+    );
+
+  };
+
+
+  /* -------------------------------------------------------
+     LOGOUT
+  -----------------------------------
