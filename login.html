@@ -1,26 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login - Co Save & Earn</title>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#f5f7fb;color:#172033}
+.wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:25px}
+.box{background:white;width:100%;max-width:430px;padding:30px;border-radius:25px;box-shadow:0 8px 30px #0001}
+.logo{text-align:center;font-size:29px;font-weight:bold;color:#183b56}
+.sub{text-align:center;color:#687386;margin-bottom:25px}
+input{width:100%;padding:14px;margin:7px 0;border:1px solid #d7dde5;border-radius:10px}
+button{width:100%;padding:14px;border:0;border-radius:10px;background:#246b8f;color:white;font-weight:bold;margin-top:10px}
+.back{background:white;color:#246b8f;border:1px solid #246b8f}
+</style>
+</head>
+<body>
 
-    <title>Login - Co Save & Earn</title>
+<div class="wrap">
+<div class="box">
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+<div class="logo">Co Save & Earn</div>
+<p class="sub">Welcome back</p>
 
-        body {
-            background: #f5f7fb;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+<h2>Log In</h2>
 
-       
+<input id="phone" placeholder="Mobile number">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="login()">Log In</button>
+
+<button class="back" onclick="location.href='index.html'">
+Create a New Account
+</button>
+
+</div>
+</div>
+
+<script>
+function login(){
+
+const phone=document.getElementById("phone").value.trim();
+const password=document.getElementById("password").value;
+
+const account=JSON.parse(
+localStorage.getItem("coEarnerAccount")
+);
+
+if(!account){
+alert("No account found. Please create an account first.");
+location.href="index.html";
+return;
+}
+
+if(account.phone!==phone||account.password!==password){
+alert("Incorrect mobile number or password.");
+return;
+}
+
+localStorage.setItem("coLoggedIn","true");
+location.href="dashboard.html";
+}
+</script>
+
+</body>
+</html>
