@@ -2035,3 +2035,754 @@ refreshUI();
 
 </body>
   </html>
+<!-- =========================================================
+     CO SAVE & EARN
+     SAVING PIGS + SAVING SAFES + REFERRAL SECTION
+     Paste this BEFORE the final </body> tag
+========================================================= -->
+
+<style>
+  .new-saving-section {
+    margin: 25px 0;
+    padding: 20px;
+    border-radius: 22px;
+    background: linear-gradient(145deg, #101827, #18243a);
+    color: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,.18);
+  }
+
+  .new-saving-title {
+    text-align: center;
+    margin-bottom: 6px;
+    font-size: 25px;
+    font-weight: 800;
+  }
+
+  .new-saving-subtitle {
+    text-align: center;
+    color: #b8c3d6;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  .saving-plan-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 15px;
+  }
+
+  .saving-plan-card {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 18px;
+    padding: 18px;
+    text-align: center;
+  }
+
+  .saving-object {
+    font-size: 55px;
+    margin-bottom: 5px;
+  }
+
+  .saving-plan-card h3 {
+    margin: 5px 0;
+    font-size: 19px;
+  }
+
+  .saving-days {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.12);
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  .saving-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    font-size: 14px;
+  }
+
+  .saving-row:last-of-type {
+    border-bottom: none;
+  }
+
+  .saving-total {
+    margin-top: 12px;
+    font-size: 20px;
+    font-weight: 800;
+  }
+
+  .saving-daily {
+    color: #aebbd0;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .choose-saving-btn {
+    width: 100%;
+    margin-top: 14px;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background: white;
+    color: #101827;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .choose-saving-btn:active {
+    transform: scale(.98);
+  }
+
+  .referral-box {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #18243a, #101827);
+    color: white;
+  }
+
+  .referral-box h2 {
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .referral-code {
+    text-align: center;
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    margin: 12px 0;
+  }
+
+  .referral-link {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: rgba(255,255,255,.1);
+    color: white;
+    margin-bottom: 12px;
+  }
+
+  .referral-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .referral-btn {
+    border: none;
+    padding: 12px;
+    border-radius: 11px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .referral-count {
+    text-align: center;
+    margin: 18px 0;
+    font-size: 18px;
+  }
+
+  .reward-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .reward-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 11px 13px;
+    border-radius: 10px;
+    background: rgba(255,255,255,.07);
+  }
+
+  .reward-item strong {
+    color: #fff;
+  }
+
+  @media(max-width:600px) {
+    .saving-plan-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+
+<!-- ================================
+     SAVING PIGS — 5 DAYS
+================================ -->
+
+<section class="new-saving-section">
+
+  <div class="new-saving-title">🐷 Saving Pigs</div>
+
+  <div class="new-saving-subtitle">
+    Save for 5 days and earn your planned return.
+  </div>
+
+  <div class="saving-plan-grid">
+
+    <!-- 20,000 -->
+    <div class="saving-plan-card">
+      <div class="saving-object">🐷</div>
+      <h3>20,000</h3>
+      <span class="saving-days">5 DAYS</span>
+
+      <div class="saving-row">
+        <span>Daily earning</span>
+        <strong>3,000</strong>
+      </div>
+
+      <div class="saving-row">
+        <span>Saved</span>
+        <strong>20,000</strong>
+      </div>
+
+      <div class="saving-total">
+        Total: 35,000
+      </div>
+
+      <div class="saving-daily">
+        15,000 earned in 5 days
+      </div>
+
+      <button class="choose-saving-btn"
+        onclick="selectNewSavingPlan('Saving Pig', 20000, 3000, 5, 35000)">
+        Choose Plan
+      </button>
+    </div>
+
+
+    <!-- 30,000 -->
+    <div class="saving-plan-card">
+      <div class="saving-object">🐷</div>
+      <h3>30,000</h3>
+      <span class="saving-days">5 DAYS</span>
+
+      <div class="saving-row">
+        <span>Daily earning</span>
+        <strong>5,000</strong>
+      </div>
+
+      <div class="saving-row">
+        <span>Saved</span>
+        <strong>30,000</strong>
+      </div>
+
+      <div class="saving-total">
+        Total: 55,000
+      </div>
+
+      <div class="saving-daily">
+        25,000 earned in 5 days
+      </div>
+
+      <button class="choose-saving-btn"
+        onclick="selectNewSavingPlan('Saving Pig', 30000, 5000, 5, 55000)">
+        Choose Plan
+      </button>
+    </div>
+
+
+    <!-- 50,000 -->
+    <div class="saving-plan-card">
+      <div class="saving-object">🐷</div>
+      <h3>50,000</h3>
+      <span class="saving-days">5 DAYS</span>
+
+      <div class="saving-row">
+        <span>Daily earning</span>
+        <strong>7,000</strong>
+      </div>
+
+      <div class="saving-row">
+        <span>Saved</span>
+        <strong>50,000</strong>
+      </div>
+
+      <div class="saving-total">
+        Total: 85,000
+      </div>
+
+      <div class="saving-daily">
+        35,000 earned in 5 days
+      </div>
+
+      <button class="choose-saving-btn"
+        onclick="selectNewSavingPlan('Saving Pig', 50000, 7000, 5, 85000)">
+        Choose Plan
+      </button>
+    </div>
+
+
+    <!-- 100,000 -->
+    <div class="saving-plan-card">
+      <div class="saving-object">🐷</div>
+      <h3>100,000</h3>
+      <span class="saving-days">5 DAYS</span>
+
+      <div class="saving-row">
+        <span>Daily earning</span>
+        <strong>11,000</strong>
+      </div>
+
+      <div class="saving-row">
+        <span>Saved</span>
+        <strong>100,000</strong>
+      </div>
+
+      <div class="saving-total">
+        Total: 155,000
+      </div>
+
+      <div class="saving-daily">
+        55,000 earned in 5 days
+      </div>
+
+      <button class="choose-saving-btn"
+        onclick="selectNewSavingPlan('Saving Pig', 100000, 11000, 5, 155000)">
+        Choose Plan
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- ================================
+     SAVING SAFES — 10 DAYS
+================================ -->
+
+<section class="new-saving-section">
+
+  <div class="new-saving-title">🔐 Saving Safes</div>
+
+  <div class="new-saving-subtitle">
+    Keep your savings locked for 10 days.
+  </div>
+
+  <div class="saving-plan-grid">
+
+    <!-- 20,000 -->
+    <div class="saving-plan-card">
+      <div class="saving-object">🔐</div>
+      <h3>20,000</h3>
+      <span class="saving-days">10 DAYS</span>
+
+      <div class="saving-row">
+        <span>Daily earning</span>
+        <strong>3,000</strong>
+      </div>
+
+      <div class="saving-row">
+        <span>Saved</span>
+        <strong>20,000</strong>
+      </div>
+
+      <div class="saving-total">
+        Total: 50,000
+      </div>
+
+      <div class="saving-daily">
+        30,000 earned in 10 days
+      </div>
+
+      <button class="choose-saving-btn"
+        onclick="selectNewSavingPlan('Saving Safe', 20000, 3000, 10, 50000)">
+        Choose Plan
+      </button>
+    </div>
+
+
+    <!-- 30,000 -->
+    <div class="saving-plan-card">
+      <div class="saving-object">🔐</div>
+      <h3>30,000</h3>
+      <span class="saving-days">10 DAYS</span>
+
+      <div class="saving-row">
+        <span>Daily earning</span>
+        <strong>5,000</strong>
+      </div>
+
+      <div class="saving-row">
+        <span>Saved</span>
+        <strong>30,000</strong>
+      </div>
+
+      <div class="saving-total">
+        Total: 80,000
+      </div>
+
+      <div class="saving-daily">
+        50,000 earned in 10 days
+      </div>
+
+      <button class="choose-saving-btn"
+        onclick="selectNewSavingPlan('Saving Safe', 30000, 5000, 10, 80000)">
+        Choose Plan
+      </button>
+    </div>
+
+
+    <!-- 50,000 -->
+    <div class="saving-plan-card">
+      <div class="saving-object">🔐</div>
+      <h3>50,000</h3>
+      <span class="saving-days">10 DAYS</span>
+
+      <div class="saving-row">
+        <span>Daily earning</span>
+        <strong>7,000</strong>
+      </div>
+
+      <div class="saving-row">
+        <span>Saved</span>
+        <strong>50,000</strong>
+      </div>
+
+      <div class="saving-total">
+        Total: 120,000
+      </div>
+
+      <div class="saving-daily">
+        70,000 earned in 10 days
+      </div>
+
+      <button class="choose-saving-btn"
+        onclick="selectNewSavingPlan('Saving Safe', 50000, 7000, 10, 120000)">
+        Choose Plan
+      </button>
+    </div>
+
+
+    <!-- 100,000 -->
+    <div class="saving-plan-card">
+      <div class="saving-object">🔐</div>
+      <h3>100,000</h3>
+      <span class="saving-days">10 DAYS</span>
+
+      <div class="saving-row">
+        <span>Daily earning</span>
+        <strong>11,000</strong>
+      </div>
+
+      <div class="saving-row">
+        <span>Saved</span>
+        <strong>100,000</strong>
+      </div>
+
+      <div class="saving-total">
+        Total: 210,000
+      </div>
+
+      <div class="saving-daily">
+        110,000 earned in 10 days
+      </div>
+
+      <button class="choose-saving-btn"
+        onclick="selectNewSavingPlan('Saving Safe', 100000, 11000, 10, 210000)">
+        Choose Plan
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+
+<!-- ================================
+     REFERRAL SYSTEM
+================================ -->
+
+<section class="referral-box">
+
+  <h2>🎁 Invite & Earn</h2>
+
+  <p style="text-align:center;color:#b8c3d6;">
+    Share your referral link with friends and earn rewards.
+  </p>
+
+  <div class="referral-code" id="myReferralCode">
+    Loading...
+  </div>
+
+  <input
+    id="myReferralLink"
+    class="referral-link"
+    type="text"
+    readonly
+  >
+
+  <div class="referral-buttons">
+
+    <button class="referral-btn"
+      onclick="copyReferralLink()">
+      📋 Copy Link
+    </button>
+
+    <button class="referral-btn"
+      onclick="shareReferralLink()">
+      📤 Share
+    </button>
+
+  </div>
+
+
+  <div class="referral-count">
+    Referrals: <strong id="referralCount">0</strong>
+  </div>
+
+
+  <div class="reward-list">
+
+    <div class="reward-item">
+      <span>10 Referrals</span>
+      <strong>20,000</strong>
+    </div>
+
+    <div class="reward-item">
+      <span>50 Referrals</span>
+      <strong>80,000</strong>
+    </div>
+
+    <div class="reward-item">
+      <span>100 Referrals</span>
+      <strong>130,000</strong>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<script>
+/* =========================================================
+   SAVING PLAN SELECTION
+========================================================= */
+
+function selectNewSavingPlan(type, amount, daily, days, maturity) {
+
+  const balance =
+    Number(localStorage.getItem("coBalance")) || 0;
+
+  if (balance < amount) {
+
+    alert(
+      "Insufficient balance. You need " +
+      amount.toLocaleString() +
+      " to choose this plan."
+    );
+
+    return;
+  }
+
+  const plan = {
+    type: type,
+    amount: amount,
+    dailyEarning: daily,
+    days: days,
+    maturity: maturity,
+    startDate: new Date().toISOString()
+  };
+
+  localStorage.setItem(
+    "activeNewSavingPlan",
+    JSON.stringify(plan)
+  );
+
+  alert(
+    type +
+    " selected successfully!\n\n" +
+    "Amount: " +
+    amount.toLocaleString() +
+    "\nDuration: " +
+    days +
+    " days\n" +
+    "Maturity: " +
+    maturity.toLocaleString()
+  );
+}
+
+
+
+/* =========================================================
+   REFERRAL CODE
+========================================================= */
+
+function createReferralCode() {
+
+  let code =
+    localStorage.getItem("coReferralCode");
+
+  if (!code) {
+
+    const name =
+      localStorage.getItem("coUserName") ||
+      localStorage.getItem("username") ||
+      localStorage.getItem("userName") ||
+      localStorage.getItem("name") ||
+      "USER";
+
+    const cleanName =
+      name
+      .replace(/[^a-zA-Z]/g, "")
+      .substring(0, 4)
+      .toUpperCase();
+
+    const randomNumber =
+      Math.floor(1000 + Math.random() * 9000);
+
+    code =
+      "CO" +
+      cleanName +
+      randomNumber;
+
+    localStorage.setItem(
+      "coReferralCode",
+      code
+    );
+  }
+
+  return code;
+}
+
+
+
+/* =========================================================
+   SHOW REFERRAL LINK
+========================================================= */
+
+function loadReferralInformation() {
+
+  const code =
+    createReferralCode();
+
+  const baseURL =
+    window.location.origin +
+    window.location.pathname
+      .replace("dashboard.html", "register.html");
+
+  const referralLink =
+    baseURL +
+    "?ref=" +
+    encodeURIComponent(code);
+
+  document.getElementById(
+    "myReferralCode"
+  ).textContent = code;
+
+  document.getElementById(
+    "myReferralLink"
+  ).value = referralLink;
+
+  const referrals =
+    Number(
+      localStorage.getItem("coReferralCount")
+    ) || 0;
+
+  document.getElementById(
+    "referralCount"
+  ).textContent = referrals;
+}
+
+
+
+/* =========================================================
+   COPY REFERRAL LINK
+========================================================= */
+
+function copyReferralLink() {
+
+  const link =
+    document.getElementById(
+      "myReferralLink"
+    ).value;
+
+  navigator.clipboard.writeText(link)
+    .then(function() {
+
+      alert(
+        "Referral link copied successfully!"
+      );
+
+    })
+    .catch(function() {
+
+      const input =
+        document.getElementById(
+          "myReferralLink"
+        );
+
+      input.select();
+
+      document.execCommand("copy");
+
+      alert(
+        "Referral link copied successfully!"
+      );
+    });
+}
+
+
+
+/* =========================================================
+   SHARE REFERRAL LINK
+========================================================= */
+
+function shareReferralLink() {
+
+  const link =
+    document.getElementById(
+      "myReferralLink"
+    ).value;
+
+  const text =
+    "Join me on Co Save & Earn and start saving!";
+
+  if (
+    navigator.share
+  ) {
+
+    navigator.share({
+      title: "Co Save & Earn",
+      text: text,
+      url: link
+    });
+
+  } else {
+
+    copyReferralLink();
+
+    alert(
+      "Your referral link has been copied. You can now paste it into WhatsApp, Messenger, Facebook or another app."
+    );
+  }
+}
+
+
+
+/* =========================================================
+   START
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    loadReferralInformation();
+
+  }
+);
+        </script>
