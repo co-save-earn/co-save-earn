@@ -1,4 +1,40 @@
-<!DOCTYPE html>
+<script>
+function selectNewSavingPlan(type, amount, daily, days, maturity) {
+
+  const balance =
+    Number(localStorage.getItem("coBalance")) || 0;
+
+  if (balance < amount) {
+    alert(
+      "Insufficient balance.\nYou need " +
+      amount.toLocaleString() +
+      " to choose this plan."
+    );
+    return;
+  }
+
+  const plan = {
+    type: type,
+    amount: amount,
+    dailyEarning: daily,
+    days: days,
+    maturity: maturity,
+    startDate: new Date().toISOString()
+  };
+
+  localStorage.setItem(
+    "activeNewSavingPlan",
+    JSON.stringify(plan)
+  );
+
+  alert(
+    type + " selected successfully!\n\n" +
+    "Amount: " + amount.toLocaleString() +
+    "\nDuration: " + days + " days" +
+    "\nMaturity: " + maturity.toLocaleString()
+  );
+}
+    </script><!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -2786,3 +2822,105 @@ document.addEventListener(
   }
 );
         </script>
+<!-- 🐷 NEW SAVING PIGS - 5 DAYS -->
+<section class="new-saving-section">
+
+  <h2>🐷 Saving Pigs</h2>
+  <p>Save for 5 days</p>
+
+  <div class="saving-plan-grid">
+
+    <div class="saving-plan-card">
+      <div class="saving-object">🐷</div>
+      <h3>20,000</h3>
+      <p>Daily earning: 3,000</p>
+      <p>5 days: <strong>35,000</strong></p>
+      <button onclick="selectNewSavingPlan('Saving Pig',20000,3000,5,35000)">
+        Choose Plan
+      </button>
+    </div>
+
+    <div class="saving-plan-card">
+      <div class="saving-object">🐷</div>
+      <h3>30,000</h3>
+      <p>Daily earning: 5,000</p>
+      <p>5 days: <strong>55,000</strong></p>
+      <button onclick="selectNewSavingPlan('Saving Pig',30000,5000,5,55000)">
+        Choose Plan
+      </button>
+    </div>
+
+    <div class="saving-plan-card">
+      <div class="saving-object">🐷</div>
+      <h3>50,000</h3>
+      <p>Daily earning: 7,000</p>
+      <p>5 days: <strong>85,000</strong></p>
+      <button onclick="selectNewSavingPlan('Saving Pig',50000,7000,5,85000)">
+        Choose Plan
+      </button>
+    </div>
+
+    <div class="saving-plan-card">
+      <div class="saving-object">🐷</div>
+      <h3>100,000</h3>
+      <p>Daily earning: 11,000</p>
+      <p>5 days: <strong>155,000</strong></p>
+      <button onclick="selectNewSavingPlan('Saving Pig',100000,11000,5,155000)">
+        Choose Plan
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- 🔐 NEW SAVING SAFES - 10 DAYS -->
+<section class="new-saving-section">
+
+  <h2>🔐 Saving Safes</h2>
+  <p>Save for 10 days</p>
+
+  <div class="saving-plan-grid">
+
+    <div class="saving-plan-card">
+      <div class="saving-object">🔐</div>
+      <h3>20,000</h3>
+      <p>Daily earning: 3,000</p>
+      <p>10 days: <strong>50,000</strong></p>
+      <button onclick="selectNewSavingPlan('Saving Safe',20000,3000,10,50000)">
+        Choose Plan
+      </button>
+    </div>
+
+    <div class="saving-plan-card">
+      <div class="saving-object">🔐</div>
+      <h3>30,000</h3>
+      <p>Daily earning: 5,000</p>
+      <p>10 days: <strong>80,000</strong></p>
+      <button onclick="selectNewSavingPlan('Saving Safe',30000,5000,10,80000)">
+        Choose Plan
+      </button>
+    </div>
+
+    <div class="saving-plan-card">
+      <div class="saving-object">🔐</div>
+      <h3>50,000</h3>
+      <p>Daily earning: 7,000</p>
+      <p>10 days: <strong>120,000</strong></p>
+      <button onclick="selectNewSavingPlan('Saving Safe',50000,7000,10,120000)">
+        Choose Plan
+      </button>
+    </div>
+
+    <div class="saving-plan-card">
+      <div class="saving-object">🔐</div>
+      <h3>100,000</h3>
+      <p>Daily earning: 11,000</p>
+      <p>10 days: <strong>210,000</strong></p>
+      <button onclick="selectNewSavingPlan('Saving Safe',100000,11000,10,210000)">
+        Choose Plan
+      </button>
+    </div>
+
+  </div>
+</section>
