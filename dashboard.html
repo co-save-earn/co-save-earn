@@ -2924,3 +2924,104 @@ document.addEventListener(
 
   </div>
 </section>
+<script>
+/* =====================================================
+   CO SAVE & EARN - PAGE VISIBILITY CONTROL
+   ===================================================== */
+
+function hideHomeOnlySections() {
+    document.querySelectorAll(
+        '.saving-plan-section, .new-saving-section, .saving-section, .saving-plans, .saving-pigs, .saving-safes'
+    ).forEach(function(section) {
+        section.style.display = 'none';
+    });
+}
+
+function hideReferralOnlySections() {
+    document.querySelectorAll(
+        '.referral-box, .referral-section, .referral-page-section'
+    ).forEach(function(section) {
+        section.style.display = 'none';
+    });
+}
+
+
+/* =====================================================
+   SHOW ONLY THE CORRECT CONTENT
+   ===================================================== */
+
+function showHomePage() {
+
+    /* Hide referral */
+    hideReferralOnlySections();
+
+    /* Show all existing saving sections */
+    document.querySelectorAll(
+        '.saving-plan-section, .new-saving-section, .saving-section, .saving-plans, .saving-pigs, .saving-safes'
+    ).forEach(function(section) {
+        section.style.display = '';
+    });
+}
+
+
+function showReferralPage() {
+
+    /* Hide ALL saving sections */
+    hideHomeOnlySections();
+
+    /* Show referral only */
+    document.querySelectorAll(
+        '.referral-box, .referral-section, .referral-page-section'
+    ).forEach(function(section) {
+        section.style.display = '';
+    });
+}
+
+
+/* =====================================================
+   WATCH WHICH DASHBOARD PAGE IS OPEN
+   ===================================================== */
+
+function updateDashboardPage() {
+
+    /* Try to identify active navigation/page */
+    const active =
+        document.querySelector(
+            '.page.active, .section.active, .tab.active, .nav-item.active'
+        );
+
+    if (!active) return;
+
+    const text =
+        active.innerText.toLowerCase();
+
+    if (
+        text.includes('referral') ||
+        text.includes('invite')
+    ) {
+        showReferralPage();
+        return;
+    }
+
+    if (
+        text.includes('home')
+    ) {
+        showHomePage();
+        return;
+    }
+
+    /* Any other page */
+    hideHomeOnlySections();
+    hideReferralOnlySections();
+}
+
+
+/* Run when dashboard opens */
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(updateDashboardPage, 300);
+});
+
+
+/* Check whenever navigation changes */
+setInterval(updateDashboardPage, 500);
+</script>
