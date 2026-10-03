@@ -1,40 +1,4 @@
-<script>
-function selectNewSavingPlan(type, amount, daily, days, maturity) {
-
-  const balance =
-    Number(localStorage.getItem("coBalance")) || 0;
-
-  if (balance < amount) {
-    alert(
-      "Insufficient balance.\nYou need " +
-      amount.toLocaleString() +
-      " to choose this plan."
-    );
-    return;
-  }
-
-  const plan = {
-    type: type,
-    amount: amount,
-    dailyEarning: daily,
-    days: days,
-    maturity: maturity,
-    startDate: new Date().toISOString()
-  };
-
-  localStorage.setItem(
-    "activeNewSavingPlan",
-    JSON.stringify(plan)
-  );
-
-  alert(
-    type + " selected successfully!\n\n" +
-    "Amount: " + amount.toLocaleString() +
-    "\nDuration: " + days + " days" +
-    "\nMaturity: " + maturity.toLocaleString()
-  );
-}
-    </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -42,17 +6,13 @@ function selectNewSavingPlan(type, amount, daily, days, maturity) {
 <title>Co Save & Earn</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,sans-serif;
-}
+*{box-sizing:border-box}
 
 body{
-  background:#f3f7f5;
-  color:#172033;
-  padding-bottom:85px;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#071525;
+  color:#fff;
 }
 
 button,input,select{
@@ -61,3016 +21,1999 @@ button,input,select{
 
 button{
   cursor:pointer;
-  border:none;
 }
 
-.header{
-  background:linear-gradient(135deg,#064e3b,#087f5b);
-  color:white;
-  padding:20px 16px 25px;
-  border-radius:0 0 25px 25px;
-}
-
-.header-top{
+.app{
   display:flex;
-  justify-content:space-between;
-  align-items:center;
+  min-height:100vh;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+  width:230px;
+  background:#081a2d;
+  border-right:1px solid #193550;
+  padding:20px 12px;
 }
 
 .logo{
-  font-size:22px;
+  font-size:21px;
   font-weight:800;
+  margin:5px 10px 25px;
 }
 
 .logo span{
-  color:#f8c948;
+  color:#16d98b;
 }
 
-.avatar{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:#f8c948;
-  color:#064e3b;
+.nav button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#aebed0;
+  text-align:left;
+  padding:13px 14px;
+  margin:4px 0;
+  border-radius:10px;
+}
+
+.nav button:hover,
+.nav button.active{
+  background:#123d79;
+  color:#fff;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+  flex:1;
+  padding:22px;
+  max-width:1500px;
+}
+
+.topbar{
   display:flex;
+  justify-content:space-between;
   align-items:center;
-  justify-content:center;
-  font-weight:bold;
-  font-size:18px;
-  cursor:pointer;
+  margin-bottom:20px;
 }
 
-.welcome{
-  margin-top:20px;
-  font-size:14px;
-  opacity:.9;
+.topbar h1{
+  margin:0 0 5px;
+  font-size:25px;
 }
 
-.balance-card{
-  margin-top:10px;
-}
-
-.balance-label{
+.tagline{
+  color:#9fb0c4;
   font-size:13px;
-  opacity:.85;
 }
 
-.balance{
-  font-size:31px;
-  font-weight:800;
-  margin-top:4px;
-}
+/* =========================
+   PAGE SYSTEM
+========================= */
 
-.container{
-  padding:16px;
-  max-width:700px;
-  margin:auto;
-}
-
-.section{
+.page{
   display:none;
 }
 
-.section.active{
+.page.active{
   display:block;
 }
 
-.page-title{
-  font-size:23px;
-  font-weight:800;
-  margin-bottom:5px;
+/* =========================
+   CARDS
+========================= */
+
+.panel,
+.stat,
+.plan-card{
+  background:#0d1e32;
+  border:1px solid #193550;
+  border-radius:16px;
 }
 
-.page-subtitle{
-  color:#718096;
-  font-size:13px;
+.panel{
+  padding:18px;
   margin-bottom:18px;
 }
 
-.quick-grid{
+.panel h2{
+  margin-top:0;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.stat{
+  padding:18px;
+}
+
+.small{
+  color:#9fb0c4;
+  font-size:12px;
+}
+
+.value{
+  font-size:24px;
+  font-weight:800;
+  margin-top:8px;
+}
+
+.green{color:#16d98b}
+.blue{color:#38a7ff}
+.gold{color:#f5b82e}
+.purple{color:#9a5cff}
+
+/* =========================
+   PLANS
+========================= */
+
+.plan-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
-  gap:12px;
-  margin:15px 0 22px;
+  gap:15px;
 }
 
-.quick-btn{
-  background:white;
-  border-radius:16px;
-  padding:17px 10px;
-  box-shadow:0 4px 15px #0000000d;
-  font-weight:bold;
-  color:#064e3b;
-  border:1px solid #e5eee9;
-}
-
-.quick-btn .icon{
-  display:block;
-  font-size:26px;
-  margin-bottom:7px;
-}
-
-.card{
-  background:white;
-  border-radius:18px;
+.plan-card{
   padding:18px;
-  margin-bottom:16px;
-  box-shadow:0 4px 16px #0000000d;
 }
 
-.card-title{
-  font-size:18px;
-  font-weight:800;
+.plan-icon{
+  text-align:center;
+  font-size:52px;
   margin-bottom:5px;
 }
 
-.card-subtitle{
-  color:#718096;
-  font-size:13px;
-  margin-bottom:14px;
+.plan-card h3{
+  text-align:center;
+  margin:5px 0;
+  font-size:20px;
 }
 
-.swipe-hint{
+.days{
+  display:block;
+  text-align:center;
+  color:#9fb0c4;
   font-size:12px;
-  color:#718096;
-  margin-bottom:10px;
-}
-
-.plans{
-  display:flex;
-  gap:14px;
-  overflow-x:auto;
-  padding-bottom:8px;
-  scroll-snap-type:x mandatory;
-  -webkit-overflow-scrolling:touch;
-}
-
-.plans::-webkit-scrollbar{
-  height:5px;
-}
-
-.plan{
-  min-width:275px;
-  scroll-snap-align:start;
-  border-radius:18px;
-  padding:18px;
-  background:linear-gradient(145deg,#ffffff,#eef8f3);
-  border:1px solid #dceee5;
-}
-
-.plan.elephant{
-  background:linear-gradient(145deg,#ffffff,#eef4fa);
-}
-
-.plan-title{
-  font-size:17px;
-  font-weight:800;
-  color:#064e3b;
-}
-
-.elephant .plan-title{
-  color:#155e75;
-}
-
-.plan-days{
-  display:inline-block;
-  background:#e8f7ef;
-  color:#087f5b;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:bold;
-  margin:8px 0;
+  margin-bottom:14px;
 }
 
 .plan-row{
   display:flex;
   justify-content:space-between;
-  margin:8px 0;
-  font-size:13px;
-}
-
-.plan-row strong{
-  color:#172033;
-}
-
-.earning{
-  color:#087f5b !important;
-}
-
-.activate-btn,
-.primary-btn{
-  width:100%;
-  padding:13px;
-  border-radius:12px;
-  background:#087f5b;
-  color:white;
-  font-weight:800;
-  margin-top:10px;
-}
-
-.primary-btn:hover,
-.activate-btn:hover{
-  background:#064e3b;
-}
-
-.secondary-btn{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  background:#e8f3ef;
-  color:#064e3b;
-  font-weight:bold;
-  margin-top:8px;
-}
-
-.danger-btn{
-  width:100%;
-  padding:13px;
-  border-radius:12px;
-  background:#b42318;
-  color:white;
-  font-weight:bold;
-  margin-top:10px;
-}
-
-input,select{
-  width:100%;
-  padding:13px;
-  border:1px solid #d7e1dc;
-  border-radius:12px;
-  outline:none;
-  background:white;
-  margin-top:7px;
-  margin-bottom:13px;
-}
-
-input:focus,select:focus{
-  border-color:#087f5b;
-}
-
-label{
-  font-size:13px;
-  font-weight:bold;
-  color:#344054;
-}
-
-.message{
-  padding:11px;
-  border-radius:10px;
-  margin-bottom:12px;
-  display:none;
-  font-size:13px;
-}
-
-.message.success{
-  display:block;
-  background:#e7f7ee;
-  color:#087f5b;
-}
-
-.message.error{
-  display:block;
-  background:#fdecec;
-  color:#b42318;
-}
-
-.info-box{
-  background:#f0f8f4;
-  padding:13px;
-  border-radius:12px;
-  font-size:13px;
-  line-height:1.5;
-  margin-bottom:14px;
-}
-
-.withdraw-info{
-  background:#fff7e6;
-  color:#8a5a00;
-}
-
-.referral-code{
-  background:#f4f7f6;
-  padding:14px;
-  border-radius:12px;
-  text-align:center;
-  font-size:20px;
-  font-weight:800;
-  letter-spacing:2px;
-  margin:12px 0;
-}
-
-.referral-stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-}
-
-.stat{
-  background:#f5f8f7;
-  padding:12px 5px;
-  text-align:center;
-  border-radius:12px;
-}
-
-.stat strong{
-  display:block;
-  font-size:17px;
-}
-
-.stat span{
-  font-size:10px;
-  color:#718096;
-}
-
-.progress{
-  height:9px;
-  background:#e5ebe8;
-  border-radius:20px;
-  overflow:hidden;
-  margin:10px 0;
-}
-
-.progress-bar{
-  height:100%;
-  background:#087f5b;
-  width:0%;
-  transition:.3s;
-}
-
-.transaction{
-  padding:13px 0;
-  border-bottom:1px solid #edf0ef;
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.transaction:last-child{
-  border-bottom:none;
-}
-
-.transaction-title{
-  font-weight:bold;
+  padding:9px 0;
+  border-bottom:1px solid #1b334c;
   font-size:14px;
 }
 
-.transaction-date{
-  font-size:11px;
-  color:#8a94a6;
-  margin-top:4px;
-}
-
-.transaction-amount{
-  font-weight:bold;
-  text-align:right;
-}
-
-.plus{
-  color:#087f5b;
-}
-
-.minus{
-  color:#b42318;
-}
-
-.empty{
+.total{
   text-align:center;
-  color:#8a94a6;
-  padding:25px 10px;
-  font-size:14px;
-}
-
-.active-plan{
-  border-left:5px solid #087f5b;
-}
-
-.plan-status{
-  background:#eef8f3;
-  border-radius:12px;
-  padding:12px;
-  margin-top:10px;
-  font-size:13px;
-}
-
-.receive-btn{
-  width:100%;
-  background:#f8c948;
-  color:#172033;
+  font-size:21px;
   font-weight:800;
-  padding:12px;
-  border-radius:12px;
-  margin-top:10px;
+  margin-top:14px;
 }
 
-.receive-btn:disabled{
-  background:#e7e9e8;
-  color:#888;
-  cursor:not-allowed;
-}
-
-.profile-avatar-large{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  background:#087f5b;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  font-weight:bold;
-  margin:0 auto 12px;
-}
-
-.profile-center{
+.earned{
   text-align:center;
-}
-
-.account-id{
-  font-size:12px;
-  color:#8a94a6;
+  color:#16d98b;
+  font-size:13px;
   margin-top:5px;
 }
 
-.bottom-nav{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:0;
-  height:70px;
-  background:white;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
-  box-shadow:0 -4px 18px #00000018;
-  z-index:1000;
+/* =========================
+   BUTTONS
+========================= */
+
+.btn{
+  border:0;
+  border-radius:9px;
+  padding:12px 15px;
+  font-weight:700;
 }
 
-.nav-btn{
-  background:none;
-  color:#7b8794;
-  font-size:10px;
-  text-align:center;
-  font-weight:bold;
-  padding:5px;
+.primary{
+  background:#16d98b;
+  color:#052016;
 }
 
-.nav-btn .nav-icon{
+.blue-btn{
+  background:#123d79;
+  color:#fff;
+}
+
+.outline{
+  background:transparent;
+  color:#fff;
+  border:1px solid #315879;
+}
+
+.full{
+  width:100%;
+  margin-top:14px;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.form-box{
+  max-width:600px;
+}
+
+.field{
+  margin:14px 0;
+}
+
+.field label{
   display:block;
-  font-size:21px;
-  margin-bottom:3px;
-}
-
-.nav-btn.active{
-  color:#087f5b;
-}
-
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:85px;
-  transform:translateX(-50%);
-  background:#172033;
-  color:white;
-  padding:12px 17px;
-  border-radius:12px;
+  color:#aebed0;
   font-size:13px;
-  display:none;
-  z-index:2000;
-  max-width:90%;
-  text-align:center;
+  margin-bottom:7px;
 }
 
-@media(min-width:700px){
-  .quick-grid{
-    grid-template-columns:repeat(4,1fr);
+.field input,
+.field select{
+  width:100%;
+  padding:13px;
+  background:#071525;
+  color:#fff;
+  border:1px solid #31506d;
+  border-radius:9px;
+  outline:none;
+}
+
+.field input:focus,
+.field select:focus{
+  border-color:#16d98b;
+}
+
+/* =========================
+   NOTICE
+========================= */
+
+.notice{
+  padding:13px;
+  background:#1b1609;
+  border:1px solid #72541a;
+  color:#f8e7b2;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.5;
+  margin-bottom:18px;
+}
+
+/* =========================
+   PAYMENT CODE
+========================= */
+
+.payment-code{
+  background:#071525;
+  border:1px solid #31506d;
+  border-radius:13px;
+  padding:18px;
+  text-align:center;
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:4px;
+  margin:15px 0;
+}
+
+/* =========================
+   REFERRAL
+========================= */
+
+.referral-code{
+  text-align:center;
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:3px;
+  margin:15px 0;
+}
+
+.referral-link{
+  width:100%;
+  padding:13px;
+  background:#071525;
+  border:1px solid #31506d;
+  border-radius:9px;
+  color:#fff;
+}
+
+.referral-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:10px;
+}
+
+.reward{
+  display:flex;
+  justify-content:space-between;
+  padding:13px;
+  background:#102944;
+  border-radius:9px;
+  margin:8px 0;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:600px;
+}
+
+th,td{
+  padding:12px;
+  text-align:left;
+  border-bottom:1px solid #1c354d;
+  font-size:13px;
+}
+
+th{
+  color:#9fb0c4;
+}
+
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#0d4d37;
+  color:#62efb2;
+  font-size:11px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:900px){
+
+  .sidebar{
+    width:190px;
   }
 
-  .bottom-nav{
-    max-width:700px;
-    left:50%;
-    transform:translateX(-50%);
-    border-radius:20px 20px 0 0;
+  .stats{
+    grid-template-columns:repeat(2,1fr);
   }
+
+}
+
+@media(max-width:650px){
+
+  .app{
+    display:block;
+  }
+
+  .sidebar{
+    width:100%;
+    padding:10px;
+  }
+
+  .nav{
+    display:flex;
+    overflow-x:auto;
+  }
+
+  .nav button{
+    width:auto;
+    white-space:nowrap;
+  }
+
+  .main{
+    padding:13px;
+  }
+
+  .stats,
+  .plan-grid{
+    grid-template-columns:1fr;
+  }
+
+  .topbar .tagline{
+    display:none;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
-<header class="header">
-  <div class="header-top">
-    <div class="logo">Co <span>Save & Earn</span></div>
-    <div class="avatar" id="headerInitial" onclick="showSection('profile')">U</div>
+<div class="app">
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<aside class="sidebar">
+
+  <div class="logo">
+    🌱 Co Save <span>& Earn</span>
   </div>
 
-  <div class="welcome">Welcome back,</div>
-  <div id="headerName" style="font-weight:bold;margin-top:3px;">User</div>
+  <div class="nav">
 
-  <div class="balance-card">
-    <div class="balance-label">Available Balance</div>
-    <div class="balance" id="balance">UGX 0</div>
-  </div>
-</header>
-
-<main class="container">
-
-<!-- HOME -->
-<section id="home" class="section active">
-
-  <div style="margin-top:4px;">
-    <div class="page-title">Dashboard</div>
-    <div class="page-subtitle">Save today. Grow your money responsibly.</div>
-  </div>
-
-  <div class="quick-grid">
-    <button class="quick-btn" onclick="showSection('deposit')">
-      <span class="icon">💰</span>
-      Deposit
+    <button class="active"
+            onclick="showPage('home',this)">
+      🏠 Home
     </button>
 
-    <button class="quick-btn" onclick="showSection('withdraw')">
-      <span class="icon">💸</span>
-      Withdraw
+    <button onclick="showPage('savings',this)">
+      💰 My Savings
     </button>
 
-    <button class="quick-btn" onclick="showSection('refer')">
-      <span class="icon">🎁</span>
-      Refer
+    <button onclick="showPage('deposit',this)">
+      ➕ Deposit
     </button>
 
-    <button class="quick-btn" onclick="showSection('activity')">
-      <span class="icon">📋</span>
-      Activity
-    </button>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🐷 Saving Tins</div>
-    <div class="card-subtitle">Choose a saving plan</div>
-    <div class="swipe-hint">👉 Swipe left/right to see all plans</div>
-
-    <div class="plans">
-
-      <div class="plan">
-        <div class="plan-title">🐷 Saving Tin</div>
-        <div class="plan-days">20 DAYS</div>
-
-        <div class="plan-row">
-          <span>Deposit</span>
-          <strong>UGX 20,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Earning</span>
-          <strong class="earning">UGX 35,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total at maturity</span>
-          <strong>UGX 55,000</strong>
-        </div>
-
-        <button class="activate-btn"
-          onclick="choosePlan('20 Days Saving Tin',20000,35000,55000,20,'tin')">
-          Activate
-        </button>
-      </div>
-
-      <div class="plan">
-        <div class="plan-title">🐷 Saving Tin</div>
-        <div class="plan-days">20 DAYS</div>
-
-        <div class="plan-row">
-          <span>Deposit</span>
-          <strong>UGX 50,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Earning</span>
-          <strong class="earning">UGX 85,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total at maturity</span>
-          <strong>UGX 135,000</strong>
-        </div>
-
-        <button class="activate-btn"
-          onclick="choosePlan('20 Days Saving Tin',50000,85000,135000,20,'tin')">
-          Activate
-        </button>
-      </div>
-
-      <div class="plan">
-        <div class="plan-title">🐷 Saving Tin</div>
-        <div class="plan-days">30 DAYS</div>
-
-        <div class="plan-row">
-          <span>Deposit</span>
-          <strong>UGX 30,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Earning</span>
-          <strong class="earning">UGX 90,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total at maturity</span>
-          <strong>UGX 120,000</strong>
-        </div>
-
-        <button class="activate-btn"
-          onclick="choosePlan('30 Days Saving Tin',30000,90000,120000,30,'tin')">
-          Activate
-        </button>
-      </div>
-
-      <div class="plan">
-        <div class="plan-title">🐷 Saving Tin</div>
-        <div class="plan-days">30 DAYS</div>
-
-        <div class="plan-row">
-          <span>Deposit</span>
-          <strong>UGX 100,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Earning</span>
-          <strong class="earning">UGX 220,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total at maturity</span>
-          <strong>UGX 320,000</strong>
-        </div>
-
-        <button class="activate-btn"
-          onclick="choosePlan('30 Days Saving Tin',100000,220000,320000,30,'tin')">
-          Activate
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">🐘 Saving Elephants</div>
-    <div class="card-subtitle">Choose a saving plan</div>
-    <div class="swipe-hint">👉 Swipe left/right to see all plans</div>
-
-    <div class="plans">
-
-      <div class="plan elephant">
-        <div class="plan-title">🐘 Saving Elephant</div>
-        <div class="plan-days">20 DAYS</div>
-
-        <div class="plan-row">
-          <span>Deposit</span>
-          <strong>UGX 30,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Earning</span>
-          <strong class="earning">UGX 55,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total at maturity</span>
-          <strong>UGX 85,000</strong>
-        </div>
-
-        <button class="activate-btn"
-          onclick="choosePlan('20 Days Saving Elephant',30000,55000,85000,20,'elephant')">
-          Activate
-        </button>
-      </div>
-
-      <div class="plan elephant">
-        <div class="plan-title">🐘 Saving Elephant</div>
-        <div class="plan-days">20 DAYS</div>
-
-        <div class="plan-row">
-          <span>Deposit</span>
-          <strong>UGX 100,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Earning</span>
-          <strong class="earning">UGX 155,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total at maturity</span>
-          <strong>UGX 255,000</strong>
-        </div>
-
-        <button class="activate-btn"
-          onclick="choosePlan('20 Days Saving Elephant',100000,155000,255000,20,'elephant')">
-          Activate
-        </button>
-      </div>
-
-      <div class="plan elephant">
-        <div class="plan-title">🐘 Saving Elephant</div>
-        <div class="plan-days">30 DAYS</div>
-
-        <div class="plan-row">
-          <span>Deposit</span>
-          <strong>UGX 20,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Earning</span>
-          <strong class="earning">UGX 50,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total at maturity</span>
-          <strong>UGX 70,000</strong>
-        </div>
-
-        <button class="activate-btn"
-          onclick="choosePlan('30 Days Saving Elephant',20000,50000,70000,30,'elephant')">
-          Activate
-        </button>
-      </div>
-
-      <div class="plan elephant">
-        <div class="plan-title">🐘 Saving Elephant</div>
-        <div class="plan-days">30 DAYS</div>
-
-        <div class="plan-row">
-          <span>Deposit</span>
-          <strong>UGX 50,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Earning</span>
-          <strong class="earning">UGX 135,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total at maturity</span>
-          <strong>UGX 185,000</strong>
-        </div>
-
-        <button class="activate-btn"
-          onclick="choosePlan('30 Days Saving Elephant',50000,135000,185000,30,'elephant')">
-          Activate
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-title">⏳ My Active Savings</div>
-    <div id="activePlansHome"></div>
-  </div>
-
-</section>
-
-
-<!-- DEPOSIT -->
-<section id="deposit" class="section">
-
-  <div class="page-title">Deposit</div>
-  <div class="page-subtitle">Add money to your Co Save & Earn balance.</div>
-
-  <div class="card">
-
-    <div id="depositMessage" class="message"></div>
-
-    <div class="info-box">
-      Minimum deposit: <strong>UGX 20,000</strong>
-    </div>
-
-    <label>Mobile Money Provider</label>
-    <select id="depositProvider">
-      <option value="">Select provider</option>
-      <option value="MTN">MTN Mobile Money</option>
-      <option value="Airtel">Airtel Money</option>
-    </select>
-
-    <label>Account Name</label>
-    <input id="depositName" type="text" placeholder="Enter account name">
-
-    <label>Mobile Money Number</label>
-    <input id="depositNumber" type="tel" placeholder="07XXXXXXXX">
-
-    <label>Amount</label>
-    <input id="depositAmount" type="number" min="20000" placeholder="Minimum UGX 20,000">
-
-    <button class="primary-btn" onclick="depositMoney()">Deposit Money</button>
-
-  </div>
-
-</section>
-
-
-<!-- WITHDRAW -->
-<section id="withdraw" class="section">
-
-  <div class="page-title">Withdraw</div>
-  <div class="page-subtitle">Withdraw available funds to Mobile Money.</div>
-
-  <div class="card">
-
-    <div id="withdrawMessage" class="message"></div>
-
-    <div class="info-box withdraw-info">
-      Minimum withdrawal: <strong>UGX 20,000</strong><br>
-      Withdrawal charge: <strong>8%</strong><br>
-      Example: UGX 20,000 withdrawal → UGX 1,600 charge →
-      <strong>UGX 18,400 received</strong>.
-    </div>
-
-    <label>Mobile Money Provider</label>
-    <select id="withdrawProvider">
-      <option value="">Select provider</option>
-      <option value="MTN">MTN Mobile Money</option>
-      <option value="Airtel">Airtel Money</option>
-    </select>
-
-    <label>Account Name</label>
-    <input id="withdrawName" type="text" placeholder="Enter account name">
-
-    <label>Mobile Money Number</label>
-    <input id="withdrawNumber" type="tel" placeholder="07XXXXXXXX">
-
-    <label>Amount to Withdraw</label>
-    <input id="withdrawAmount" type="number" min="20000"
-           placeholder="Minimum UGX 20,000"
-           oninput="calculateWithdrawal()">
-
-    <div id="withdrawCalculation" class="info-box" style="display:none;"></div>
-
-    <button class="primary-btn" onclick="withdrawMoney()">Withdraw</button>
-
-  </div>
-
-</section>
-
-
-<!-- REFER -->
-<section id="refer" class="section">
-
-  <div class="page-title">Refer & Earn</div>
-  <div class="page-subtitle">Invite people and track your referral milestones.</div>
-
-  <div class="card">
-
-    <div class="card-title">🎁 Your Referral Code</div>
-
-    <div class="referral-code" id="myReferralCode">CO000000</div>
-
-    <button class="primary-btn" onclick="copyReferral()">
-      📋 Copy Referral Code
+    <button onclick="showPage('withdraw',this)">
+      💸 Withdraw
     </button>
 
-    <button class="secondary-btn" onclick="shareReferral()">
-      📤 Share Referral
+    <button onclick="showPage('earnings',this)">
+      📈 Earnings
     </button>
 
-    <div style="height:15px;"></div>
-
-    <div class="referral-stats">
-      <div class="stat">
-        <strong id="referralCount">0</strong>
-        <span>Invited</span>
-      </div>
-
-      <div class="stat">
-        <strong>10</strong>
-        <span>First Reward</span>
-      </div>
-
-      <div class="stat">
-        <strong>100</strong>
-        <span>Final Target</span>
-      </div>
-    </div>
-
-    <div style="margin-top:18px;font-size:13px;font-weight:bold;">
-      Referral Progress
-    </div>
-
-    <div class="progress">
-      <div class="progress-bar" id="referralProgress"></div>
-    </div>
-
-  </div>
-
-  <div class="card">
-    <div class="card-title">🏆 Referral Rewards</div>
-
-    <div class="plan-row">
-      <span>10 referrals</span>
-      <strong>UGX 20,000</strong>
-    </div>
-
-    <div class="plan-row">
-      <span>50 referrals</span>
-      <strong>UGX 80,000</strong>
-    </div>
-
-    <div class="plan-row">
-      <span>100 referrals</span>
-      <strong>UGX 130,000</strong>
-    </div>
-
-    <div class="info-box" style="margin-top:12px;">
-      Referral rewards should only be credited after referrals are
-      verified by the real backend.
-    </div>
-  </div>
-
-</section>
-
-
-<!-- ACTIVITY -->
-<section id="activity" class="section">
-
-  <div class="page-title">Activity</div>
-  <div class="page-subtitle">Your deposits, withdrawals and savings activity.</div>
-
-  <div class="card">
-    <div id="transactionList"></div>
-  </div>
-
-</section>
-
-
-<!-- PROFILE -->
-<section id="profile" class="section">
-
-  <div class="page-title">Profile</div>
-  <div class="page-subtitle">Manage your Co Save & Earn account.</div>
-
-  <div class="card">
-
-    <div class="profile-center">
-
-      <div class="profile-avatar-large" id="profileAvatar">U</div>
-
-      <div style="font-size:20px;font-weight:800;" id="profileDisplayName">
-        User
-      </div>
-
-      <div style="font-size:13px;color:#718096;" id="profileDisplayPhone">
-        —
-      </div>
-
-      <div class="account-id" id="accountId">Account ID: —</div>
-
-    </div>
-
-    <hr style="border:none;border-top:1px solid #edf0ef;margin:20px 0;">
-
-    <div id="profileMessage" class="message"></div>
-
-    <label>Name</label>
-    <input id="profileName" type="text" placeholder="Your name">
-
-    <label>Mobile Money Provider</label>
-    <select id="profileProvider">
-      <option value="">Select provider</option>
-      <option value="MTN">MTN Mobile Money</option>
-      <option value="Airtel">Airtel Money</option>
-    </select>
-
-    <label>Phone Number</label>
-    <input id="profilePhone" type="tel" placeholder="07XXXXXXXX">
-      <button class="primary-btn" onclick="saveProfile()">
-      Save Profile
+    <button onclick="showPage('referral',this)">
+      🎁 Referral
     </button>
 
-    <button class="danger-btn" onclick="logout()">
-      Logout
+    <button onclick="showPage('transactions',this)">
+      🧾 Transactions
+    </button>
+
+    <button onclick="showPage('profile',this)">
+      👤 Profile
     </button>
 
   </div>
 
-</section>
+</aside>
 
-</main>
 
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
-<!-- BOTTOM NAVIGATION -->
-<nav class="bottom-nav">
+<main class="main">
 
-  <button class="nav-btn active" id="navHome" onclick="showSection('home')">
-    <span class="nav-icon">🏠</span>
-    Home
-  </button>
+<div class="topbar">
 
-  <button class="nav-btn" id="navDeposit" onclick="showSection('deposit')">
-    <span class="nav-icon">💰</span>
-    Deposit
-  </button>
+  <div>
+    <h1 id="welcomeName">
+      Hello 👋
+    </h1>
 
-  <button class="nav-btn" id="navWithdraw" onclick="showSection('withdraw')">
-    <span class="nav-icon">💸</span>
-    Withdraw
-  </button>
-
-  <button class="nav-btn" id="navActivity" onclick="showSection('activity')">
-    <span class="nav-icon">📋</span>
-    Activity
-  </button>
-
-  <button class="nav-btn" id="navRefer" onclick="showSection('refer')">
-    <span class="nav-icon">🎁</span>
-    Refer
-  </button>
-
-  <button class="nav-btn" id="navProfile" onclick="showSection('profile')">
-    <span class="nav-icon">👤</span>
-    Profile
-  </button>
-
-</nav>
-
-<div class="toast" id="toast"></div>
-
-
-<script>
-"use strict";
-
-let account = JSON.parse(localStorage.getItem("coEarnerAccount"));
-
-if(!account){
-  account = {
-    name:"User",
-    phone:"",
-    password:"",
-    provider:"",
-    balance:0,
-    referralCode:"CO" + Math.floor(100000 + Math.random()*900000),
-    referrals:0,
-    transactions:[],
-    activePlans:[]
-  };
-
-  saveAccount();
-}
-
-account.name = account.name || "User";
-account.phone = account.phone || "";
-account.provider = account.provider || "";
-account.balance = Number(account.balance) || 0;
-account.referralCode = account.referralCode ||
-  ("CO" + Math.floor(100000 + Math.random()*900000));
-account.referrals = Number(account.referrals) || 0;
-account.transactions =
-  Array.isArray(account.transactions) ? account.transactions : [];
-account.activePlans =
-  Array.isArray(account.activePlans) ? account.activePlans : [];
-
-saveAccount();
-
-
-function saveAccount(){
-  localStorage.setItem(
-    "coEarnerAccount",
-    JSON.stringify(account)
-  );
-}
-
-
-function formatMoney(amount){
-  return "UGX " + Number(amount || 0).toLocaleString("en-UG");
-}
-
-
-function showToast(message){
-  const toast = document.getElementById("toast");
-
-  toast.textContent = message;
-  toast.style.display = "block";
-
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer = setTimeout(function(){
-    toast.style.display = "none";
-  },3000);
-}
-
-
-function showMessage(element,message,type){
-  if(!element) return;
-
-  element.textContent = message;
-  element.className = "message " + type;
-}
-
-
-function hideMessage(element){
-  if(!element) return;
-
-  element.textContent = "";
-  element.className = "message";
-}
-
-
-/* NAVIGATION */
-
-function showSection(section){
-
-  document.querySelectorAll(".section").forEach(function(item){
-    item.classList.remove("active");
-  });
-
-  const selected = document.getElementById(section);
-
-  if(selected){
-    selected.classList.add("active");
-  }
-
-  document.querySelectorAll(".nav-btn").forEach(function(button){
-    button.classList.remove("active");
-  });
-
-  const nav = document.getElementById(
-    "nav" +
-    section.charAt(0).toUpperCase() +
-    section.slice(1)
-  );
-
-  if(nav){
-    nav.classList.add("active");
-  }
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-  refreshUI();
-}
-
-
-/* PROFILE */
-
-function loadProfile(){
-
-  const name = account.name || "User";
-
-  document.getElementById("headerName").textContent = name;
-
-  const initial = name.charAt(0).toUpperCase() || "U";
-
-  document.getElementById("headerInitial").textContent = initial;
-  document.getElementById("profileAvatar").textContent = initial;
-
-  document.getElementById("profileDisplayName").textContent = name;
-
-  document.getElementById("profileDisplayPhone").textContent =
-    account.phone || "Phone number not set";
-
-  document.getElementById("profileName").value =
-    account.name === "User" ? "" : account.name;
-
-  document.getElementById("profilePhone").value =
-    account.phone || "";
-
-  document.getElementById("profileProvider").value =
-    account.provider || "";
-
-  document.getElementById("accountId").textContent =
-    "Account ID: " + account.referralCode;
-}
-
-
-function saveProfile(){
-
-  const name =
-    document.getElementById("profileName").value.trim();
-
-  const provider =
-    document.getElementById("profileProvider").value;
-
-  const phone =
-    document.getElementById("profilePhone").value.trim();
-
-  const message =
-    document.getElementById("profileMessage");
-
-  hideMessage(message);
-
-  if(!name){
-    showMessage(
-      message,
-      "Please enter your name.",
-      "error"
-    );
-    return;
-  }
-
-  if(!phone){
-    showMessage(
-      message,
-      "Please enter your phone number.",
-      "error"
-    );
-    return;
-  }
-
-  account.name = name;
-  account.provider = provider;
-  account.phone = phone;
-
-  saveAccount();
-  loadProfile();
-
-  showMessage(
-    message,
-    "Profile updated successfully.",
-    "success"
-  );
-
-  showToast("Profile saved");
-}
-
-
-/* BALANCE */
-
-function updateBalance(){
-
-  document.getElementById("balance").textContent =
-    formatMoney(account.balance);
-}
-
-
-/* DEPOSIT */
-
-function depositMoney(){
-
-  const provider =
-    document.getElementById("depositProvider").value;
-
-  const name =
-    document.getElementById("depositName").value.trim();
-
-  const number =
-    document.getElementById("depositNumber").value.trim();
-
-  const amount =
-    Number(document.getElementById("depositAmount").value);
-
-  const message =
-    document.getElementById("depositMessage");
-
-  hideMessage(message);
-
-  if(!provider){
-    showMessage(
-      message,
-      "Please select your mobile money provider.",
-      "error"
-    );
-    return;
-  }
-
-  if(!name){
-    showMessage(
-      message,
-      "Please enter the account name.",
-      "error"
-    );
-    return;
-  }
-
-  if(!number){
-    showMessage(
-      message,
-      "Please enter the mobile money number.",
-      "error"
-    );
-    return;
-  }
-
-  if(!amount || amount < 20000){
-    showMessage(
-      message,
-      "Minimum deposit is UGX 20,000.",
-      "error"
-    );
-    return;
-  }
-
-  account.balance += amount;
-
-  account.transactions.unshift({
-    id:Date.now(),
-    type:"deposit",
-    title:"Deposit",
-    amount:amount,
-    date:new Date().toISOString(),
-    status:"Completed"
-  });
-
-  account.name = name;
-  account.phone = number;
-  account.provider = provider;
-
-  saveAccount();
-
-  document.getElementById("depositAmount").value = "";
-
-  showMessage(
-    message,
-    formatMoney(amount) +
-    " has been added to your balance.",
-    "success"
-  );
-
-  refreshUI();
-  showToast("Deposit recorded");
-}
-
-
-/* WITHDRAWAL CALCULATOR */
-
-function calculateWithdrawal(){
-
-  const amount =
-    Number(document.getElementById("withdrawAmount").value);
-
-  const box =
-    document.getElementById("withdrawCalculation");
-
-  if(!amount || amount < 20000){
-    box.style.display = "none";
-    return;
-  }
-
-  const fee = Math.round(amount * 0.08);
-  const received = amount - fee;
-
-  box.style.display = "block";
-
-  box.innerHTML =
-    "<strong>Withdrawal Summary</strong><br>" +
-    "Requested: " + formatMoney(amount) + "<br>" +
-    "8% charge: " + formatMoney(fee) + "<br>" +
-    "<strong>You receive: " +
-    formatMoney(received) +
-    "</strong>";
-}
-
-
-/* WITHDRAW */
-
-function withdrawMoney(){
-
-  const provider =
-    document.getElementById("withdrawProvider").value;
-
-  const name =
-    document.getElementById("withdrawName").value.trim();
-
-  const number =
-    document.getElementById("withdrawNumber").value.trim();
-
-  const amount =
-    Number(document.getElementById("withdrawAmount").value);
-
-  const message =
-    document.getElementById("withdrawMessage");
-
-  hideMessage(message);
-
-  if(!provider){
-    showMessage(
-      message,
-      "Please select your mobile money provider.",
-      "error"
-    );
-    return;
-  }
-
-  if(!name){
-    showMessage(
-      message,
-      "Please enter the account name.",
-      "error"
-    );
-    return;
-  }
-
-  if(!number){
-    showMessage(
-      message,
-      "Please enter the mobile money number.",
-      "error"
-    );
-    return;
-  }
-
-  if(!amount || amount < 20000){
-    showMessage(
-      message,
-      "Minimum withdrawal is UGX 20,000.",
-      "error"
-    );
-    return;
-  }
-
-  if(amount > account.balance){
-    showMessage(
-      message,
-      "Insufficient balance. Your available balance is " +
-      formatMoney(account.balance) + ".",
-      "error"
-    );
-    return;
-  }
-
-  const fee = Math.round(amount * 0.08);
-  const received = amount - fee;
-
-  account.balance -= amount;
-
-  account.transactions.unshift({
-    id:Date.now(),
-    type:"withdrawal",
-    title:"Withdrawal",
-    amount:amount,
-    fee:fee,
-    received:received,
-    date:new Date().toISOString(),
-    status:"Completed"
-  });
-
-  account.name = name;
-  account.phone = number;
-  account.provider = provider;
-
-  saveAccount();
-
-  document.getElementById("withdrawAmount").value = "";
-
-  document.getElementById(
-    "withdrawCalculation"
-  ).style.display = "none";
-
-  showMessage(
-    message,
-    "Withdrawal recorded. " +
-    formatMoney(received) +
-    " is the amount after the 8% charge.",
-    "success"
-  );
-
-  refreshUI();
-  showToast("Withdrawal recorded");
-}
-
-
-/* SAVING PLANS */
-
-function choosePlan(name,amount,earning,total,days,type){
-
-  if(!days){
-    days =
-      name.indexOf("20 Days") !== -1
-      ? 20
-      : 30;
-  }
-
-  if(!type){
-    type =
-      name.toLowerCase().indexOf("elephant") !== -1
-      ? "elephant"
-      : "tin";
-  }
-
-  if(account.balance < amount){
-
-    const needed =
-      amount - account.balance;
-
-    const shouldDeposit =
-      confirm(
-        "You need " +
-        formatMoney(needed) +
-        " more to activate this plan.\n\n" +
-        "Would you like to go to Deposit?"
-      );
-
-    if(shouldDeposit){
-      showSection("deposit");
-    }
-
-    return;
-  }
-
-  const confirmPlan =
-    confirm(
-      "Activate " + name + "?\n\n" +
-      "Deposit: " + formatMoney(amount) + "\n" +
-      "Earning: " + formatMoney(earning) + "\n" +
-      "Total at maturity: " + formatMoney(total) + "\n" +
-      "Cycle: " + days + " days"
-    );
-
-  if(!confirmPlan){
-    return;
-  }
-
-  account.balance -= amount;
-
-  const startDate = new Date();
-
-  const maturityDate = new Date(
-    startDate.getTime() +
-    days * 24 * 60 * 60 * 1000
-  );
-
-  const plan = {
-    id:Date.now(),
-    name:name,
-    amount:Number(amount),
-    earning:Number(earning),
-    total:Number(total),
-    days:Number(days),
-    type:type,
-    startDate:startDate.toISOString(),
-    maturityDate:maturityDate.toISOString(),
-    received:false,
-    status:"Active"
-  };
-
-  account.activePlans.push(plan);
-
-  account.transactions.unshift({
-    id:Date.now()+1,
-    type:"plan",
-    title:"Activated " + name,
-    amount:amount,
-    date:new Date().toISOString(),
-    status:"Active"
-  });
-
-  saveAccount();
-  refreshUI();
-
-  showToast(
-    name + " activated successfully"
-  );
-
-  showSection("home");
-}
-
-
-/* DAYS */
-
-function getDaysRemaining(maturityDate){
-
-  const now = new Date();
-  const maturity = new Date(maturityDate);
-
-  const difference =
-    maturity.getTime() - now.getTime();
-
-  if(difference <= 0){
-    return 0;
-  }
-
-  return Math.ceil(
-    difference /
-    (1000 * 60 * 60 * 24)
-  );
-}
-
-
-function isMatured(plan){
-  return new Date() >=
-    new Date(plan.maturityDate);
-}
-
-
-/* ACTIVE PLANS */
-
-function renderActivePlans(){
-
-  const container =
-    document.getElementById("activePlansHome");
-
-  if(!container) return;
-
-  if(account.activePlans.length === 0){
-
-    container.innerHTML =
-      '<div class="empty">' +
-      'You have no active savings yet.<br>' +
-      'Choose a plan above to start saving.' +
-      '</div>';
-
-    return;
-  }
-
-  let html = "";
-
-  account.activePlans.forEach(function(plan){
-
-    if(plan.received){
-      return;
-    }
-
-    const remaining =
-      getDaysRemaining(plan.maturityDate);
-
-    const matured =
-      isMatured(plan);
-
-    html +=
-      '<div class="plan-status active-plan">' +
-
-      '<strong>' +
-      escapeHTML(plan.name) +
-      '</strong><br>' +
-
-      '<span style="color:#718096;">' +
-      formatMoney(plan.amount) +
-      ' saved • ' +
-      plan.days +
-      ' days' +
-      '</span><br><br>' +
-
-      (
-        matured
-        ?
-        '<strong style="color:#087f5b;">🎉 Matured!</strong>'
-        :
-        '<strong>' +
-        remaining +
-        ' day' +
-        (remaining === 1 ? "" : "s") +
-        ' remaining</strong>'
-      ) +
-
-      '<br>' +
-
-      'Maturity total: <strong>' +
-      formatMoney(plan.total) +
-      '</strong>' +
-
-      (
-        matured
-        ?
-        '<button class="receive-btn" onclick="receivePlan(' +
-        plan.id +
-        ')">' +
-        'Receive ' +
-        formatMoney(plan.total) +
-        '</button>'
-        :
-        '<button class="receive-btn" disabled>' +
-        'Available after maturity' +
-        '</button>'
-      ) +
-
-      '</div>';
-  });
-
-  if(!html){
-    html =
-      '<div class="empty">No active plans.</div>';
-  }
-
-  container.innerHTML = html;
-}
-
-
-/* RECEIVE */
-
-function receivePlan(id){
-
-  const index =
-    account.activePlans.findIndex(
-      function(plan){
-        return plan.id === id;
-      }
-    );
-
-  if(index === -1){
-    showToast("Saving plan not found.");
-    return;
-  }
-
-  const plan =
-    account.activePlans[index];
-
-  if(!isMatured(plan)){
-    showToast(
-      "This plan has not matured yet."
-    );
-    return;
-  }
-
-  if(plan.received){
-    showToast(
-      "This plan has already been received."
-    );
-    return;
-  }
-
-  const confirmReceive =
-    confirm(
-      "Receive " +
-      formatMoney(plan.total) +
-      " from " +
-      plan.name +
-      "?"
-    );
-
-  if(!confirmReceive){
-    return;
-  }
-
-  account.balance += plan.total;
-
-  plan.received = true;
-  plan.status = "Received";
-  plan.receivedDate =
-    new Date().toISOString();
-
-  account.transactions.unshift({
-    id:Date.now(),
-    type:"maturity",
-    title:"Received " + plan.name,
-    amount:plan.total,
-    date:new Date().toISOString(),
-    status:"Completed"
-  });
-
-  saveAccount();
-  refreshUI();
-
-  showToast(
-    formatMoney(plan.total) +
-    " added to your balance"
-  );
-}
-
-
-/* TRANSACTIONS */
-
-function renderTransactions(){
-
-  const list =
-    document.getElementById("transactionList");
-
-  if(!list) return;
-
-  if(account.transactions.length === 0){
-
-    list.innerHTML =
-      '<div class="empty">' +
-      'No transactions yet.' +
-      '</div>';
-
-    return;
-  }
-
-  let html = "";
-
-  account.transactions.forEach(
-    function(transaction){
-
-      const isPositive =
-        transaction.type === "deposit" ||
-        transaction.type === "maturity";
-
-      let amountText =
-        (isPositive ? "+" : "-") +
-        formatMoney(transaction.amount);
-
-      let extra = "";
-
-      if(transaction.type === "withdrawal"){
-
-        extra =
-          '<br>' +
-          '<span style="font-size:11px;color:#718096;">' +
-          'Fee: ' +
-          formatMoney(transaction.fee) +
-          ' • Received: ' +
-          formatMoney(transaction.received) +
-          '</span>';
-      }
-
-      html +=
-        '<div class="transaction">' +
-
-        '<div>' +
-
-        '<div class="transaction-title">' +
-        escapeHTML(transaction.title) +
-        '</div>' +
-
-        '<div class="transaction-date">' +
-        new Date(
-          transaction.date
-        ).toLocaleString() +
-        '</div>' +
-
-        '<div style="font-size:11px;color:#718096;">' +
-        escapeHTML(
-          transaction.status || ""
-        ) +
-        '</div>' +
-
-        extra +
-
-        '</div>' +
-
-        '<div class="transaction-amount ' +
-        (isPositive ? "plus" : "minus") +
-        '">' +
-        amountText +
-        '</div>' +
-
-        '</div>';
-    }
-  );
-
-  list.innerHTML = html;
-}
-
-
-/* REFERRALS */
-
-function renderReferral(){
-
-  document.getElementById(
-    "myReferralCode"
-  ).textContent =
-    account.referralCode;
-
-  document.getElementById(
-    "referralCount"
-  ).textContent =
-    account.referrals;
-
-  const progress =
-    Math.min(account.referrals,100);
-
-  document.getElementById(
-    "referralProgress"
-  ).style.width =
-    progress + "%";
-}
-
-
-function copyReferral(){
-
-  const code =
-    account.referralCode;
-
-  if(
-    navigator.clipboard &&
-    navigator.clipboard.writeText
-  ){
-
-    navigator.clipboard.writeText(code)
-      .then(function(){
-        showToast(
-          "Referral code copied"
-        );
-      })
-      .catch(function(){
-        fallbackCopy(code);
-      });
-
-  }else{
-    fallbackCopy(code);
-  }
-}
-
-
-function fallbackCopy(text){
-
-  const textarea =
-    document.createElement("textarea");
-
-  textarea.value = text;
-
-  document.body.appendChild(
-    textarea
-  );
-
-  textarea.select();
-
-  try{
-    document.execCommand("copy");
-    showToast("Referral code copied");
-  }catch(error){
-    showToast(
-      "Copy failed. Your code is " +
-      text
-    );
-  }
-
-  document.body.removeChild(
-    textarea
-  );
-}
-
-
-function shareReferral(){
-
-  const message =
-    "Join Co Save & Earn with my referral code: " +
-    account.referralCode;
-
-  if(navigator.share){
-
-    navigator.share({
-      title:"Co Save & Earn",
-      text:message
-    }).catch(function(){});
-
-  }else{
-
-    fallbackCopy(message);
-
-    showToast(
-      "Referral message copied"
-    );
-  }
-}
-
-
-/* LOGOUT */
-
-function logout(){
-
-  const confirmLogout =
-    confirm(
-      "Are you sure you want to logout?"
-    );
-
-  if(!confirmLogout){
-    return;
-  }
-
-  localStorage.removeItem(
-    "coEarnerLoggedIn"
-  );
-
-  window.location.href =
-    "index.html";
-}
-
-
-/* HTML SAFETY */
-
-function escapeHTML(value){
-
-  return String(value || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
-
-
-/* REFRESH */
-
-function refreshUI(){
-
-  updateBalance();
-  loadProfile();
-  renderReferral();
-  renderTransactions();
-  renderActivePlans();
-}
-
-
-/* AUTO UPDATE SAVING DAYS */
-
-setInterval(function(){
-
-  renderActivePlans();
-
-},60000);
-
-
-/* START */
-
-refreshUI();
-
-</script>
-
-</body>
-  </html>
-<!-- =========================================================
-     CO SAVE & EARN
-     SAVING PIGS + SAVING SAFES + REFERRAL SECTION
-     Paste this BEFORE the final </body> tag
-========================================================= -->
-
-<style>
-  .new-saving-section {
-    margin: 25px 0;
-    padding: 20px;
-    border-radius: 22px;
-    background: linear-gradient(145deg, #101827, #18243a);
-    color: white;
-    box-shadow: 0 8px 25px rgba(0,0,0,.18);
-  }
-
-  .new-saving-title {
-    text-align: center;
-    margin-bottom: 6px;
-    font-size: 25px;
-    font-weight: 800;
-  }
-
-  .new-saving-subtitle {
-    text-align: center;
-    color: #b8c3d6;
-    margin-bottom: 20px;
-    font-size: 14px;
-  }
-
-  .saving-plan-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-    gap: 15px;
-  }
-
-  .saving-plan-card {
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.12);
-    border-radius: 18px;
-    padding: 18px;
-    text-align: center;
-  }
-
-  .saving-object {
-    font-size: 55px;
-    margin-bottom: 5px;
-  }
-
-  .saving-plan-card h3 {
-    margin: 5px 0;
-    font-size: 19px;
-  }
-
-  .saving-days {
-    display: inline-block;
-    padding: 5px 12px;
-    border-radius: 20px;
-    background: rgba(255,255,255,.12);
-    font-size: 12px;
-    margin-bottom: 12px;
-  }
-
-  .saving-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255,255,255,.08);
-    font-size: 14px;
-  }
-
-  .saving-row:last-of-type {
-    border-bottom: none;
-  }
-
-  .saving-total {
-    margin-top: 12px;
-    font-size: 20px;
-    font-weight: 800;
-  }
-
-  .saving-daily {
-    color: #aebbd0;
-    font-size: 13px;
-    margin-top: 4px;
-  }
-
-  .choose-saving-btn {
-    width: 100%;
-    margin-top: 14px;
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-    background: white;
-    color: #101827;
-    font-size: 15px;
-    font-weight: 800;
-    cursor: pointer;
-  }
-
-  .choose-saving-btn:active {
-    transform: scale(.98);
-  }
-
-  .referral-box {
-    margin-top: 25px;
-    padding: 20px;
-    border-radius: 20px;
-    background: linear-gradient(145deg, #18243a, #101827);
-    color: white;
-  }
-
-  .referral-box h2 {
-    text-align: center;
-    margin-top: 0;
-  }
-
-  .referral-code {
-    text-align: center;
-    font-size: 25px;
-    font-weight: 900;
-    letter-spacing: 3px;
-    margin: 12px 0;
-  }
-
-  .referral-link {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    background: rgba(255,255,255,.1);
-    color: white;
-    margin-bottom: 12px;
-  }
-
-  .referral-buttons {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .referral-btn {
-    border: none;
-    padding: 12px;
-    border-radius: 11px;
-    font-weight: 800;
-    cursor: pointer;
-  }
-
-  .referral-count {
-    text-align: center;
-    margin: 18px 0;
-    font-size: 18px;
-  }
-
-  .reward-list {
-    display: grid;
-    gap: 8px;
-  }
-
-  .reward-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 11px 13px;
-    border-radius: 10px;
-    background: rgba(255,255,255,.07);
-  }
-
-  .reward-item strong {
-    color: #fff;
-  }
-
-  @media(max-width:600px) {
-    .saving-plan-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>
-
-
-<!-- ================================
-     SAVING PIGS — 5 DAYS
-================================ -->
-
-<section class="new-saving-section">
-
-  <div class="new-saving-title">🐷 Saving Pigs</div>
-
-  <div class="new-saving-subtitle">
-    Save for 5 days and earn your planned return.
+    <div class="tagline">
+      Save • Grow • Earn
+    </div>
   </div>
 
-  <div class="saving-plan-grid">
-
-    <!-- 20,000 -->
-    <div class="saving-plan-card">
-      <div class="saving-object">🐷</div>
-      <h3>20,000</h3>
-      <span class="saving-days">5 DAYS</span>
-
-      <div class="saving-row">
-        <span>Daily earning</span>
-        <strong>3,000</strong>
-      </div>
-
-      <div class="saving-row">
-        <span>Saved</span>
-        <strong>20,000</strong>
-      </div>
-
-      <div class="saving-total">
-        Total: 35,000
-      </div>
-
-      <div class="saving-daily">
-        15,000 earned in 5 days
-      </div>
-
-      <button class="choose-saving-btn"
-        onclick="selectNewSavingPlan('Saving Pig', 20000, 3000, 5, 35000)">
-        Choose Plan
-      </button>
-    </div>
-
-
-    <!-- 30,000 -->
-    <div class="saving-plan-card">
-      <div class="saving-object">🐷</div>
-      <h3>30,000</h3>
-      <span class="saving-days">5 DAYS</span>
-
-      <div class="saving-row">
-        <span>Daily earning</span>
-        <strong>5,000</strong>
-      </div>
-
-      <div class="saving-row">
-        <span>Saved</span>
-        <strong>30,000</strong>
-      </div>
-
-      <div class="saving-total">
-        Total: 55,000
-      </div>
-
-      <div class="saving-daily">
-        25,000 earned in 5 days
-      </div>
-
-      <button class="choose-saving-btn"
-        onclick="selectNewSavingPlan('Saving Pig', 30000, 5000, 5, 55000)">
-        Choose Plan
-      </button>
-    </div>
-
-
-    <!-- 50,000 -->
-    <div class="saving-plan-card">
-      <div class="saving-object">🐷</div>
-      <h3>50,000</h3>
-      <span class="saving-days">5 DAYS</span>
-
-      <div class="saving-row">
-        <span>Daily earning</span>
-        <strong>7,000</strong>
-      </div>
-
-      <div class="saving-row">
-        <span>Saved</span>
-        <strong>50,000</strong>
-      </div>
-
-      <div class="saving-total">
-        Total: 85,000
-      </div>
-
-      <div class="saving-daily">
-        35,000 earned in 5 days
-      </div>
-
-      <button class="choose-saving-btn"
-        onclick="selectNewSavingPlan('Saving Pig', 50000, 7000, 5, 85000)">
-        Choose Plan
-      </button>
-    </div>
-
-
-    <!-- 100,000 -->
-    <div class="saving-plan-card">
-      <div class="saving-object">🐷</div>
-      <h3>100,000</h3>
-      <span class="saving-days">5 DAYS</span>
-
-      <div class="saving-row">
-        <span>Daily earning</span>
-        <strong>11,000</strong>
-      </div>
-
-      <div class="saving-row">
-        <span>Saved</span>
-        <strong>100,000</strong>
-      </div>
-
-      <div class="saving-total">
-        Total: 155,000
-      </div>
-
-      <div class="saving-daily">
-        55,000 earned in 5 days
-      </div>
-
-      <button class="choose-saving-btn"
-        onclick="selectNewSavingPlan('Saving Pig', 100000, 11000, 5, 155000)">
-        Choose Plan
-      </button>
-    </div>
-
-  </div>
-</section>
-
-
-
-<!-- ================================
-     SAVING SAFES — 10 DAYS
-================================ -->
-
-<section class="new-saving-section">
-
-  <div class="new-saving-title">🔐 Saving Safes</div>
-
-  <div class="new-saving-subtitle">
-    Keep your savings locked for 10 days.
+  <div class="tagline">
+    CO SAVE & EARN
   </div>
 
-  <div class="saving-plan-grid">
-
-    <!-- 20,000 -->
-    <div class="saving-plan-card">
-      <div class="saving-object">🔐</div>
-      <h3>20,000</h3>
-      <span class="saving-days">10 DAYS</span>
-
-      <div class="saving-row">
-        <span>Daily earning</span>
-        <strong>3,000</strong>
-      </div>
-
-      <div class="saving-row">
-        <span>Saved</span>
-        <strong>20,000</strong>
-      </div>
-
-      <div class="saving-total">
-        Total: 50,000
-      </div>
-
-      <div class="saving-daily">
-        30,000 earned in 10 days
-      </div>
-
-      <button class="choose-saving-btn"
-        onclick="selectNewSavingPlan('Saving Safe', 20000, 3000, 10, 50000)">
-        Choose Plan
-      </button>
-    </div>
-
-
-    <!-- 30,000 -->
-    <div class="saving-plan-card">
-      <div class="saving-object">🔐</div>
-      <h3>30,000</h3>
-      <span class="saving-days">10 DAYS</span>
-
-      <div class="saving-row">
-        <span>Daily earning</span>
-        <strong>5,000</strong>
-      </div>
-
-      <div class="saving-row">
-        <span>Saved</span>
-        <strong>30,000</strong>
-      </div>
-
-      <div class="saving-total">
-        Total: 80,000
-      </div>
-
-      <div class="saving-daily">
-        50,000 earned in 10 days
-      </div>
-
-      <button class="choose-saving-btn"
-        onclick="selectNewSavingPlan('Saving Safe', 30000, 5000, 10, 80000)">
-        Choose Plan
-      </button>
-    </div>
-
-
-    <!-- 50,000 -->
-    <div class="saving-plan-card">
-      <div class="saving-object">🔐</div>
-      <h3>50,000</h3>
-      <span class="saving-days">10 DAYS</span>
-
-      <div class="saving-row">
-        <span>Daily earning</span>
-        <strong>7,000</strong>
-      </div>
-
-      <div class="saving-row">
-        <span>Saved</span>
-        <strong>50,000</strong>
-      </div>
-
-      <div class="saving-total">
-        Total: 120,000
-      </div>
-
-      <div class="saving-daily">
-        70,000 earned in 10 days
-      </div>
-
-      <button class="choose-saving-btn"
-        onclick="selectNewSavingPlan('Saving Safe', 50000, 7000, 10, 120000)">
-        Choose Plan
-      </button>
-    </div>
-
-
-    <!-- 100,000 -->
-    <div class="saving-plan-card">
-      <div class="saving-object">🔐</div>
-      <h3>100,000</h3>
-      <span class="saving-days">10 DAYS</span>
-
-      <div class="saving-row">
-        <span>Daily earning</span>
-        <strong>11,000</strong>
-      </div>
-
-      <div class="saving-row">
-        <span>Saved</span>
-        <strong>100,000</strong>
-      </div>
-
-      <div class="saving-total">
-        Total: 210,000
-      </div>
-
-      <div class="saving-daily">
-        110,000 earned in 10 days
-      </div>
-
-      <button class="choose-saving-btn"
-        onclick="selectNewSavingPlan('Saving Safe', 100000, 11000, 10, 210000)">
-        Choose Plan
-      </button>
-    </div>
-
-  </div>
-</section>
-
-
-
-<!-- ================================
-     REFERRAL SYSTEM
-================================ -->
-
-<section class="referral-box">
-
-  <h2>🎁 Invite & Earn</h2>
-
-  <p style="text-align:center;color:#b8c3d6;">
-    Share your referral link with friends and earn rewards.
-  </p>
-
-  <div class="referral-code" id="myReferralCode">
-    Loading...
-  </div>
-
-  <input
-    id="myReferralLink"
-    class="referral-link"
-    type="text"
-    readonly
-  >
-
-  <div class="referral-buttons">
-
-    <button class="referral-btn"
-      onclick="copyReferralLink()">
-      📋 Copy Link
-    </button>
-
-    <button class="referral-btn"
-      onclick="shareReferralLink()">
-      📤 Share
-    </button>
-
-  </div>
-
-
-  <div class="referral-count">
-    Referrals: <strong id="referralCount">0</strong>
-  </div>
-
-
-  <div class="reward-list">
-
-    <div class="reward-item">
-      <span>10 Referrals</span>
-      <strong>20,000</strong>
-    </div>
-
-    <div class="reward-item">
-      <span>50 Referrals</span>
-      <strong>80,000</strong>
-    </div>
-
-    <div class="reward-item">
-      <span>100 Referrals</span>
-      <strong>130,000</strong>
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<script>
-/* =========================================================
-   SAVING PLAN SELECTION
-========================================================= */
-
-function selectNewSavingPlan(type, amount, daily, days, maturity) {
-
-  const balance =
-    Number(localStorage.getItem("coBalance")) || 0;
-
-  if (balance < amount) {
-
-    alert(
-      "Insufficient balance. You need " +
-      amount.toLocaleString() +
-      " to choose this plan."
-    );
-
-    return;
-  }
-
-  const plan = {
-    type: type,
-    amount: amount,
-    dailyEarning: daily,
-    days: days,
-    maturity: maturity,
-    startDate: new Date().toISOString()
-  };
-
-  localStorage.setItem(
-    "activeNewSavingPlan",
-    JSON.stringify(plan)
-  );
-
-  alert(
-    type +
-    " selected successfully!\n\n" +
-    "Amount: " +
-    amount.toLocaleString() +
-    "\nDuration: " +
-    days +
-    " days\n" +
-    "Maturity: " +
-    maturity.toLocaleString()
-  );
-}
-
-
-
-/* =========================================================
-   REFERRAL CODE
-========================================================= */
-
-function createReferralCode() {
-
-  let code =
-    localStorage.getItem("coReferralCode");
-
-  if (!code) {
-
-    const name =
-      localStorage.getItem("coUserName") ||
-      localStorage.getItem("username") ||
-      localStorage.getItem("userName") ||
-      localStorage.getItem("name") ||
-      "USER";
-
-    const cleanName =
-      name
-      .replace(/[^a-zA-Z]/g, "")
-      .substring(0, 4)
-      .toUpperCase();
-
-    const randomNumber =
-      Math.floor(1000 + Math.random() * 9000);
-
-    code =
-      "CO" +
-      cleanName +
-      randomNumber;
-
-    localStorage.setItem(
-      "coReferralCode",
-      code
-    );
-  }
-
-  return code;
-}
-
-
-
-/* =========================================================
-   SHOW REFERRAL LINK
-========================================================= */
-
-function loadReferralInformation() {
-
-  const code =
-    createReferralCode();
-
-  const baseURL =
-    window.location.origin +
-    window.location.pathname
-      .replace("dashboard.html", "register.html");
-
-  const referralLink =
-    baseURL +
-    "?ref=" +
-    encodeURIComponent(code);
-
-  document.getElementById(
-    "myReferralCode"
-  ).textContent = code;
-
-  document.getElementById(
-    "myReferralLink"
-  ).value = referralLink;
-
-  const referrals =
-    Number(
-      localStorage.getItem("coReferralCount")
-    ) || 0;
-
-  document.getElementById(
-    "referralCount"
-  ).textContent = referrals;
-}
-
-
-
-/* =========================================================
-   COPY REFERRAL LINK
-========================================================= */
-
-function copyReferralLink() {
-
-  const link =
-    document.getElementById(
-      "myReferralLink"
-    ).value;
-
-  navigator.clipboard.writeText(link)
-    .then(function() {
-
-      alert(
-        "Referral link copied successfully!"
-      );
-
-    })
-    .catch(function() {
-
-      const input =
-        document.getElementById(
-          "myReferralLink"
-        );
-
-      input.select();
-
-      document.execCommand("copy");
-
-      alert(
-        "Referral link copied successfully!"
-      );
-    });
-}
-
-
-
-/* =========================================================
-   SHARE REFERRAL LINK
-========================================================= */
-
-function shareReferralLink() {
-
-  const link =
-    document.getElementById(
-      "myReferralLink"
-    ).value;
-
-  const text =
-    "Join me on Co Save & Earn and start saving!";
-
-  if (
-    navigator.share
-  ) {
-
-    navigator.share({
-      title: "Co Save & Earn",
-      text: text,
-      url: link
-    });
-
-  } else {
-
-    copyReferralLink();
-
-    alert(
-      "Your referral link has been copied. You can now paste it into WhatsApp, Messenger, Facebook or another app."
-    );
-  }
-}
-
-
-
-/* =========================================================
-   START
-========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    loadReferralInformation();
-
-  }
-);
-        </script>
-<!-- 🐷 NEW SAVING PIGS - 5 DAYS -->
-<section class="new-saving-section">
-
-  <h2>🐷 Saving Pigs</h2>
-  <p>Save for 5 days</p>
-
-  <div class="saving-plan-grid">
-
-    <div class="saving-plan-card">
-      <div class="saving-object">🐷</div>
-      <h3>20,000</h3>
-      <p>Daily earning: 3,000</p>
-      <p>5 days: <strong>35,000</strong></p>
-      <button onclick="selectNewSavingPlan('Saving Pig',20000,3000,5,35000)">
-        Choose Plan
-      </button>
-    </div>
-
-    <div class="saving-plan-card">
-      <div class="saving-object">🐷</div>
-      <h3>30,000</h3>
-      <p>Daily earning: 5,000</p>
-      <p>5 days: <strong>55,000</strong></p>
-      <button onclick="selectNewSavingPlan('Saving Pig',30000,5000,5,55000)">
-        Choose Plan
-      </button>
-    </div>
-
-    <div class="saving-plan-card">
-      <div class="saving-object">🐷</div>
-      <h3>50,000</h3>
-      <p>Daily earning: 7,000</p>
-      <p>5 days: <strong>85,000</strong></p>
-      <button onclick="selectNewSavingPlan('Saving Pig',50000,7000,5,85000)">
-        Choose Plan
-      </button>
-    </div>
-
-    <div class="saving-plan-card">
-      <div class="saving-object">🐷</div>
-      <h3>100,000</h3>
-      <p>Daily earning: 11,000</p>
-      <p>5 days: <strong>155,000</strong></p>
-      <button onclick="selectNewSavingPlan('Saving Pig',100000,11000,5,155000)">
-        Choose Plan
-      </button>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- 🔐 NEW SAVING SAFES - 10 DAYS -->
-<section class="new-saving-section">
-
-  <h2>🔐 Saving Safes</h2>
-  <p>Save for 10 days</p>
-
-  <div class="saving-plan-grid">
-
-    <div class="saving-plan-card">
-      <div class="saving-object">🔐</div>
-      <h3>20,000</h3>
-      <p>Daily earning: 3,000</p>
-      <p>10 days: <strong>50,000</strong></p>
-      <button onclick="selectNewSavingPlan('Saving Safe',20000,3000,10,50000)">
-        Choose Plan
-      </button>
-    </div>
-
-    <div class="saving-plan-card">
-      <div class="saving-object">🔐</div>
-      <h3>30,000</h3>
-      <p>Daily earning: 5,000</p>
-      <p>10 days: <strong>80,000</strong></p>
-      <button onclick="selectNewSavingPlan('Saving Safe',30000,5000,10,80000)">
-        Choose Plan
-      </button>
-    </div>
-
-    <div class="saving-plan-card">
-      <div class="saving-object">🔐</div>
-      <h3>50,000</h3>
-      <p>Daily earning: 7,000</p>
-      <p>10 days: <strong>120,000</strong></p>
-      <button onclick="selectNewSavingPlan('Saving Safe',50000,7000,10,120000)">
-        Choose Plan
-      </button>
-    </div>
-
-    <div class="saving-plan-card">
-      <div class="saving-object">🔐</div>
-      <h3>100,000</h3>
-      <p>Daily earning: 11,000</p>
-      <p>10 days: <strong>210,000</strong></p>
-      <button onclick="selectNewSavingPlan('Saving Safe',100000,11000,10,210000)">
-        Choose Plan
-      </button>
-    </div>
-
-  </div>
-</section>
-<script>
-/* =====================================================
-   CO SAVE & EARN - PAGE VISIBILITY CONTROL
-   ===================================================== */
-
-function hideHomeOnlySections() {
-    document.querySelectorAll(
-        '.saving-plan-section, .new-saving-section, .saving-section, .saving-plans, .saving-pigs, .saving-safes'
-    ).forEach(function(section) {
-        section.style.display = 'none';
-    });
-}
-
-function hideReferralOnlySections() {
-    document.querySelectorAll(
-        '.referral-box, .referral-section, .referral-page-section'
-    ).forEach(function(section) {
-        section.style.display = 'none';
-    });
-}
-
-
-/* =====================================================
-   SHOW ONLY THE CORRECT CONTENT
-   ===================================================== */
-
-function showHomePage() {
-
-    /* Hide referral */
-    hideReferralOnlySections();
-
-    /* Show all existing saving sections */
-    document.querySelectorAll(
-        '.saving-plan-section, .new-saving-section, .saving-section, .saving-plans, .saving-pigs, .saving-safes'
-    ).forEach(function(section) {
-        section.style.display = '';
-    });
-}
-
-
-function showReferralPage() {
-
-    /* Hide ALL saving sections */
-    hideHomeOnlySections();
-
-    /* Show referral only */
-    document.querySelectorAll(
-        '.referral-box, .referral-section, .referral-page-section'
-    ).forEach(function(section) {
-        section.style.display = '';
-    });
-}
-
-
-/* =====================================================
-   WATCH WHICH DASHBOARD PAGE IS OPEN
-   ===================================================== */
-
-function updateDashboardPage() {
-
-    /* Try to identify active navigation/page */
-    const active =
-        document.querySelector(
-            '.page.active, .section.active, .tab.active, .nav-item.active'
-        );
-
-    if (!active) return;
-
-    const text =
-        active.innerText.toLowerCase();
-
-    if (
-        text.includes('referral') ||
-        text.includes('invite')
-    ) {
-        showReferralPage();
-        return;
-    }
-
-    if (
-        text.includes('home')
-    ) {
-        showHomePage();
-        return;
-    }
-
-    /* Any other page */
-    hideHomeOnlySections();
-    hideReferralOnlySections();
-}
-
-
-/* Run when dashboard opens */
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(updateDashboardPage, 300);
-});
-
-
-/* Check whenever navigation changes */
-setInterval(updateDashboardPage, 500);
-</script>
-<!-- PAYMENT CODE - DEPOSIT PAGE ONLY -->
-<div class="payment-code-box">
-    <h3>💰 Deposit Payment Code</h3>
-
-    <p>Use the payment code below when making your deposit:</p>
-
-    <div class="payment-code">
-        7222103
-    </div>
-
-    <button onclick="copyPaymentCode()">
-        📋 Copy Payment Code
-    </button>
 </div>
 
-<style>
-.payment-code-box {
-    margin: 20px 0;
-    padding: 20px;
-    border-radius: 18px;
-    text-align: center;
-    background: #f5f7fa;
-}
 
-.payment-code {
-    margin: 15px 0;
-    padding: 15px;
-    border-radius: 12px;
-    background: white;
-    font-size: 28px;
-    font-weight: 800;
-    letter-spacing: 3px;
-}
+<!-- =====================================================
+     HOME
+     ALL SAVING PLANS ARE ONLY HERE
+===================================================== -->
 
-.payment-code-box button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 700;
-}
-</style>
+<section id="home" class="page active">
 
-<script>
-function copyPaymentCode() {
-    navigator.clipboard.writeText("7222103");
-    alert("Payment code copied: 7222103");
-}
-  </script>
+  <div class="notice">
+    <strong>Co Save & Earn:</strong>
+    Choose a saving plan using your available balance.
+  </div>
+
+
+  <!-- DASHBOARD STATS -->
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="small">
+        Available Balance
+      </div>
+
+      <div class="value green"
+           id="balanceDisplay">
+        0
+      </div>
+    </div>
+
+
+    <div class="stat">
+      <div class="small">
+        Daily Money Earned
+      </div>
+
+      <div class="value purple"
+           id="dailyDisplay">
+        0
+      </div>
+    </div>
+
+
+    <div class="stat">
+      <div class="small">
+        Total Money Withdrawn
+      </div>
+
+      <div class="value blue"
+           id="withdrawnDisplay">
+        0
+      </div>
+    </div>
+
+
+    <div class="stat">
+      <div class="small">
+        Active Saving
+      </div>
+
+      <div class="value gold"
+           id="activePlanDisplay">
+        None
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       FAST SAVER - 5 DAYS
+  ==================================================== -->
+
+  <div class="panel">
+
+    <h2>⚡ Fast Saver</h2>
+
+    <p class="tagline">
+      5-day saving cycle
+    </p>
+
+    <div class="plan-grid">
+
+
+      <!-- 20,000 -->
+
+      <div class="plan-card">
+
+        <div class="plan-icon">
+          ⚡
+        </div>
+
+        <h3>
+          20,000
+        </h3>
+
+        <span class="days">
+          5 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>3,000</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>15,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 35,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Fast Saver',20000,3000,5,35000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <!-- 30,000 -->
+
+      <div class="plan-card">
+
+        <div class="plan-icon">
+          ⚡
+        </div>
+
+        <h3>
+          30,000
+        </h3>
+
+        <span class="days">
+          5 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>5,000</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>25,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 55,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Fast Saver',30000,5000,5,55000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <!-- 50,000 -->
+
+      <div class="plan-card">
+
+        <div class="plan-icon">
+          ⚡
+        </div>
+
+        <h3>
+          50,000
+        </h3>
+
+        <span class="days">
+          5 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>7,000</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>35,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 85,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Fast Saver',50000,7000,5,85000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <!-- 100,000 -->
+
+      <div class="plan-card">
+
+        <div class="plan-icon">
+          ⚡
+        </div>
+
+        <h3>
+          100,000
+        </h3>
+
+        <span class="days">
+          5 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>11,000</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>55,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 155,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Fast Saver',100000,11000,5,155000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       SAVING SAFES - 10 DAYS
+  ==================================================== -->
+
+  <div class="panel">
+
+    <h2>🔐 Saving Safes</h2>
+
+    <p class="tagline">
+      10-day saving cycle
+    </p>
+
+    <div class="plan-grid">
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">
+          🔐
+        </div>
+
+        <h3>20,000</h3>
+
+        <span class="days">
+          10 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>3,000</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>30,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 50,000
+        </div>
+
+        <button class="btn blue-btn full"
+          onclick="choosePlan('Saving Safe',20000,3000,10,50000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">
+          🔐
+        </div>
+
+        <h3>30,000</h3>
+
+        <span class="days">
+          10 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>5,000</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>50,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 80,000
+        </div>
+
+        <button class="btn blue-btn full"
+          onclick="choosePlan('Saving Safe',30000,5000,10,80000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">
+          🔐
+        </div>
+
+        <h3>50,000</h3>
+
+        <span class="days">
+          10 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>7,000</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>70,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 120,000
+        </div>
+
+        <button class="btn blue-btn full"
+          onclick="choosePlan('Saving Safe',50000,7000,10,120000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">
+          🔐
+        </div>
+
+        <h3>100,000</h3>
+
+        <span class="days">
+          10 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>11,000</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>110,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 210,000
+        </div>
+
+        <button class="btn blue-btn full"
+          onclick="choosePlan('Saving Safe',100000,11000,10,210000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       SAVING TINS - 20 DAYS
+  ==================================================== -->
+
+  <div class="panel">
+
+    <h2>🥫 Saving Tins</h2>
+
+    <p class="tagline">
+      20-day saving cycle
+    </p>
+
+    <div class="plan-grid">
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">🥫</div>
+
+        <h3>20,000</h3>
+
+        <span class="days">
+          20 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>1,750</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>35,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 55,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Saving Tin',20000,1750,20,55000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">🥫</div>
+
+        <h3>30,000</h3>
+
+        <span class="days">
+          20 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>2,750</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>55,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 85,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Saving Tin',30000,2750,20,85000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">🥫</div>
+
+        <h3>50,000</h3>
+
+        <span class="days">
+          20 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>4,250</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>85,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 135,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Saving Tin',50000,4250,20,135000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">🥫</div>
+
+        <h3>100,000</h3>
+
+        <span class="days">
+          20 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>7,750</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>155,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 255,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Saving Tin',100000,7750,20,255000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================
+       SAVING ELEPHANTS - 30 DAYS
+  ==================================================== -->
+
+  <div class="panel">
+
+    <h2>🐘 Saving Elephants</h2>
+
+    <p class="tagline">
+      30-day saving cycle
+    </p>
+
+    <div class="plan-grid">
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">🐘</div>
+
+        <h3>20,000</h3>
+
+        <span class="days">
+          30 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>1,667</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>50,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 70,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Saving Elephant',20000,1667,30,70000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">🐘</div>
+
+        <h3>30,000</h3>
+
+        <span class="days">
+          30 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>3,000</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>90,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 120,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Saving Elephant',30000,3000,30,120000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">🐘</div>
+
+        <h3>50,000</h3>
+
+        <span class="days">
+          30 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>4,500</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>135,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 185,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Saving Elephant',50000,4500,30,185000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+
+      <div class="plan-card">
+
+        <div class="plan-icon">🐘</div>
+
+        <h3>100,000</h3>
+
+        <span class="days">
+          30 DAYS
+        </span>
+
+        <div class="plan-row">
+          <span>Daily earning</span>
+          <strong>7,333</strong>
+        </div>
+
+        <div class="plan-row">
+          <span>Total earned</span>
+          <strong>220,000</strong>
+        </div>
+
+        <div class="total">
+          Total: 320,000
+        </div>
+
+        <button class="btn primary full"
+          onclick="choosePlan('Saving Elephant',100000,7333,30,320000)">
+          Choose Plan
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     MY SAVINGS
+===================================================== -->
+
+<section id="savings" class="page">
+
+  <div class="panel">
+
+    <h2>💰 My Active Savings</h2>
+
+    <div id="activeSavingsContent
+            <p class="muted">No active savings plan yet.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =========================
+           DEPOSIT
+      ========================== -->
+      <section id="deposit" class="page">
+        <div class="panel">
+          <h2>💰 Deposit Money</h2>
+
+          <div class="info-box">
+            <strong>Payment Code</strong>
+            <div class="payment-code">7222103</div>
+            <button class="btn secondary" onclick="copyPaymentCode()">
+              Copy Payment Code
+            </button>
+          </div>
+
+          <label>Mobile Money Provider</label>
+          <select id="depositProvider">
+            <option value="">Select Provider</option>
+            <option value="MTN Mobile Money">MTN Mobile Money</option>
+            <option value="Airtel Money">Airtel Money</option>
+          </select>
+
+          <label>Mobile Money Name</label>
+          <input id="depositName" type="text" placeholder="Enter Mobile Money Name">
+
+          <label>Mobile Money Number</label>
+          <input id="depositNumber" type="tel" placeholder="Enter Mobile Money Number">
+
+          <label>Amount</label>
+          <input id="depositAmount" type="number" min="20000" placeholder="Minimum 20,000">
+
+          <button class="btn primary full" onclick="submitDeposit()">
+            Submit Deposit
+          </button>
+
+          <p class="muted">Minimum deposit: 20,000</p>
+        </div>
+      </section>
+
+
+      <!-- =========================
+           WITHDRAW
+      ========================== -->
+      <section id="withdraw" class="page">
+        <div class="panel">
+          <h2>💸 Withdraw Money</h2>
+
+          <div class="balance-box">
+            Available Balance:
+            <strong id="withdrawBalance">0</strong>
+          </div>
+
+          <label>Mobile Money Provider</label>
+          <select id="withdrawProvider">
+            <option value="">Select Provider</option>
+            <option value="MTN Mobile Money">MTN Mobile Money</option>
+            <option value="Airtel Money">Airtel Money</option>
+          </select>
+
+          <label>Mobile Money Name</label>
+          <input id="withdrawName" type="text" placeholder="Enter Mobile Money Name">
+
+          <label>Mobile Money Number</label>
+          <input id="withdrawNumber" type="tel" placeholder="Enter Mobile Money Number">
+
+          <label>Amount</label>
+          <input id="withdrawAmount" type="number" min="20000" placeholder="Minimum 20,000">
+
+          <button class="btn primary full" onclick="submitWithdrawal()">
+            Request Withdrawal
+          </button>
+
+          <p class="muted">
+            Minimum withdrawal: 20,000
+          </p>
+        </div>
+      </section>
+
+
+      <!-- =========================
+           EARNINGS
+      ========================== -->
+      <section id="earnings" class="page">
+        <div class="panel">
+          <h2>📈 My Earnings</h2>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span>Daily Earnings</span>
+              <strong id="dailyEarnings">0</strong>
+            </div>
+
+            <div class="stat-card">
+              <span>Total Earned</span>
+              <strong id="totalEarned">0</strong>
+            </div>
+
+            <div class="stat-card">
+              <span>Total Deposited</span>
+              <strong id="totalDeposited">0</strong>
+            </div>
+
+            <div class="stat-card">
+              <span>Total Withdrawn</span>
+              <strong id="totalWithdrawn">0</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =========================
+           REFERRAL
+           ONLY REFERRAL CONTENT
+           IS HERE
+      ========================== -->
+      <section id="referral" class="page">
+        <div class="panel">
+          <h2>🎁 Referral Rewards</h2>
+
+          <p>
+            Invite friends and earn rewards when your referrals are verified.
+          </p>
+
+          <div class="referral-box">
+            <label>Your Referral Code</label>
+            <input id="referralCode" type="text" readonly>
+
+            <label>Your Referral Link</label>
+            <input id="referralLink" type="text" readonly>
+
+            <button class="btn primary full" onclick="copyReferralLink()">
+              Copy Referral Link
+            </button>
+
+            <button class="btn secondary full" onclick="shareReferralLink()">
+              Share Referral Link
+            </button>
+          </div>
+
+          <div class="reward-list">
+            <div class="reward">
+              <strong>10 Referrals</strong>
+              <span>20,000</span>
+            </div>
+
+            <div class="reward">
+              <strong>50 Referrals</strong>
+              <span>80,000</span>
+            </div>
+
+            <div class="reward">
+              <strong>100 Referrals</strong>
+              <span>130,000</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =========================
+           TRANSACTIONS
+      ========================== -->
+      <section id="transactions" class="page">
+        <div class="panel">
+          <h2>🧾 Transactions</h2>
+
+          <div id="transactionsList">
+            <p class="muted">No transactions yet.</p>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =========================
+           PROFILE
+      ========================== -->
+      <section id="profile" class="page">
+        <div class="panel">
+          <h2>👤 My Profile</h2>
+
+          <label>Username</label>
+          <input id="profileUsername" type="text" placeholder="Username">
+
+          <label>Email</label>
+          <input id="profileEmail" type="email" placeholder="Email">
+
+          <label>Mobile Money Number</label>
+          <input id="profileMobile" type="tel" placeholder="Mobile Money Number">
+
+          <button class="btn primary full" onclick="saveProfile()">
+            Save Profile
+          </button>
+        </div>
+      </section>
+
+
+    </main>
+
+
+    <script>
+
+      /* =========================
+         BASIC STORAGE
+      ========================== */
+
+      let balance =
+        Number(localStorage.getItem("coBalance")) || 0;
+
+      let totalDeposited =
+        Number(localStorage.getItem("coTotalDeposited")) || 0;
+
+      let totalWithdrawn =
+        Number(localStorage.getItem("coTotalWithdrawn")) || 0;
+
+      let totalEarned =
+        Number(localStorage.getItem("coTotalEarned")) || 0;
+
+      let transactions =
+        JSON.parse(localStorage.getItem("coTransactions") || "[]");
+
+
+      /* =========================
+         PAGE NAVIGATION
+      ========================== */
+
+      function showPage(pageId, button) {
+
+        document.querySelectorAll(".page").forEach(page => {
+          page.classList.remove("active");
+        });
+
+        const page = document.getElementById(pageId);
+
+        if (page) {
+          page.classList.add("active");
+        }
+
+        document.querySelectorAll(".nav-btn").forEach(btn => {
+          btn.classList.remove("active");
+        });
+
+        if (button) {
+          button.classList.add("active");
+        }
+
+        updateDashboard();
+      }
+
+
+      /* =========================
+         SAVE STORAGE
+      ========================== */
+
+      function saveData() {
+
+        localStorage.setItem("coBalance", balance);
+        localStorage.setItem("coTotalDeposited", totalDeposited);
+        localStorage.setItem("coTotalWithdrawn", totalWithdrawn);
+        localStorage.setItem("coTotalEarned", totalEarned);
+
+        localStorage.setItem(
+          "coTransactions",
+          JSON.stringify(transactions)
+        );
+      }
+
+
+      /* =========================
+         DASHBOARD UPDATE
+      ========================== */
+
+      function updateDashboard() {
+
+        const balanceElements = [
+          "balance",
+          "withdrawBalance"
+        ];
+
+        balanceElements.forEach(id => {
+
+          const el = document.getElementById(id);
+
+          if (el) {
+            el.textContent =
+              Number(balance).toLocaleString();
+          }
+
+        });
+
+
+        const deposited =
+          document.getElementById("totalDeposited");
+
+        if (deposited) {
+          deposited.textContent =
+            Number(totalDeposited).toLocaleString();
+        }
+
+
+        const withdrawn =
+          document.getElementById("totalWithdrawn");
+
+        if (withdrawn) {
+          withdrawn.textContent =
+            Number(totalWithdrawn).toLocaleString();
+        }
+
+
+        const earned =
+          document.getElementById("totalEarned");
+
+        if (earned) {
+          earned.textContent =
+            Number(totalEarned).toLocaleString();
+        }
+
+
+        const daily =
+          document.getElementById("dailyEarnings");
+
+        if (daily) {
+          daily.textContent =
+            Number(calculateDailyEarning()).toLocaleString();
+        }
+
+        loadTransactions();
+        loadActiveSaving();
+      }
+
+
+      /* =========================
+         DAILY EARNING
+      ========================== */
+
+      function calculateDailyEarning() {
+
+        const active =
+          JSON.parse(
+            localStorage.getItem("activeSavingsPlan") || "null"
+          );
+
+        if (!active) return 0;
+
+        return Number(active.daily) || 0;
+      }
+
+
+      /* =========================
+         DEPOSIT
+      ========================== */
+
+      function submitDeposit() {
+
+        const provider =
+          document.getElementById("depositProvider").value;
+
+        const name =
+          document.getElementById("depositName").value.trim();
+
+        const number =
+          document.getElementById("depositNumber").value.trim();
+
+        const amount =
+          Number(document.getElementById("depositAmount").value);
+
+
+        if (!provider || !name || !number) {
+          alert("Please fill in all deposit details.");
+          return;
+        }
+
+
+        if (!amount || amount < 20000) {
+          alert("Minimum deposit is 20,000.");
+          return;
+        }
+
+
+        /*
+         * Prototype behavior:
+         * The amount is added immediately.
+         * A real admin approval system/backend
+         * can be connected later.
+         */
+
+        balance += amount;
+        totalDeposited += amount;
+
+
+        transactions.unshift({
+          type: "Deposit",
+          amount: amount,
+          status: "Pending",
+          date: new Date().toLocaleString()
+        });
+
+
+        saveData();
+
+        document.getElementById("depositAmount").value = "";
+
+        updateDashboard();
+
+        alert(
+          "Deposit submitted successfully. Status: Pending."
+        );
+      }
+
+
+      /* =========================
+         WITHDRAWAL
+      ========================== */
+
+      function submitWithdrawal() {
+
+        const provider =
+          document.getElementById("withdrawProvider").value;
+
+        const name =
+          document.getElementById("withdrawName").value.trim();
+
+        const number =
+          document.getElementById("withdrawNumber").value.trim();
+
+        const amount =
+          Number(document.getElementById("withdrawAmount").value);
+
+
+        if (!provider || !name || !number) {
+          alert("Please fill in all withdrawal details.");
+          return;
+        }
+
+
+        if (!amount || amount < 20000) {
+          alert("Minimum withdrawal is 20,000.");
+          return;
+        }
+
+
+        if (amount > balance) {
+          alert("Insufficient balance.");
+          return;
+        }
+
+
+        balance -= amount;
+        totalWithdrawn += amount;
+
+
+        transactions.unshift({
+          type: "Withdrawal",
+          amount: amount,
+          status: "Pending",
+          date: new Date().toLocaleString()
+        });
+
+
+        saveData();
+
+        document.getElementById("withdrawAmount").value = "";
+
+        updateDashboard();
+
+        alert(
+          "Withdrawal request submitted. Status: Pending."
+        );
+      }
+
+
+      /* =========================
+         ACTIVE SAVINGS
+      ========================== */
+
+      function loadActiveSaving() {
+
+        const box =
+          document.getElementById("activeSavingsContent");
+
+        if (!box) return;
+
+
+        const active =
+          JSON.parse(
+            localStorage.getItem("activeSavingsPlan") || "null"
+          );
+
+
+        if (!active) {
+
+          box.innerHTML =
+            '<p class="muted">No active savings plan yet.</p>';
+
+          return;
+        }
+
+
+        box.innerHTML = `
+          <div class="active-plan-card">
+
+            <h3>${active.type}</h3>
+
+            <p>
+              Amount Saved:
+              <strong>${Number(active.amount).toLocaleString()}</strong>
+            </p>
+
+            <p>
+              Daily Earnings:
+              <strong>${Number(active.daily).toLocaleString()}</strong>
+            </p>
+
+            <p>
+              Duration:
+              <strong>${active.days} days</strong>
+            </p>
+
+            <p>
+              Maturity Total:
+              <strong>${Number(active.maturity).toLocaleString()}</strong>
+            </p>
+
+            <p class="status-active">
+              ● Active
+            </p>
+
+          </div>
+        `;
+      }
+
+
+      /* =========================
+         TRANSACTIONS
+      ========================== */
+
+      function loadTransactions() {
+
+        const box =
+          document.getElementById("transactionsList");
+
+        if (!box) return;
+
+
+        if (!transactions.length) {
+
+          box.innerHTML =
+            '<p class="muted">No transactions yet.</p>';
+
+          return;
+        }
+
+
+        box.innerHTML =
+          transactions.map(t => `
+
+            <div class="transaction">
+
+              <div>
+                <strong>${t.type}</strong>
+                <small>${t.date}</small>
+              </div>
+
+              <div>
+                <strong>
+                  ${Number(t.amount).toLocaleString()}
+                </strong>
+
+                <span>${t.status}</span>
+              </div>
+
+            </div>
+
+          `).join("");
+      }
+
+
+      /* =========================
+         PAYMENT CODE
+      ========================== */
+
+      function copyPaymentCode() {
+
+        navigator.clipboard.writeText("7222103");
+
+        alert("Payment code copied.");
+      }
+
+
+      /* =========================
+         REFERRAL CODE
+      ========================== */
+
+      function createReferralCode() {
+
+        let code =
+          localStorage.getItem("coReferralCode");
+
+
+        if (!code) {
+
+          const name =
+            localStorage.getItem("coUserName") ||
+            localStorage.getItem("userName") ||
+            "USER";
+
+          code =
+            name
+              .replace(/\s+/g, "")
+              .substring(0, 5)
+              .toUpperCase()
+              +
+              Math.floor(
+                1000 + Math.random() * 9000
+              );
+
+          localStorage.setItem(
+            "coReferralCode",
+            code
+          );
+        }
+
+
+        const codeBox =
+          document.getElementById("referralCode");
+
+        const linkBox =
+          document.getElementById("referralLink");
+
+
+        if (codeBox) {
+          codeBox.value = code;
+        }
+
+
+        if (linkBox) {
+
+          const current =
+            window.location.href;
+
+          const base =
+            current.split("dashboard.html")[0];
+
+          linkBox.value =
+            base +
+            "register.html?ref=" +
+            encodeURIComponent(code);
+        }
+      }
+
+
+      /* =========================
+         COPY REFERRAL LINK
+      ========================== */
+
+      function copyReferralLink() {
+
+        const link =
+          document.getElementById("referralLink").value;
+
+        navigator.clipboard.writeText(link);
+
+        alert("Referral link copied.");
+      }
+
+
+      /* =========================
+         SHARE REFERRAL LINK
+      ========================== */
+
+      function shareReferralLink() {
+
+        const link =
+          document.getElementById("referralLink").value;
+
+
+        if (navigator.share) {
+
+          navigator.share({
+            title: "Co Save & Earn",
+            text:
+              "Join Co Save & Earn using my referral link:",
+            url: link
+          });
+
+        } else {
+
+          navigator.clipboard.writeText(link);
+
+          alert(
+            "Referral link copied. You can paste it into WhatsApp, Messenger or another app."
+          );
+        }
+      }
+
+
+      /* =========================
+         PROFILE
+      ========================== */
+
+      function loadProfile() {
+
+        const username =
+          localStorage.getItem("coUserName") ||
+          localStorage.getItem("userName") ||
+          localStorage.getItem("username") ||
+          localStorage.getItem("name") ||
+          "";
+
+
+        const email =
+          localStorage.getItem("coEmail") || "";
+
+
+        const mobile =
+          localStorage.getItem("coMobile") || "";
+
+
+        const usernameBox =
+          document.getElementById("profileUsername");
+
+        const emailBox =
+          document.getElementById("profileEmail");
+
+        const mobileBox =
+          document.getElementById("profileMobile");
+
+
+        if (usernameBox)
+          usernameBox.value = username;
+
+        if (emailBox)
+          emailBox.value = email;
+
+        if (mobileBox)
+          mobileBox.value = mobile;
+      }
+
+
+      function saveProfile() {
+
+        const username =
+          document.getElementById("profileUsername").value.trim();
+
+        const email =
+          document.getElementById("profileEmail").value.trim();
+
+        const mobile =
+          document.getElementById("profileMobile").value.trim();
+
+
+        if (!username) {
+          alert("Please enter your username.");
+          return;
+        }
+
+
+        localStorage.setItem(
+          "coUserName",
+          username
+        );
+
+        localStorage.setItem(
+          "coEmail",
+          email
+        );
+
+        localStorage.setItem(
+          "coMobile",
+          mobile
+        );
+
+
+        alert("Profile saved successfully.");
+
+        updateDashboard();
+      }
+
+
+      /* =========================
+         START
+      ========================== */
+
+      document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+          createReferralCode();
+
+          loadProfile();
+
+          updateDashboard();
+
+        }
+      );
+
+    </script>
+
+  </body>
+      </html>
