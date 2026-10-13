@@ -1,442 +1,269 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Co Save & Earn | Login & Registration</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 22px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #071e17, #14583c, #218453);
-    }
-
-    .card {
-      width: 100%;
-      max-width: 440px;
-      padding: 26px 22px;
-      border-radius: 20px;
-      background: white;
-      box-shadow: 0 15px 45px #0004;
-    }
-
-    .brand { text-align: center; margin-bottom: 24px; }
-
-    .logo {
-      display: grid;
-      place-items: center;
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 12px;
-      border-radius: 18px;
-      background: #e3f5e9;
-      font-size: 30px;
-    }
-
-    h1 { margin: 0; color: #176b48; font-size: 25px; }
-    h2 { margin-bottom: 8px; color: #234332; font-size: 21px; }
-
-    .sub {
-      color: #718078;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 6px;
-      padding: 5px;
-      margin: 20px 0;
-      border-radius: 11px;
-      background: #edf4ef;
-    }
-
-    .tabs button {
-      flex: 1;
-      padding: 12px 5px;
-      border: 0;
-      border-radius: 8px;
-      background: transparent;
-      color: #456052;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .tabs button.active {
-      background: #176b48;
-      color: white;
-    }
-
-    .field { margin: 15px 0; }
-
-    label {
-      display: block;
-      margin-bottom: 7px;
-      color: #30483b;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    input {
-      width: 100%;
-      padding: 14px 12px;
-      border: 1px solid #d5e1d8;
-      border-radius: 9px;
-      background: #fcfefc;
-      font-size: 15px;
-    }
-
-    input:focus {
-      outline: 2px solid #b1dfc0;
-      border-color: #176b48;
-    }
-
-    .main-btn {
-      width: 100%;
-      margin-top: 10px;
-      padding: 15px;
-      border: 0;
-      border-radius: 10px;
-      background: #176b48;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .main-btn:disabled { opacity: .6; }
-
-    .forgot {
-      width: 100%;
-      padding: 12px 0;
-      border: 0;
-      background: none;
-      color: #176b48;
-      text-align: right;
-      cursor: pointer;
-    }
-
-    .message {
-      display: none;
-      padding: 12px;
-      margin: 12px 0;
-      border-radius: 9px;
-      font-size: 14px;
-      line-height: 1.5;
-      overflow-wrap: anywhere;
-    }
-
-    .message.success {
-      display: block;
-      background: #e5f6e9;
-      color: #155b3d;
-    }
-
-    .message.error {
-      display: block;
-      background: #fff0ee;
-      color: #a52b25;
-    }
-
-    .hidden { display: none !important; }
-
-    .footer {
-      margin-top: 20px;
-      color: #7a887f;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-  </style>
-</head>
-
-<body>
-  <main class="card">
-    <header class="brand">
-      <div class="logo">🌱</div>
-      <h1>Co Save & Earn</h1>
-      <p class="sub">Save • Grow • Earn</p>
-    </header>
-
-    <h2 id="heading">Welcome back</h2>
-    <p class="sub" id="intro">Log in to your personal account.</p>
-
-    <div class="tabs">
-      <button type="button" id="loginTab" class="active">Log In</button>
-      <button type="button" id="registerTab">Create Account</button>
-    </div>
-
-    <div id="message" class="message" role="status" aria-live="polite"></div>
-
-    <!-- CREATE ACCOUNT FORM -->
-    <form id="registerForm" class="hidden">
-      <div class="field">
-        <label for="username">Username</label>
-        <input id="username" type="text" autocomplete="username"
-          placeholder="Enter your username" maxlength="100" required>
-      </div>
-
-      <div class="field">
-        <label for="contact">Contact / Mobile Number</label>
-        <input id="contact" type="tel" autocomplete="tel"
-          placeholder="Enter your mobile number" maxlength="25" required>
-      </div>
-
-      <div class="field">
-        <label for="registerEmail">Email Address</label>
-        <input id="registerEmail" type="email" autocomplete="email"
-          placeholder="Enter your email address" required>
-      </div>
-
-      <div class="field">
-        <label for="registerPassword">Password</label>
-        <input id="registerPassword" type="password"
-          autocomplete="new-password" minlength="8"
-          placeholder="Create a password (minimum 8 characters)" required>
-      </div>
-
-      <button type="submit" class="main-btn" id="registerButton">
-        Create Account
-      </button>
-    </form>
-
-    <!-- LOGIN FORM -->
-    <form id="loginForm">
-      <div class="field">
-        <label for="loginEmail">Email Address</label>
-        <input id="loginEmail" type="email" autocomplete="email"
-          placeholder="Enter your registered email" required>
-      </div>
-
-      <div class="field">
-        <label for="loginPassword">Password</label>
-        <input id="loginPassword" type="password"
-          autocomplete="current-password"
-          placeholder="Enter your password" required>
-      </div>
-
-      <button type="button" class="forgot" id="forgotButton">
-        Forgot password?
-      </button>
-
-      <button type="submit" class="main-btn" id="loginButton">
-        Log In
-      </button>
-    </form>
-
-    <div class="footer">
-      Your account is managed securely by Supabase Authentication.
-    </div>
-  </main>
-
-  <script>
-    // EXISTING CO SAVE & EARN SUPABASE PROJECT
-    const SUPABASE_URL =
-      "https://chjtxxwxhvjwpspmikme.supabase.co";
-
-    const SUPABASE_PUBLISHABLE_KEY =
-      "sb_publishable_g8M0qRrMveb8A7H3BLYYg_g21-SBKA";
-
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
-    const $ = id => document.getElementById(id);
-    const registerForm = $("registerForm");
-    const loginForm = $("loginForm");
-    const message = $("message");
-
-    function showMessage(text, type) {
-      message.textContent = text;
-      message.className = "message " + type;
-    }
-
-    function clearMessage() {
-      message.textContent = "";
-      message.className = "message";
-    }
-
-    function setMode(mode) {
-      clearMessage();
-
-      const isRegister = mode === "register";
-
-      registerForm.classList.toggle("hidden", !isRegister);
-      loginForm.classList.toggle("hidden", isRegister);
-      $("registerTab").classList.toggle("active", isRegister);
-      $("loginTab").classList.toggle("active", !isRegister);
-
-      $("heading").textContent = isRegister
-        ? "Create your account" : "Welcome back";
-
-      $("intro").textContent = isRegister
-        ? "Enter your details to join Co Save & Earn."
-        : "Log in to your personal account.";
-    }
-
-    $("loginTab").addEventListener("click", () => setMode("login"));
-    $("registerTab").addEventListener("click", () => setMode("register"));
-
-    // REGISTER: email and password go to Supabase Authentication.
-    registerForm.addEventListener("submit", async function(event) {
-      event.preventDefault();
-      clearMessage();
-
-      const username = $("username").value.trim();
-      const contact = $("contact").value.trim();
-      const email = $("registerEmail").value.trim();
-      const password = $("registerPassword").value;
-
-      if (!username || !contact || !email || !password) {
-        showMessage("Please complete all four fields.", "error");
-        return;
-      }
-
-      if (password.length < 8) {
-        showMessage("Password must be at least 8 characters.", "error");
-        return;
-      }
-
-      const button = $("registerButton");
-      button.disabled = true;
-      button.textContent = "Creating account...";
-
-      try {
-        const { data, error } = await supabaseClient.auth.signUp({
-          email: email,
-          password: password,
-          options: {
-            data: {
-              full_name: username,
-              username: username,
-              mobile_number: contact,
-              phone: contact
-            },
-            emailRedirectTo:
-              "https://co-save-earnai.github.io/Co-earner/login.html"
-          }
-        });
-
-        if (error) throw error;
-
-        if (!data.user) {
-          throw new Error(
-            "Supabase did not return a user. Please try again."
-          );
-        }
-
-        if (data.session) {
-          showMessage(
-            "Your account was created successfully. Opening your dashboard...",
-            "success"
-          );
-
-          window.location.assign(
-            "https://co-save-earnai.github.io/Co-earner/dashboard.html"
-          );
-          return;
-        }
-
-        showMessage(
-          "Registration submitted successfully. Check your email for a confirmation link if required. " +
-          "Now check Supabase → Authentication → Users for the registered email. " +
-          "After confirming your email, log in here.",
-          "success"
-        );
-
-        registerForm.reset();
-
-      } catch (error) {
-        showMessage(
-          "Registration failed: " + (error.message || "Unknown error"),
-          "error"
-        );
-      } finally {
-        button.disabled = false;
-        button.textContent = "Create Account";
-      }
-    });
-
-    // LOGIN: verifies the actual Supabase account.
-    loginForm.addEventListener("submit", async function(event) {
-      event.preventDefault();
-      clearMessage();
-
-      const email = $("loginEmail").value.trim();
-      const password = $("loginPassword").value;
-      const button = $("loginButton");
-
-      button.disabled = true;
-      button.textContent = "Logging in...";
-
-      try {
-        const { data, error } =
-          await supabaseClient.auth.signInWithPassword({
-            email: email,
-            password: password
-          });
-
-        if (error) throw error;
-
-        if (!data.session) {
-          throw new Error("Login did not create a session. Please try again.");
-        }
-
-        window.location.assign(
-          "https://co-save-earnai.github.io/Co-earner/dashboard.html"
-        );
-
-      } catch (error) {
-        showMessage("Login failed: " + error.message, "error");
-      } finally {
-        button.disabled = false;
-        button.textContent = "Log In";
-      }
-    });
-
-    // PASSWORD RESET
-    $("forgotButton").addEventListener("click", async function() {
-      clearMessage();
-
-      const email = $("loginEmail").value.trim();
-
-      if (!email) {
-        showMessage("Enter your email address first.", "error");
-        return;
-      }
-
-      try {
-        const { error } =
-          await supabaseClient.auth.resetPasswordForEmail(email, {
-            redirectTo:
-              "https://co-save-earnai.github.io/Co-earner/login.html"
-          });
-
-        if (error) throw error;
-
-        showMessage(
-          "If this email is registered, Supabase will send password-reset instructions.",
-          "success"
-        );
-
-      } catch (error) {
-        showMessage("Password reset failed: " + error.message, "error");
-      }
-    });
-  })();
-  </script>
-</body>
-        </html>
-  
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Authentication</title>  
+    <!-- Include Supabase JS Client Library -->  
+    <script src="https://jsdelivr.net"></script>  
+    <style>  
+        * {  
+            box-sizing: border-box;  
+            margin: 0;  
+            padding: 0;  
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  
+        }  body {  
+        background-color: #f4f7f6;  
+        display: flex;  
+        justify-content: center;  
+        align-items: center;  
+        height: 100vh;  
+    }  
+
+    .auth-container {  
+        background-color: #ffffff;  
+        padding: 40px;  
+        border-radius: 8px;  
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);  
+        width: 100%;  
+        max-width: 400px;  
+    }  
+
+    .auth-container h2 {  
+        margin-bottom: 24px;  
+        color: #333333;  
+        text-align: center;  
+    }  
+
+    .input-group {  
+        margin-bottom: 16px;  
+    }  
+
+    .input-group label {  
+        display: block;  
+        margin-bottom: 6px;  
+        color: #666666;  
+        font-size: 14px;  
+    }  
+
+    .input-group input {  
+        width: 100%;  
+        padding: 12px;  
+        border: 1px solid #cccccc;  
+        border-radius: 4px;  
+        font-size: 16px;  
+        outline: none;  
+        transition: border-color 0.2s;  
+    }  
+
+    .input-group input:focus {  
+        border-color: #3ecf8e; /* Supabase Green Theme */  
+    }  
+
+    .auth-btn {  
+        width: 100%;  
+        padding: 12px;  
+        background-color: #3ecf8e;  
+        border: none;  
+        border-radius: 4px;  
+        color: #ffffff;  
+        font-size: 16px;  
+        font-weight: bold;  
+        cursor: pointer;  
+        transition: background-color 0.2s;  
+        margin-top: 10px;  
+    }  
+
+    .auth-btn:hover {  
+        background-color: #2eaf73;  
+    }  
+
+    .toggle-link {  
+        text-align: center;  
+        margin-top: 20px;  
+        font-size: 14px;  
+        color: #666666;  
+    }  
+
+    .toggle-link span {  
+        color: #3ecf8e;  
+        cursor: pointer;  
+        font-weight: bold;  
+    }  
+
+    .toggle-link span:hover {  
+        text-decoration: underline;  
+    }  
+
+    /* Message Styling */  
+    .message {  
+        padding: 10px;  
+        margin-bottom: 15px;  
+        border-radius: 4px;  
+        font-size: 14px;  
+        display: none;  
+        text-align: center;  
+    }  
+    .error { background-color: #ffe6e6; color: #cc0000; border: 1px solid #ffcccc; display: block; }  
+    .success { background-color: #e6ffe6; color: #008000; border: 1px solid #ccffcc; display: block; }  
+      
+    /* Utility hiding class */  
+    .hidden { display: none; }  
+</style>
+
+</head>  
+<body>  <div class="auth-container">  
+    <!-- Auth Header Title -->  
+    <h2 id="form-title">Sign In</h2>  
+      
+    <!-- UI status messages -->  
+    <div id="message-box" class="message"></div>  
+
+    <form id="auth-form">  
+        <!-- Fields shared by both templates / Dynamic Display -->  
+        <div class="input-group signup-field hidden">  
+            <label for="username">Username</label>  
+            <input type="text" id="username" autocomplete="username">  
+        </div>  
+
+        <div class="input-group signup-field hidden">  
+            <label for="contact">Contact Number</label>  
+            <input type="tel" id="contact" placeholder="e.g. +256...">  
+        </div>  
+
+        <div class="input-group">  
+            <label for="email">Email Address</label>  
+            <input type="email" id="email" required autocomplete="email">  
+        </div>  
+          
+        <div class="input-group">  
+            <label for="password">Password</label>  
+            <input type="password" id="password" required autocomplete="current-password">  
+        </div>  
+
+        <button type="submit" id="submit-btn" class="auth-btn">Sign In</button>  
+
+        <!-- Bottom Toggle Navigation -->  
+        <div class="toggle-link" id="toggle-wrapper">  
+            Don't have an account? <span id="switch-mode" onclick="toggleMode()">Sign Up</span>  
+        </div>  
+    </form>  
+</div>  
+
+<script>  
+    // Initialize the Supabase Client with your project credentials  
+    const SUPABASE_URL = "https://chjtxxwxhvjwpspmikme.supabase.co";  
+    const SUPABASE_KEY = "sb_publishable_g8gM0qRrMveb8A7H3BLYYg_g21-SBKA";  
+    const supabase = Supabase.createClient(SUPABASE_URL, SUPABASE_KEY);  
+
+    // Core App variables  
+    let isSignUpMode = false;  
+    const formTitle = document.getElementById('form-title');  
+    const submitBtn = document.getElementById('submit-btn');  
+    const switchModeText = document.getElementById('switch-mode');  
+    const toggleWrapper = document.getElementById('toggle-wrapper');  
+    const signupFields = document.querySelectorAll('.signup-field');  
+    const messageBox = document.getElementById('message-box');  
+
+    // Toggle Form between Sign In & Sign Up templates  
+    function toggleMode() {  
+        isSignUpMode = !isSignUpMode;  
+        clearMessage();  
+          
+        if (isSignUpMode) {  
+            formTitle.textContent = "Create Account";  
+            submitBtn.textContent = "Sign Up";  
+            toggleWrapper.innerHTML = `Already have an account? <span onclick="toggleMode()">Sign In</span>`;  
+            signupFields.forEach(field => field.classList.remove('hidden'));  
+            // Set fields as required for signup validation  
+            document.getElementById('username').required = true;  
+            document.getElementById('contact').required = true;  
+        } else {  
+            formTitle.textContent = "Sign In";  
+            submitBtn.textContent = "Sign In";  
+            toggleWrapper.innerHTML = `Don't have an account? <span onclick="toggleMode()">Sign Up</span>`;  
+            signupFields.forEach(field => field.classList.add('hidden'));  
+            // Remove required flags for standard sign-in flow  
+            document.getElementById('username').required = false;  
+            document.getElementById('contact').required = false;  
+        }  
+    }  
+
+    // Functional notification triggers  
+    function showMessage(text, isError = true) {  
+        messageBox.textContent = text;  
+        messageBox.className = `message ${isError ? 'error' : 'success'}`;  
+    }  
+    function clearMessage() {  
+        messageBox.textContent = '';  
+        messageBox.className = 'message';  
+    }  
+
+    // Form Submission Event Pipeline  
+    document.getElementById('auth-form').addEventListener('submit', async (e) => {  
+        e.preventDefault();  
+        clearMessage();  
+
+        const email = document.getElementById('email').value;  
+        const password = document.getElementById('password').value;  
+
+        if (isSignUpMode) {  
+            // Collect supplementary Sign-up payload fields  
+            const username = document.getElementById('username').value;  
+            const contact = document.getElementById('contact').value;  
+
+            submitBtn.disabled = true;  
+            submitBtn.textContent = "Creating Account...";  
+
+            // Execute Supabase Auth Signup Command  
+            const { data, error } = await supabase.auth.signUp({  
+                email: email,  
+                password: password,  
+                options: {  
+                    data: {  
+                        username: username,  
+                        contact: contact  
+                    }  
+                }  
+            });  
+
+            submitBtn.disabled = false;  
+            submitBtn.textContent = "Sign Up";  
+
+            if (error) {  
+                showMessage(error.message, true);  
+            } else {  
+                // Check if confirmation email settings are enabled in your project  
+                if (data.session === null) {  
+                    showMessage("Sign up successful! Please check your email inbox to verify your account.", false);  
+                } else {  
+                    showMessage("Sign up successful! Logging you in...", false);  
+                    window.location.href = "dashboard.html"; // Target home/dashboard site   
+                }  
+            }  
+
+        } else {  
+            // Execute Supabase Login Protocol  
+            submitBtn.disabled = true;  
+            submitBtn.textContent = "Verifying...";  
+
+            const { data, error } = await supabase.auth.signInWithPassword({  
+                email: email,  
+                password: password,  
+            });  
+
+            submitBtn.disabled = false;  
+            submitBtn.textContent = "Sign In";  
+
+            if (error) {  
+                showMessage(error.message, true);  
+            } else {  
+                showMessage("Login successful! Redirecting...", false);  
+                // Save access token / forward user to internal platform  
+                window.location.href = "dashboard.html";   
+            }  
+        }  
+    });  
+</script>
+
+</body>  
+</html>  
