@@ -1,347 +1,432 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Co Save & Earn | Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Co Save & Earn | Account</title>
 
-<style>
-*{box-sizing:border-box}
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#e4f6e9,#c6e7d2);
-  color:#173b2b
-}
-.card{
-  width:100%;
-  max-width:430px;
-  padding:28px 23px;
-  background:white;
-  border-radius:20px;
-  box-shadow:0 12px 40px #173b2b20
-}
-.brand{
-  text-align:center;
-  font-size:27px;
-  font-weight:bold;
-  color:#087443
-}
-.tagline{
-  text-align:center;
-  margin:9px 0 25px;
-  color:#728078
-}
-.tabs{
-  display:flex;
-  gap:8px;
-  background:#eef5ef;
-  padding:5px;
-  border-radius:12px
-}
-.tabs button{
-  width:50%;
-  padding:12px 5px;
-  border:0;
-  border-radius:9px;
-  background:transparent;
-  color:#496354;
-  font-weight:bold;
-  cursor:pointer
-}
-.tabs button.active{
-  background:#087443;
-  color:white
-}
-h2{margin:23px 0 8px;font-size:23px}
-.desc{color:#728078;font-size:14px;line-height:1.5}
-label{
-  display:block;
-  margin:17px 0 7px;
-  font-size:14px;
-  font-weight:bold
-}
-input{
-  display:block;
-  width:100%;
-  padding:13px;
-  border:1px solid #d5e1d8;
-  border-radius:10px;
-  font-size:15px;
-  background:white
-}
-input:focus{outline:2px solid #a8d9b9;border-color:#087443}
-.primary{
-  width:100%;
-  margin-top:23px;
-  padding:14px;
-  background:#087443;
-  color:white;
-  border:0;
-  border-radius:10px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer
-}
-.primary:disabled{opacity:.6}
-.link{
-  display:block;
-  text-align:right;
-  margin-top:14px;
-  color:#087443;
-  font-size:14px;
-  cursor:pointer
-}
-.message{
-  display:none;
-  margin-top:17px;
-  padding:12px;
-  border-radius:9px;
-  font-size:14px;
-  line-height:1.5;
-  overflow-wrap:anywhere
-}
-.message.show{display:block}
-.message.error{background:#fff0f0;color:#9b2525}
-.message.success{background:#e8f7ed;color:#08613a}
-.footer{
-  text-align:center;
-  margin-top:24px;
-  font-size:12px;
-  color:#849087
-}
-[hidden]{display:none!important}
-</style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(140deg, #071d18, #103c2d, #176b48);
+      color: #173b2e;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 440px;
+      background: #fff;
+      padding: 28px 23px;
+      border-radius: 20px;
+      box-shadow: 0 18px 55px #0005;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .logo {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 12px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: #e2f5e9;
+      color: #167348;
+      font-size: 30px;
+    }
+
+    h1 { margin: 0; font-size: 25px; }
+    .tagline { margin-top: 8px; color: #6b8076; font-size: 14px; }
+    h2 { font-size: 21px; margin: 8px 0; }
+    .intro { color: #687a71; font-size: 14px; line-height: 1.5; }
+
+    .tabs {
+      display: flex;
+      padding: 5px;
+      margin: 22px 0;
+      background: #edf4ef;
+      border-radius: 12px;
+      gap: 5px;
+    }
+
+    .tabs button {
+      flex: 1;
+      padding: 12px 5px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: #52665b;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .tabs button.active {
+      background: #176b48;
+      color: white;
+    }
+
+    .field { margin: 15px 0; }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #30483b;
+    }
+
+    input {
+      display: block;
+      width: 100%;
+      padding: 14px 12px;
+      border: 1px solid #d8e2db;
+      border-radius: 10px;
+      outline: none;
+      background: #fbfdfb;
+      font-size: 15px;
+    }
+
+    input:focus {
+      border-color: #208455;
+      box-shadow: 0 0 0 3px #20845518;
+    }
+
+    .main-button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 15px;
+      background: #176b48;
+      color: white;
+      border: 0;
+      border-radius: 11px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .main-button:disabled { opacity: .6; }
+
+    .forgot {
+      display: block;
+      text-align: right;
+      margin: 12px 0;
+      color: #176b48;
+      font-size: 13px;
+      cursor: pointer;
+      border: 0;
+      background: transparent;
+      width: 100%;
+    }
+
+    .message {
+      display: none;
+      padding: 12px;
+      margin: 15px 0;
+      border-radius: 9px;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .message.success { display: block; background: #e7f7ec; color: #176b48; }
+    .message.error { display: block; background: #fff0ef; color: #a52b25; }
+
+    .hidden { display: none !important; }
+
+    .footer {
+      margin-top: 22px;
+      text-align: center;
+      font-size: 12px;
+      color: #839087;
+      line-height: 1.6;
+    }
+  </style>
 </head>
 
 <body>
-<main class="card">
-  <div class="brand">Co Save & Earn</div>
-  <div class="tagline">Save • Grow • Earn</div>
+  <main class="container">
+    <header class="brand">
+      <div class="logo">🌱</div>
+      <h1>Co Save & Earn</h1>
+      <div class="tagline">Save • Grow • Earn</div>
+    </header>
 
-  <div class="tabs">
-    <button id="loginTab" class="active" type="button">Log In</button>
-    <button id="signupTab" type="button">Create Account</button>
-  </div>
+    <h2 id="heading">Welcome back</h2>
+    <p class="intro" id="intro">Log in to access your personal savings account.</p>
 
-  <h2 id="heading">Welcome back!</h2>
-  <p class="desc" id="description">Log in to continue to your account.</p>
-
-  <form id="authForm">
-    <div id="nameGroup" hidden>
-      <label for="fullName">Full name</label>
-      <input id="fullName" type="text" autocomplete="name"
-             placeholder="Enter your full name">
+    <div class="tabs">
+      <button id="loginTab" class="active" type="button">Log In</button>
+      <button id="registerTab" type="button">Create Account</button>
     </div>
 
-    <label for="email">Email address</label>
-    <input id="email" type="email" required autocomplete="email"
-           placeholder="Enter your email address">
+    <div id="message" class="message" role="status" aria-live="polite"></div>
 
-    <label for="password">Password</label>
-    <input id="password" type="password" required minlength="6"
-           autocomplete="current-password"
-           placeholder="Enter your password">
+    <form id="registerForm" class="hidden">
+      <div class="field">
+        <label for="fullName">Full Name</label>
+        <input id="fullName" type="text" autocomplete="name"
+               placeholder="Enter your full name" required maxlength="100">
+      </div>
 
-    <div id="confirmGroup" hidden>
-      <label for="confirmPassword">Confirm password</label>
-      <input id="confirmPassword" type="password" minlength="6"
-             autocomplete="new-password"
-             placeholder="Re-enter your password">
+      <div class="field">
+        <label for="mobile">Mobile Number</label>
+        <input id="mobile" type="tel" autocomplete="tel"
+               placeholder="e.g. 07XXXXXXXX" required maxlength="20">
+      </div>
+
+      <div class="field">
+        <label for="registerEmail">Email Address</label>
+        <input id="registerEmail" type="email" autocomplete="email"
+               placeholder="you@example.com" required>
+      </div>
+
+      <div class="field">
+        <label for="registerPassword">Create Password</label>
+        <input id="registerPassword" type="password"
+               autocomplete="new-password" minlength="8"
+               placeholder="At least 8 characters" required>
+      </div>
+
+      <button class="main-button" id="registerButton" type="submit">
+        Create Account
+      </button>
+    </form>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">Email Address</label>
+        <input id="loginEmail" type="email" autocomplete="email"
+               placeholder="Enter your email" required>
+      </div>
+
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input id="loginPassword" type="password"
+               autocomplete="current-password"
+               placeholder="Enter your password" required>
+      </div>
+
+      <button class="forgot" id="forgotButton" type="button">
+        Forgot password?
+      </button>
+
+      <button class="main-button" id="loginButton" type="submit">
+        Log In
+      </button>
+    </form>
+
+    <div class="footer">
+      Your account is protected by Supabase Authentication.<br>
+      Never share your password with anyone.
     </div>
+  </main>
 
-    <span id="forgot" class="link">Forgot password?</span>
+  <script>
+    // Your existing Supabase project
+    const SUPABASE_URL =
+      "https://chjtxxwxhvjwpspmikme.supabase.co";
 
-    <button id="submitButton" class="primary" type="submit">
-      Log In
-    </button>
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_g8mQ0rRrMveb8A7H3BLYYg_g21-SBKA";
 
-    <div id="message" class="message" role="status"
-         aria-live="polite"></div>
-  </form>
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
-  <div class="footer">Your savings journey starts here.</div>
-</main>
+    const $ = id => document.getElementById(id);
 
-<script type="module">
-import { createClient } from
-'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    const registerForm = $("registerForm");
+    const loginForm = $("loginForm");
+    const message = $("message");
 
-const SUPABASE_URL =
-'https://chjtxxwxhvjwpspmikme.supabase.co';
-
-const SUPABASE_KEY =
-'sb_publishable_g8gM0qRrMveb8A7H3BLYYg_g21-SBKA';
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-const $ = id => document.getElementById(id);
-let mode = 'login';
-let busy = false;
-
-function message(text, type='error') {
-  $('message').textContent = text;
-  $('message').className = 'message show ' + type;
-}
-
-function clearMessage() {
-  $('message').textContent = '';
-  $('message').className = 'message';
-}
-
-function switchMode(next) {
-  mode = next;
-  const signup = mode === 'signup';
-
-  clearMessage();
-  $('loginTab').classList.toggle('active', !signup);
-  $('signupTab').classList.toggle('active', signup);
-
-  $('nameGroup').hidden = !signup;
-  $('confirmGroup').hidden = !signup;
-  $('forgot').hidden = signup;
-
-  $('fullName').required = signup;
-  $('confirmPassword').required = signup;
-
-  $('heading').textContent = signup
-    ? 'Create your account'
-    : 'Welcome back!';
-
-  $('description').textContent = signup
-    ? 'Register with your email to get started.'
-    : 'Log in to continue to your account.';
-
-  $('submitButton').textContent = signup
-    ? 'Create Account'
-    : 'Log In';
-
-  $('password').autocomplete = signup
-    ? 'new-password'
-    : 'current-password';
-}
-
-$('loginTab').addEventListener('click', () => switchMode('login'));
-$('signupTab').addEventListener('click', () => switchMode('signup'));
-
-$('authForm').addEventListener('submit', async event => {
-  event.preventDefault();
-  if (busy) return;
-
-  clearMessage();
-
-  const email = $('email').value.trim();
-  const password = $('password').value;
-  const fullName = $('fullName').value.trim();
-
-  if (mode === 'signup') {
-    if (!fullName) {
-      message('Please enter your full name.');
-      return;
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = "message " + type;
     }
 
-    if (password !== $('confirmPassword').value) {
-      message('The passwords do not match.');
-      return;
+    function clearMessage() {
+      message.textContent = "";
+      message.className = "message";
     }
-  }
 
-  busy = true;
-  $('submitButton').disabled = true;
-  $('submitButton').textContent = 'Please wait...';
+    function setMode(mode) {
+      clearMessage();
 
-  try {
-    if (mode === 'signup') {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name: fullName },
-          emailRedirectTo: new URL(
-            'login.html', window.location.href
-          ).href
-        }
-      });
+      const registering = mode === "register";
 
-      if (error) throw error;
+      registerForm.classList.toggle("hidden", !registering);
+      loginForm.classList.toggle("hidden", registering);
 
-      if (data.session) {
-        message('Account created! Opening your dashboard...', 'success');
-        window.location.assign('dashboard.html');
+      $("registerTab").classList.toggle("active", registering);
+      $("loginTab").classList.toggle("active", !registering);
+
+      $("heading").textContent =
+        registering ? "Create your account" : "Welcome back";
+
+      $("intro").textContent = registering
+        ? "Enter your details to create your personal account."
+        : "Log in to access your personal savings account.";
+    }
+
+    $("loginTab").addEventListener("click", () => setMode("login"));
+    $("registerTab").addEventListener("click", () => setMode("register"));
+
+    function dashboardUrl() {
+      return new URL("dashboard.html", window.location.href).href;
+    }
+
+    // Register a real Supabase Auth user.
+    registerForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      clearMessage();
+
+      const fullName = $("fullName").value.trim();
+      const mobile = $("mobile").value.trim();
+      const email = $("registerEmail").value.trim();
+      const password = $("registerPassword").value;
+
+      if (!fullName || !mobile || !email || !password) {
+        showMessage("Please fill in all four fields.", "error");
         return;
       }
 
-      message(
-        'Registration received. Check your email and confirm your account before logging in.',
-        'success'
-      );
-      switchMode('login');
-
-    } else {
-      const { data, error } =
-        await supabase.auth.signInWithPassword({ email, password });
-
-      if (error) throw error;
-
-      if (!data.session) {
-        throw new Error('Login did not create a session. Please try again.');
+      if (password.length < 8) {
+        showMessage("Your password must contain at least 8 characters.", "error");
+        return;
       }
 
-      message('Login successful. Opening your dashboard...', 'success');
-      window.location.assign('dashboard.html');
-      return;
-    }
-  } catch (error) {
-    message(error.message || 'Something went wrong. Please try again.');
-  } finally {
-    busy = false;
-    $('submitButton').disabled = false;
-    $('submitButton').textContent = mode === 'signup'
-      ? 'Create Account'
-      : 'Log In';
-  }
-});
+      const button = $("registerButton");
+      button.disabled = true;
+      button.textContent = "Creating account...";
 
-$('forgot').addEventListener('click', async () => {
-  clearMessage();
-  const email = $('email').value.trim();
+      try {
+        const { data, error } = await supabaseClient.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              full_name: fullName,
+              mobile_number: mobile
+            },
+            emailRedirectTo: window.location.href
+          }
+        });
 
-  if (!email) {
-    message('Enter your email address first.');
-    $('email').focus();
-    return;
-  }
+        if (error) throw error;
 
-  try {
-    const { error } = await supabase.auth.resetPasswordForEmail(
-      email,
-      {
-        redirectTo: new URL('login.html', window.location.href).href
+        if (data.user && data.session) {
+          showMessage(
+            "Your account has been created successfully. Opening your dashboard...",
+            "success"
+          );
+          window.location.assign(dashboardUrl());
+          return;
+        }
+
+        showMessage(
+          "Registration received. Check your email for the confirmation link. " +
+          "After confirming, return here and log in. Your account should appear " +
+          "under Supabase Authentication → Users.",
+          "success"
+        );
+
+        registerForm.reset();
+
+      } catch (error) {
+        showMessage(
+          "Registration failed: " + (error.message || "Please try again."),
+          "error"
+        );
+      } finally {
+        button.disabled = false;
+        button.textContent = "Create Account";
       }
-    );
+    });
 
-    if (error) throw error;
+    // Log in with real Supabase credentials.
+    loginForm.addEventListener("submit", async event => {
+      event.preventDefault();
+      clearMessage();
 
-    message(
-      'If an account exists for this email, password-reset instructions will be sent.',
-      'success'
-    );
-  } catch (error) {
-    message(error.message || 'Could not request a password reset.');
-  }
-});
+      const email = $("loginEmail").value.trim();
+      const password = $("loginPassword").value;
+      const button = $("loginButton");
 
-// If already signed in, open the dashboard.
-const { data: sessionData } = await supabase.auth.getSession();
+      button.disabled = true;
+      button.textContent = "Logging in...";
 
-if (sessionData.session) {
-  window.location.replace('dashboard.html');
-}
-</script>
+      try {
+        const { error } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+        if (error) throw error;
+
+        window.location.assign(dashboardUrl());
+
+      } catch (error) {
+        showMessage(
+          "Login failed: " + (error.message || "Please check your details."),
+          "error"
+        );
+      } finally {
+        button.disabled = false;
+        button.textContent = "Log In";
+      }
+    });
+
+    // Send a password reset email.
+    $("forgotButton").addEventListener("click", async () => {
+      clearMessage();
+
+      const email = $("loginEmail").value.trim();
+
+      if (!email) {
+        showMessage(
+          "Enter your email address in the email field first.",
+          "error"
+        );
+        return;
+      }
+
+      try {
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(
+          email,
+          {
+            redirectTo: window.location.href
+          }
+        );
+
+        if (error) throw error;
+
+        showMessage(
+          "If the email is registered, Supabase will send password-reset instructions. Check your inbox.",
+          "success"
+        );
+      } catch (error) {
+        showMessage(
+          "Could not request password reset: " + error.message,
+          "error"
+        );
+      }
+    });
+  </script>
 </body>
-    </html>
+  </html>
+  
