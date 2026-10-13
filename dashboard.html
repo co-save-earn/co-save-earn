@@ -1,2019 +1,790 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Co Save & Earn</title>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
+:root{
+  --green:#073e30;--deep:#032b22;--emerald:#0e6148;
+  --gold:#e8c66b;--cream:#f6f5ee;--white:#fff;
+  --ink:#193329;--muted:#77857b;--line:#e5e9e1;
+}
 *{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#071525;
-  color:#fff;
+body{margin:0;background:var(--cream);color:var(--ink);
+font-family:Arial,Helvetica,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:not-allowed}
+.app{max-width:1200px;margin:auto;min-height:100vh}
+.topbar{background:var(--deep);color:white;padding:14px 17px;
+display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{height:43px;width:43px;background:var(--gold);color:var(--deep);
+border-radius:14px;display:grid;place-items:center;font-size:25px}
+.brand h1{font-size:17px;margin:0}
+.brand p{font-size:10px;color:#c8d9ce;margin:4px 0 0;letter-spacing:1px}
+.profile-btn{display:flex;align-items:center;gap:7px;padding:6px 10px;
+border:1px solid #517568;border-radius:30px;background:#164a3c;color:white}
+.avatar{width:31px;height:31px;border-radius:50%;background:var(--gold);
+color:var(--deep);display:grid;place-items:center;font-weight:bold}
+.hero{padding:28px 19px 30px;color:white;
+background:radial-gradient(circle at 90% 0,#286b50,transparent 36%),
+linear-gradient(120deg,var(--green),#0d6047);position:relative;overflow:hidden}
+.eyebrow{font-size:10px;letter-spacing:2px;color:var(--gold);font-weight:bold}
+.hero h2{font-size:clamp(27px,5vw,39px);line-height:1.15;margin:11px 0}
+.hero p{font-size:13px;line-height:1.65;color:#d6e5dd;max-width:540px}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:17px}
+.btn{border:0;border-radius:11px;padding:12px 14px;font-weight:bold;
+display:inline-flex;align-items:center;justify-content:center;gap:7px}
+.gold-btn{background:var(--gold);color:var(--deep)}
+.green-btn{background:var(--green);color:white}
+.white-btn{background:white;color:var(--green)}
+.outline-btn{background:white;color:var(--green);border:1px solid var(--line)}
+.small-btn{padding:9px 11px;font-size:12px}
+main{padding:20px 15px 105px}
+.page{display:none}
+.page.active{display:block}
+.section-head{display:flex;justify-content:space-between;align-items:end;
+gap:10px;margin:24px 0 13px}
+.section-head h2{font-size:19px;margin:0}
+.section-head p{font-size:12px;color:var(--muted);margin:5px 0 0;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.stat{background:white;border:1px solid var(--line);border-radius:16px;
+padding:13px 10px;min-width:0}
+.stat-icon{width:32px;height:32px;border-radius:10px;background:#eaf3eb;
+display:grid;place-items:center;font-size:17px}
+.stat-label{font-size:10px;color:var(--muted);margin-top:12px;line-height:1.4}
+.stat-value{font-size:clamp(14px,3.4vw,22px);font-weight:900;
+color:var(--green);margin-top:6px;overflow-wrap:anywhere}
+.note{font-size:10px;color:var(--muted);line-height:1.5;margin-top:6px}
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.plan{background:white;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.art{height:132px;position:relative;display:flex;align-items:center;
+justify-content:center;background:linear-gradient(145deg,#e4f0e5,#fbf2d8);overflow:hidden}
+.art:before{content:"";position:absolute;width:130px;height:130px;border-radius:50%;
+border:1px solid #afc8ae55;box-shadow:0 0 0 17px #ffffff30}
+.art:after{content:"";position:absolute;bottom:10px;width:80px;height:9px;
+background:#123b2917;border-radius:50%}
+.object{position:relative;z-index:1;width:80px;height:80px;
+filter:drop-shadow(0 8px 5px #143b2925)}
+.slot{position:absolute;z-index:5;top:7px;left:50%;transform:translateX(-50%);
+width:27px;height:5px;background:#05291e;border-radius:8px;
+box-shadow:0 1px 0 #f3d77e}
+.coin{position:absolute;z-index:6;top:4px;left:calc(50% + 15px);
+width:19px;height:19px;border-radius:50%;
+background:linear-gradient(135deg,#fff0a4,#c18a1d);
+border:2px solid #a57b20}
+.box-object{position:absolute;bottom:3px;left:4px;width:72px;height:68px;
+border:2px solid #dfc56d;border-radius:16px 16px 12px 12px;
+background:linear-gradient(135deg,#23825c,#064b37)}
+.box-object:after{content:"✦";position:absolute;top:22px;left:0;right:0;
+text-align:center;color:var(--gold);font-size:24px}
+.safe-object{position:absolute;bottom:1px;left:7px;width:68px;height:76px;
+border:3px solid #d6b85e;border-radius:10px;
+background:linear-gradient(140deg,#2c8865,#06432f)}
+.safe-object:before{content:"";position:absolute;inset:7px;
+border:2px solid #e0c66e;border-radius:6px}
+.safe-object:after{content:"";position:absolute;top:28px;right:10px;
+width:12px;height:12px;border:3px solid var(--gold);border-radius:50%}
+.tin-object{position:absolute;bottom:2px;left:9px;width:64px;height:73px;
+border:2px solid #d6b85e;border-radius:10px 10px 14px 14px;
+background:linear-gradient(90deg,#06432f,#22825a,#07513a)}
+.tin-object:before{content:"";position:absolute;left:-2px;right:-2px;top:9px;
+height:5px;border-radius:5px;background:#e6ca72}
+.tin-object:after{content:"C • S • E";position:absolute;top:30px;left:0;right:0;
+text-align:center;color:#f3d98c;font-size:9px;font-weight:bold}
+.elephant-body{position:absolute;bottom:13px;left:4px;width:66px;height:47px;
+border:2px solid #d6b85e;border-radius:25px 22px 16px 16px;
+background:linear-gradient(145deg,#26835e,#07503a)}
+.elephant-ear{position:absolute;bottom:21px;left:20px;width:23px;height:27px;
+border-radius:50%;background:#d8bd71}
+.elephant-trunk{position:absolute;bottom:3px;left:59px;width:16px;height:34px;
+border-radius:5px 6px 12px 12px;border:2px solid #d6b85e;
+background:#116447;z-index:2}
+.elephant-leg{position:absolute;bottom:4px;left:12px;width:12px;height:17px;
+border:1px solid #d6b85e;border-radius:4px;background:#0b5a40}
+.elephant-eye{position:absolute;bottom:43px;left:56px;width:4px;height:4px;
+background:#f9e8b2;border-radius:50%;z-index:3}
+.plan-body{padding:13px}
+.plan-title{font-size:14px;font-weight:850}
+.cycle{font-size:11px;color:var(--muted);margin-top:4px}
+.plan-amount{font-size:21px;font-weight:900;color:var(--green);margin-top:14px}
+.plan-caption{font-size:10px;color:var(--muted);margin-top:3px}
+.plan-details{border-top:1px solid var(--line);padding-top:8px;margin-top:12px}
+.detail{display:flex;justify-content:space-between;gap:5px;font-size:11px;margin:9px 0}
+.detail span:first-child{color:var(--muted)}
+.detail strong{text-align:right}
+.plan .btn{width:100%;margin-top:12px;padding:11px 6px;font-size:12px}
+.panel{background:white;border:1px solid var(--line);border-radius:17px;padding:16px}
+.notice{padding:12px;border-radius:12px;background:#fff7df;border:1px solid #eee0aa;
+color:#725b1d;font-size:12px;line-height:1.6}
+.field{display:flex;flex-direction:column;gap:7px;margin-bottom:13px}
+.field label{font-size:12px;font-weight:bold;color:#506156}
+.field input,.field select{width:100%;min-width:0;padding:12px;border:1px solid #dfe5dc;
+border-radius:10px;background:white;color:var(--ink)}
+.message{display:none;padding:11px;border-radius:10px;font-size:12px;
+line-height:1.5;margin:10px 0}
+.message.show{display:block}
+.message.error{background:#ffebeb;color:#982e2e}
+.message.success{background:#e3f5e8;color:#216a40}
+.tabs{display:flex;gap:7px;overflow-x:auto;padding:2px 0 12px}
+.tab{white-space:nowrap;background:white;border:1px solid var(--line);
+color:#68776d;border-radius:25px;padding:10px 13px;font-size:11px;font-weight:bold}
+.tab.active{background:var(--green);border-color:var(--green);color:white}
+.paybox{margin-top:15px;padding:16px;background:#eff5eb;border-radius:14px}
+.paycode{font-size:29px;font-weight:900;letter-spacing:3px;color:var(--green);margin:9px 0}
+.ref-link{padding:12px;border-radius:10px;background:#f1f5ee;
+font-size:12px;line-height:1.6;overflow-wrap:anywhere}
+.reward-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.reward{border:1px solid var(--line);border-radius:13px;padding:12px 8px}
+.reward strong{display:block;font-size:18px;color:var(--green);margin:9px 0}
+.reward span{font-size:10px;color:var(--muted);line-height:1.5}
+.list-row{display:flex;justify-content:space-between;align-items:center;gap:8px;
+padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
+.status{font-size:10px;font-weight:bold;border-radius:20px;padding:5px 8px;
+background:#fff0d2;color:#856018;text-transform:capitalize}
+.status.approved{background:#e0f4e7;color:#1d7044}
+.status.rejected{background:#ffe6e6;color:#a12f2f}
+.empty{padding:23px 7px;text-align:center;color:var(--muted);font-size:12px}
+.bottom-nav{position:fixed;z-index:10;bottom:0;left:0;right:0;
+background:white;border-top:1px solid var(--line);padding:8px 4px;
+padding-bottom:max(8px,env(safe-area-inset-bottom))}
+.nav-inner{display:flex;justify-content:space-around;max-width:700px;margin:auto}
+.nav-item{border:0;background:transparent;color:#7b8980;font-size:10px;
+display:flex;flex-direction:column;align-items:center;gap:4px;padding:5px 7px}
+.nav-item b{font-size:20px;font-weight:500}
+.nav-item.active{color:var(--green);font-weight:bold}
+.modal{display:none;position:fixed;inset:0;background:#001b14b8;z-index:20;
+padding:16px;align-items:center;justify-content:center}
+.modal.open{display:flex}
+.modal-card{background:white;border-radius:19px;padding:20px;width:100%;
+max-width:430px;max-height:90vh;overflow:auto}
+.modal-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}
+.modal-head h2{font-size:19px;margin:0}
+.close{border:0;border-radius:50%;width:34px;height:34px}
+.footer{text-align:center;color:#8a968e;font-size:10px;padding:24px 4px}
+@media(min-width:760px){
+.hero{padding:36px 34px}main{padding:26px 30px 105px}
+.plans{grid-template-columns:repeat(4,minmax(0,1fr))}
+.art{height:150px}.stat{padding:18px}
+.bottom-nav{left:50%;right:auto;transform:translateX(-50%);
+width:min(700px,100%);border:1px solid var(--line);border-radius:16px 16px 0 0}
 }
-
-button,input,select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.app{
-  display:flex;
-  min-height:100vh;
-}
-
-/* =========================
-   SIDEBAR
-========================= */
-
-.sidebar{
-  width:230px;
-  background:#081a2d;
-  border-right:1px solid #193550;
-  padding:20px 12px;
-}
-
-.logo{
-  font-size:21px;
-  font-weight:800;
-  margin:5px 10px 25px;
-}
-
-.logo span{
-  color:#16d98b;
-}
-
-.nav button{
-  width:100%;
-  border:0;
-  background:transparent;
-  color:#aebed0;
-  text-align:left;
-  padding:13px 14px;
-  margin:4px 0;
-  border-radius:10px;
-}
-
-.nav button:hover,
-.nav button.active{
-  background:#123d79;
-  color:#fff;
-}
-
-/* =========================
-   MAIN
-========================= */
-
-.main{
-  flex:1;
-  padding:22px;
-  max-width:1500px;
-}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
-
-.topbar h1{
-  margin:0 0 5px;
-  font-size:25px;
-}
-
-.tagline{
-  color:#9fb0c4;
-  font-size:13px;
-}
-
-/* =========================
-   PAGE SYSTEM
-========================= */
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-/* =========================
-   CARDS
-========================= */
-
-.panel,
-.stat,
-.plan-card{
-  background:#0d1e32;
-  border:1px solid #193550;
-  border-radius:16px;
-}
-
-.panel{
-  padding:18px;
-  margin-bottom:18px;
-}
-
-.panel h2{
-  margin-top:0;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-  margin-bottom:18px;
-}
-
-.stat{
-  padding:18px;
-}
-
-.small{
-  color:#9fb0c4;
-  font-size:12px;
-}
-
-.value{
-  font-size:24px;
-  font-weight:800;
-  margin-top:8px;
-}
-
-.green{color:#16d98b}
-.blue{color:#38a7ff}
-.gold{color:#f5b82e}
-.purple{color:#9a5cff}
-
-/* =========================
-   PLANS
-========================= */
-
-.plan-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
-
-.plan-card{
-  padding:18px;
-}
-
-.plan-icon{
-  text-align:center;
-  font-size:52px;
-  margin-bottom:5px;
-}
-
-.plan-card h3{
-  text-align:center;
-  margin:5px 0;
-  font-size:20px;
-}
-
-.days{
-  display:block;
-  text-align:center;
-  color:#9fb0c4;
-  font-size:12px;
-  margin-bottom:14px;
-}
-
-.plan-row{
-  display:flex;
-  justify-content:space-between;
-  padding:9px 0;
-  border-bottom:1px solid #1b334c;
-  font-size:14px;
-}
-
-.total{
-  text-align:center;
-  font-size:21px;
-  font-weight:800;
-  margin-top:14px;
-}
-
-.earned{
-  text-align:center;
-  color:#16d98b;
-  font-size:13px;
-  margin-top:5px;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-.btn{
-  border:0;
-  border-radius:9px;
-  padding:12px 15px;
-  font-weight:700;
-}
-
-.primary{
-  background:#16d98b;
-  color:#052016;
-}
-
-.blue-btn{
-  background:#123d79;
-  color:#fff;
-}
-
-.outline{
-  background:transparent;
-  color:#fff;
-  border:1px solid #315879;
-}
-
-.full{
-  width:100%;
-  margin-top:14px;
-}
-
-/* =========================
-   FORMS
-========================= */
-
-.form-box{
-  max-width:600px;
-}
-
-.field{
-  margin:14px 0;
-}
-
-.field label{
-  display:block;
-  color:#aebed0;
-  font-size:13px;
-  margin-bottom:7px;
-}
-
-.field input,
-.field select{
-  width:100%;
-  padding:13px;
-  background:#071525;
-  color:#fff;
-  border:1px solid #31506d;
-  border-radius:9px;
-  outline:none;
-}
-
-.field input:focus,
-.field select:focus{
-  border-color:#16d98b;
-}
-
-/* =========================
-   NOTICE
-========================= */
-
-.notice{
-  padding:13px;
-  background:#1b1609;
-  border:1px solid #72541a;
-  color:#f8e7b2;
-  border-radius:10px;
-  font-size:12px;
-  line-height:1.5;
-  margin-bottom:18px;
-}
-
-/* =========================
-   PAYMENT CODE
-========================= */
-
-.payment-code{
-  background:#071525;
-  border:1px solid #31506d;
-  border-radius:13px;
-  padding:18px;
-  text-align:center;
-  font-size:30px;
-  font-weight:900;
-  letter-spacing:4px;
-  margin:15px 0;
-}
-
-/* =========================
-   REFERRAL
-========================= */
-
-.referral-code{
-  text-align:center;
-  font-size:28px;
-  font-weight:900;
-  letter-spacing:3px;
-  margin:15px 0;
-}
-
-.referral-link{
-  width:100%;
-  padding:13px;
-  background:#071525;
-  border:1px solid #31506d;
-  border-radius:9px;
-  color:#fff;
-}
-
-.referral-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:10px;
-}
-
-.reward{
-  display:flex;
-  justify-content:space-between;
-  padding:13px;
-  background:#102944;
-  border-radius:9px;
-  margin:8px 0;
-}
-
-/* =========================
-   TABLE
-========================= */
-
-.table-wrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:600px;
-}
-
-th,td{
-  padding:12px;
-  text-align:left;
-  border-bottom:1px solid #1c354d;
-  font-size:13px;
-}
-
-th{
-  color:#9fb0c4;
-}
-
-.status{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  background:#0d4d37;
-  color:#62efb2;
-  font-size:11px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:900px){
-
-  .sidebar{
-    width:190px;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-}
-
-@media(max-width:650px){
-
-  .app{
-    display:block;
-  }
-
-  .sidebar{
-    width:100%;
-    padding:10px;
-  }
-
-  .nav{
-    display:flex;
-    overflow-x:auto;
-  }
-
-  .nav button{
-    width:auto;
-    white-space:nowrap;
-  }
-
-  .main{
-    padding:13px;
-  }
-
-  .stats,
-  .plan-grid{
-    grid-template-columns:1fr;
-  }
-
-  .topbar .tagline{
-    display:none;
-  }
-
+@media(max-width:380px){
+.stats{gap:5px}.stat{padding:10px 7px}.stat-label{font-size:9px}
+.plans{gap:8px}.plan-body{padding:10px}.plan-amount{font-size:18px}
+.art{height:115px}.nav-item{font-size:9px;padding:5px}
 }
 </style>
 </head>
-
 <body>
-
 <div class="app">
-
-<!-- =====================================================
-     NAVIGATION
-===================================================== -->
-
-<aside class="sidebar">
-
-  <div class="logo">
-    🌱 Co Save <span>& Earn</span>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">✦</div>
+    <div><h1>Co Save & Earn</h1><p>SAVE. GROW. EARN.</p></div>
   </div>
+  <button class="profile-btn" onclick="openProfile()">
+    <span class="avatar" id="avatar">C</span>
+    <span id="headerName">Profile</span>
+  </button>
+</header>
 
-  <div class="nav">
-
-    <button class="active"
-            onclick="showPage('home',this)">
-      🏠 Home
-    </button>
-
-    <button onclick="showPage('savings',this)">
-      💰 My Savings
-    </button>
-
-    <button onclick="showPage('deposit',this)">
-      ➕ Deposit
-    </button>
-
-    <button onclick="showPage('withdraw',this)">
-      💸 Withdraw
-    </button>
-
-    <button onclick="showPage('earnings',this)">
-      📈 Earnings
-    </button>
-
-    <button onclick="showPage('referral',this)">
-      🎁 Referral
-    </button>
-
-    <button onclick="showPage('transactions',this)">
-      🧾 Transactions
-    </button>
-
-    <button onclick="showPage('profile',this)">
-      👤 Profile
-    </button>
-
+<section class="hero">
+  <div class="eyebrow">YOUR FINANCIAL SPACE</div>
+  <h2 id="welcome">Welcome back!</h2>
+  <p>Every saving brings you closer to your financial future. Choose your cycle and follow your account activity.</p>
+  <div class="actions">
+    <button class="btn gold-btn" onclick="showPage('deposit')">＋ Deposit</button>
+    <button class="btn white-btn" onclick="showPage('plans')">Explore plans →</button>
   </div>
-
-</aside>
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="main">
-
-<div class="topbar">
-
-  <div>
-    <h1 id="welcomeName">
-      Hello 👋
-    </h1>
-
-    <div class="tagline">
-      Save • Grow • Earn
-    </div>
-  </div>
-
-  <div class="tagline">
-    CO SAVE & EARN
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     HOME
-     ALL SAVING PLANS ARE ONLY HERE
-===================================================== -->
-
-<section id="home" class="page active">
-
-  <div class="notice">
-    <strong>Co Save & Earn:</strong>
-    Choose a saving plan using your available balance.
-  </div>
-
-
-  <!-- DASHBOARD STATS -->
-
-  <div class="stats">
-
-    <div class="stat">
-      <div class="small">
-        Available Balance
-      </div>
-
-      <div class="value green"
-           id="balanceDisplay">
-        0
-      </div>
-    </div>
-
-
-    <div class="stat">
-      <div class="small">
-        Daily Money Earned
-      </div>
-
-      <div class="value purple"
-           id="dailyDisplay">
-        0
-      </div>
-    </div>
-
-
-    <div class="stat">
-      <div class="small">
-        Total Money Withdrawn
-      </div>
-
-      <div class="value blue"
-           id="withdrawnDisplay">
-        0
-      </div>
-    </div>
-
-
-    <div class="stat">
-      <div class="small">
-        Active Saving
-      </div>
-
-      <div class="value gold"
-           id="activePlanDisplay">
-        None
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- ===================================================
-       FAST SAVER - 5 DAYS
-  ==================================================== -->
-
-  <div class="panel">
-
-    <h2>⚡ Fast Saver</h2>
-
-    <p class="tagline">
-      5-day saving cycle
-    </p>
-
-    <div class="plan-grid">
-
-
-      <!-- 20,000 -->
-
-      <div class="plan-card">
-
-        <div class="plan-icon">
-          ⚡
-        </div>
-
-        <h3>
-          20,000
-        </h3>
-
-        <span class="days">
-          5 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>3,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>15,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 35,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Fast Saver',20000,3000,5,35000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <!-- 30,000 -->
-
-      <div class="plan-card">
-
-        <div class="plan-icon">
-          ⚡
-        </div>
-
-        <h3>
-          30,000
-        </h3>
-
-        <span class="days">
-          5 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>5,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>25,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 55,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Fast Saver',30000,5000,5,55000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <!-- 50,000 -->
-
-      <div class="plan-card">
-
-        <div class="plan-icon">
-          ⚡
-        </div>
-
-        <h3>
-          50,000
-        </h3>
-
-        <span class="days">
-          5 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>7,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>35,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 85,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Fast Saver',50000,7000,5,85000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <!-- 100,000 -->
-
-      <div class="plan-card">
-
-        <div class="plan-icon">
-          ⚡
-        </div>
-
-        <h3>
-          100,000
-        </h3>
-
-        <span class="days">
-          5 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>11,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>55,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 155,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Fast Saver',100000,11000,5,155000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- ===================================================
-       SAVING SAFES - 10 DAYS
-  ==================================================== -->
-
-  <div class="panel">
-
-    <h2>🔐 Saving Safes</h2>
-
-    <p class="tagline">
-      10-day saving cycle
-    </p>
-
-    <div class="plan-grid">
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">
-          🔐
-        </div>
-
-        <h3>20,000</h3>
-
-        <span class="days">
-          10 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>3,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>30,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 50,000
-        </div>
-
-        <button class="btn blue-btn full"
-          onclick="choosePlan('Saving Safe',20000,3000,10,50000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">
-          🔐
-        </div>
-
-        <h3>30,000</h3>
-
-        <span class="days">
-          10 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>5,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>50,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 80,000
-        </div>
-
-        <button class="btn blue-btn full"
-          onclick="choosePlan('Saving Safe',30000,5000,10,80000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">
-          🔐
-        </div>
-
-        <h3>50,000</h3>
-
-        <span class="days">
-          10 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>7,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>70,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 120,000
-        </div>
-
-        <button class="btn blue-btn full"
-          onclick="choosePlan('Saving Safe',50000,7000,10,120000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">
-          🔐
-        </div>
-
-        <h3>100,000</h3>
-
-        <span class="days">
-          10 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>11,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>110,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 210,000
-        </div>
-
-        <button class="btn blue-btn full"
-          onclick="choosePlan('Saving Safe',100000,11000,10,210000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- ===================================================
-       SAVING TINS - 20 DAYS
-  ==================================================== -->
-
-  <div class="panel">
-
-    <h2>🥫 Saving Tins</h2>
-
-    <p class="tagline">
-      20-day saving cycle
-    </p>
-
-    <div class="plan-grid">
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">🥫</div>
-
-        <h3>20,000</h3>
-
-        <span class="days">
-          20 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>1,750</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>35,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 55,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Saving Tin',20000,1750,20,55000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">🥫</div>
-
-        <h3>30,000</h3>
-
-        <span class="days">
-          20 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>2,750</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>55,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 85,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Saving Tin',30000,2750,20,85000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">🥫</div>
-
-        <h3>50,000</h3>
-
-        <span class="days">
-          20 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>4,250</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>85,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 135,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Saving Tin',50000,4250,20,135000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">🥫</div>
-
-        <h3>100,000</h3>
-
-        <span class="days">
-          20 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>7,750</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>155,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 255,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Saving Tin',100000,7750,20,255000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- ===================================================
-       SAVING ELEPHANTS - 30 DAYS
-  ==================================================== -->
-
-  <div class="panel">
-
-    <h2>🐘 Saving Elephants</h2>
-
-    <p class="tagline">
-      30-day saving cycle
-    </p>
-
-    <div class="plan-grid">
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">🐘</div>
-
-        <h3>20,000</h3>
-
-        <span class="days">
-          30 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>1,667</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>50,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 70,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Saving Elephant',20000,1667,30,70000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">🐘</div>
-
-        <h3>30,000</h3>
-
-        <span class="days">
-          30 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>3,000</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>90,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 120,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Saving Elephant',30000,3000,30,120000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">🐘</div>
-
-        <h3>50,000</h3>
-
-        <span class="days">
-          30 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>4,500</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>135,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 185,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Saving Elephant',50000,4500,30,185000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-
-      <div class="plan-card">
-
-        <div class="plan-icon">🐘</div>
-
-        <h3>100,000</h3>
-
-        <span class="days">
-          30 DAYS
-        </span>
-
-        <div class="plan-row">
-          <span>Daily earning</span>
-          <strong>7,333</strong>
-        </div>
-
-        <div class="plan-row">
-          <span>Total earned</span>
-          <strong>220,000</strong>
-        </div>
-
-        <div class="total">
-          Total: 320,000
-        </div>
-
-        <button class="btn primary full"
-          onclick="choosePlan('Saving Elephant',100000,7333,30,320000)">
-          Choose Plan
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
 </section>
 
+<main>
+<section id="page-home" class="page active">
+  <div class="section-head">
+    <div><h2>Your account</h2><p>Based on recorded database activity.</p></div>
+  </div>
+  <div class="stats">
+    <div class="stat"><div class="stat-icon">↗</div>
+      <div class="stat-label">Total deposited</div>
+      <div class="stat-value" id="totalDeposited">0</div>
+      <div class="note">Approved requests</div>
+    </div>
+    <div class="stat"><div class="stat-icon">✦</div>
+      <div class="stat-label">Daily earnings</div>
+      <div class="stat-value" id="dailyEarnings">0</div>
+      <div class="note">Selected plans only</div>
+    </div>
+    <div class="stat"><div class="stat-icon">↙</div>
+      <div class="stat-label">Total withdrawn</div>
+      <div class="stat-value" id="totalWithdrawn">0</div>
+      <div class="note">Approved requests</div>
+    </div>
+  </div>
 
-<!-- =====================================================
-     MY SAVINGS
-===================================================== -->
+  <div class="section-head">
+    <div><h2>Explore your savings</h2><p>Four cycles. One financial space.</p></div>
+    <button class="btn outline-btn small-btn" onclick="showPage('plans')">View all</button>
+  </div>
+  <div class="plans" id="homePlans"></div>
 
-<section id="savings" class="page">
+  <div class="section-head"><div><h2>Recent activity</h2><p>Your latest requests.</p></div></div>
+  <div class="panel" id="recentActivity"><div class="empty">Loading activity…</div></div>
 
+  <div class="section-head"><div><h2>Referral rewards</h2><p>Share your personal link.</p></div></div>
   <div class="panel">
+    <div class="ref-link" id="refLinkHome">Preparing your referral link…</div>
+    <button class="btn green-btn" style="width:100%;margin-top:12px" onclick="shareReferral()">Share referral link</button>
+    <button class="btn outline-btn" style="width:100%;margin-top:8px" onclick="copyReferral()">Copy referral link</button>
+  </div>
+</section>
 
-    <h2>💰 My Active Savings</h2>
+<section id="page-plans" class="page">
+  <div class="section-head"><div><h2>Savings plans</h2><p>Compare amounts, earnings and maturity totals.</p></div></div>
+  <div class="tabs">
+    <button class="tab active" onclick="filterPlans('all',this)">All</button>
+    <button class="tab" onclick="filterPlans('5',this)">5 days</button>
+    <button class="tab" onclick="filterPlans('10',this)">10 days</button>
+    <button class="tab" onclick="filterPlans('20',this)">20 days</button>
+    <button class="tab" onclick="filterPlans('30',this)">30 days</button>
+  </div>
+  <div class="notice" style="margin-bottom:14px">
+    These are the plan figures configured for this prototype. Displayed earnings are not guaranteed returns. Confirm all terms and the ability to fund any maturity payment before accepting deposits.
+  </div>
+  <div class="plans" id="allPlans"></div>
+</section>
 
-    <div id="activeSavingsContent
-            <p class="muted">No active savings plan yet.</p>
-          </div>
+<section id="page-deposit" class="page">
+  <div class="section-head"><div><h2>Make a deposit</h2><p>Submit a request for verification.</p></div></div>
+  <div class="panel">
+    <div class="notice">Minimum deposit: <strong>20,000</strong>. Confirm the merchant payment instructions and provider before sending money.</div>
+    <div class="paybox">
+      <div class="eyebrow" style="color:var(--emerald)">MERCHANT PAY CODE</div>
+      <div class="paycode">7222103</div>
+      <button class="btn outline-btn small-btn" onclick="copyText('7222103')">Copy pay code</button>
+      <p class="note">A code alone cannot verify payment. Your request will remain pending until the payment is checked.</p>
+    </div>
+    <div id="depositMessage" class="message"></div>
+    <form id="depositForm" style="margin-top:18px">
+      <div class="field"><label>Choose savings plan</label><select id="depositPlan" required></select></div>
+      <div class="field"><label>Deposit amount</label><input id="depositAmount" type="number" min="20000" step="1" placeholder="Enter amount" required></div>
+      <div class="field"><label>Mobile money provider</label>
+        <select id="depositProvider" required><option value="">Choose provider</option>
+        <option>MTN Mobile Money</option><option>Airtel Money</option></select>
+      </div>
+      <div class="field"><label>Mobile money account name</label><input id="depositName" required placeholder="Name used for payment"></div>
+      <div class="field"><label>Mobile money number</label><input id="depositNumber" required inputmode="tel" placeholder="Your mobile money number"></div>
+      <button class="btn green-btn" style="width:100%" id="depositSubmit">Submit deposit request</button>
+    </form>
+  </div>
+</section>
+
+<section id="page-withdraw" class="page">
+  <div class="section-head"><div><h2>Withdraw</h2><p>Request the amount you choose.</p></div></div>
+  <div class="panel">
+    <div class="notice">Minimum withdrawal request: <strong>20,000</strong>. Requests remain pending until reviewed. A request is not proof that money has been sent.</div>
+    <div id="withdrawMessage" class="message"></div>
+    <form id="withdrawForm" style="margin-top:18px">
+      <div class="field"><label>Withdrawal amount</label><input id="withdrawAmount" type="number" min="20000" step="1" required placeholder="Enter amount"></div>
+      <div class="field"><label>Mobile money provider</label>
+        <select id="withdrawProvider" required><option value="">Choose provider</option>
+        <option>MTN Mobile Money</option><option>Airtel Money</option></select>
+      </div>
+      <div class="field"><label>Account name</label><input id="withdrawName" required placeholder="Mobile money account name"></div>
+      <div class="field"><label>Mobile money number</label><input id="withdrawNumber" required inputmode="tel" placeholder="Your mobile money number"></div>
+      <button class="btn green-btn" style="width:100%" id="withdrawSubmit">Submit withdrawal request</button>
+    </form>
+  </div>
+</section>
+
+<section id="page-activity" class="page">
+  <div class="section-head"><div><h2>Transactions & requests</h2><p>Your recorded deposit and withdrawal requests.</p></div>
+  <button class="btn outline-btn small-btn" onclick="loadDashboard()">Refresh</button></div>
+  <div class="panel" id="allActivity"><div class="empty">Loading activity…</div></div>
+</section>
+
+<section id="page-referrals" class="page">
+  <div class="section-head"><div><h2>Referral rewards</h2><p>Invite people using your personal link.</p></div></div>
+  <div class="panel">
+    <div class="eyebrow" style="color:var(--emerald)">YOUR REFERRAL LINK</div>
+    <div class="ref-link" id="refLinkPage"></div>
+    <div class="actions">
+      <button class="btn green-btn" onclick="shareReferral()">Share link</button>
+      <button class="btn outline-btn" onclick="copyReferral()">Copy link</button>
+    </div>
+    <div class="section-head"><div><h2>Reward milestones</h2><p>Subject to verified referrals and approval.</p></div></div>
+    <div class="reward-grid">
+      <div class="reward"><span>10 verified referrals</span><strong>20,000</strong><span>Reward target</span></div>
+      <div class="reward"><span>50 verified referrals</span><strong>80,000</strong><span>Reward target</span></div>
+      <div class="reward"><span>100 verified referrals</span><strong>130,000</strong><span>Reward target</span></div>
+    </div>
+    <p class="note">This page displays reward targets. It does not yet count verified referrals or authorize reward payments. That needs secure backend logic.</p>
+  </div>
+</section>
+
+<div class="footer">Co Save & Earn · Keep your account information secure.</div>
+</main>
+</div>
+
+<nav class="bottom-nav">
+ <div class="nav-inner">
+  <button class="nav-item active" data-page="home" onclick="showPage('home',this)"><b>⌂</b>Home</button>
+  <button class="nav-item" data-page="plans" onclick="showPage('plans',this)"><b>◈</b>Plans</button>
+  <button class="nav-item" data-page="deposit" onclick="showPage('deposit',this)"><b>＋</b>Deposit</button>
+  <button class="nav-item" data-page="withdraw" onclick="showPage('withdraw',this)"><b>↙</b>Withdraw</button>
+  <button class="nav-item" data-page="referrals" onclick="showPage('referrals',this)"><b>♧</b>Refer</button>
+ </div>
+</nav>
+
+<div class="modal" id="profileModal" role="dialog" aria-modal="true">
+ <div class="modal-card">
+  <div class="modal-head"><h2>My profile</h2><button class="close" onclick="closeProfile()">✕</button></div>
+  <div id="profileMessage" class="message"></div>
+  <form id="profileForm">
+   <div class="field"><label>Username</label><input id="profileUsername" required></div>
+   <div class="field"><label>Email</label><input id="profileEmail" type="email" readonly></div>
+   <div class="field"><label>Contact number</label><input id="profileContact" placeholder="Your contact number"></div>
+   <button class="btn green-btn" style="width:100%">Save profile</button>
+  </form>
+  <button class="btn outline-btn" style="width:100%;margin-top:12px" onclick="signOut()">Log out</button>
+ </div>
+</div>
+
+<script>
+const SUPABASE_URL="https://chjtxxwxhvjwpspmikme.supabase.co";
+
+const SUPABASE_KEY="sb_publishable_g8gM0qRrMveb8A7H3BLYYg_g21-SBKA";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let currentProfile = null;
+let chosenPlan = null;
+
+const PLAN_DATA = [
+  {id:"box20",name:"Saving Box",days:5,amount:20000,earned:15000,total:35000,daily:3000,type:"box"},
+  {id:"box30",name:"Saving Box",days:5,amount:30000,earned:25000,total:55000,daily:5000,type:"box"},
+  {id:"box50",name:"Saving Box",days:5,amount:50000,earned:35000,total:85000,daily:7000,type:"box"},
+  {id:"box100",name:"Saving Box",days:5,amount:100000,earned:55000,total:155000,daily:11000,type:"box"},
+
+  {id:"safe20",name:"Saving Safe",days:10,amount:20000,earned:30000,total:50000,daily:3000,type:"safe"},
+  {id:"safe30",name:"Saving Safe",days:10,amount:30000,earned:50000,total:80000,daily:5000,type:"safe"},
+  {id:"safe50",name:"Saving Safe",days:10,amount:50000,earned:70000,total:120000,daily:7000,type:"safe"},
+  {id:"safe100",name:"Saving Safe",days:10,amount:100000,earned:110000,total:210000,daily:11000,type:"safe"},
+
+  {id:"tin20",name:"Saving Tin",days:20,amount:20000,earned:35000,total:55000,daily:1750,type:"tin"},
+  {id:"tin30",name:"Saving Tin",days:20,amount:30000,earned:55000,total:85000,daily:2750,type:"tin"},
+  {id:"tin50",name:"Saving Tin",days:20,amount:50000,earned:85000,total:135000,daily:4250,type:"tin"},
+  {id:"tin100",name:"Saving Tin",days:20,amount:100000,earned:155000,total:255000,daily:7750,type:"tin"},
+
+  {id:"elephant20",name:"Saving Elephant",days:30,amount:20000,earned:50000,total:70000,daily:50000/30,type:"elephant"},
+  {id:"elephant30",name:"Saving Elephant",days:30,amount:30000,earned:90000,total:120000,daily:3000,type:"elephant"},
+  {id:"elephant50",name:"Saving Elephant",days:30,amount:50000,earned:135000,total:185000,daily:4500,type:"elephant"},
+  {id:"elephant100",name:"Saving Elephant",days:30,amount:100000,earned:220000,total:320000,daily:220000/30,type:"elephant"}
+];
+
+function money(value) {
+  return Math.round(Number(value)||0).toLocaleString("en-UG");
+}
+
+function showMessage(id,text,type="success") {
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.textContent=text;
+  el.className="message show "+type;
+}
+
+function clearMessage(id) {
+  const el=document.getElementById(id);
+  if(el)el.className="message";
+}
+
+function artHTML(type) {
+  if(type==="box") {
+    return `<div class="object"><div class="slot"></div><div class="coin"></div><div class="box-object"></div></div>`;
+  }
+  if(type==="safe") {
+    return `<div class="object"><div class="slot"></div><div class="coin"></div><div class="safe-object"></div></div>`;
+  }
+  if(type==="tin") {
+    return `<div class="object"><div class="slot"></div><div class="coin"></div><div class="tin-object"></div></div>`;
+  }
+  return `<div class="object"><div class="slot"></div><div class="coin"></div><div class="elephant-ear"></div><div class="elephant-body"></div><div class="elephant-trunk"></div><div class="elephant-leg"></div><div class="elephant-eye"></div></div>`;
+}
+
+function planCard(plan) {
+  return `
+    <article class="plan">
+      <div class="art">${artHTML(plan.type)}</div>
+      <div class="plan-body">
+        <div class="plan-title">${plan.name}</div>
+        <div class="cycle">${plan.days}-day saving cycle</div>
+        <div class="plan-amount">${money(plan.amount)}</div>
+        <div class="plan-caption">Starting savings amount</div>
+        <div class="plan-details">
+          <div class="detail"><span>Daily earnings*</span><strong>${money(plan.daily)}</strong></div>
+          <div class="detail"><span>Total earnings*</span><strong>${money(plan.earned)}</strong></div>
+          <div class="detail"><span>At maturity*</span><strong>${money(plan.total)}</strong></div>
         </div>
-      </section>
-
-
-      <!-- =========================
-           DEPOSIT
-      ========================== -->
-      <section id="deposit" class="page">
-        <div class="panel">
-          <h2>💰 Deposit Money</h2>
-
-          <div class="info-box">
-            <strong>Payment Code</strong>
-            <div class="payment-code">7222103</div>
-            <button class="btn secondary" onclick="copyPaymentCode()">
-              Copy Payment Code
-            </button>
-          </div>
-
-          <label>Mobile Money Provider</label>
-          <select id="depositProvider">
-            <option value="">Select Provider</option>
-            <option value="MTN Mobile Money">MTN Mobile Money</option>
-            <option value="Airtel Money">Airtel Money</option>
-          </select>
-
-          <label>Mobile Money Name</label>
-          <input id="depositName" type="text" placeholder="Enter Mobile Money Name">
-
-          <label>Mobile Money Number</label>
-          <input id="depositNumber" type="tel" placeholder="Enter Mobile Money Number">
-
-          <label>Amount</label>
-          <input id="depositAmount" type="number" min="20000" placeholder="Minimum 20,000">
-
-          <button class="btn primary full" onclick="submitDeposit()">
-            Submit Deposit
-          </button>
-
-          <p class="muted">Minimum deposit: 20,000</p>
-        </div>
-      </section>
-
-
-      <!-- =========================
-           WITHDRAW
-      ========================== -->
-      <section id="withdraw" class="page">
-        <div class="panel">
-          <h2>💸 Withdraw Money</h2>
-
-          <div class="balance-box">
-            Available Balance:
-            <strong id="withdrawBalance">0</strong>
-          </div>
-
-          <label>Mobile Money Provider</label>
-          <select id="withdrawProvider">
-            <option value="">Select Provider</option>
-            <option value="MTN Mobile Money">MTN Mobile Money</option>
-            <option value="Airtel Money">Airtel Money</option>
-          </select>
-
-          <label>Mobile Money Name</label>
-          <input id="withdrawName" type="text" placeholder="Enter Mobile Money Name">
-
-          <label>Mobile Money Number</label>
-          <input id="withdrawNumber" type="tel" placeholder="Enter Mobile Money Number">
-
-          <label>Amount</label>
-          <input id="withdrawAmount" type="number" min="20000" placeholder="Minimum 20,000">
-
-          <button class="btn primary full" onclick="submitWithdrawal()">
-            Request Withdrawal
-          </button>
-
-          <p class="muted">
-            Minimum withdrawal: 20,000
-          </p>
-        </div>
-      </section>
-
-
-      <!-- =========================
-           EARNINGS
-      ========================== -->
-      <section id="earnings" class="page">
-        <div class="panel">
-          <h2>📈 My Earnings</h2>
-
-          <div class="stats-grid">
-            <div class="stat-card">
-              <span>Daily Earnings</span>
-              <strong id="dailyEarnings">0</strong>
-            </div>
-
-            <div class="stat-card">
-              <span>Total Earned</span>
-              <strong id="totalEarned">0</strong>
-            </div>
-
-            <div class="stat-card">
-              <span>Total Deposited</span>
-              <strong id="totalDeposited">0</strong>
-            </div>
-
-            <div class="stat-card">
-              <span>Total Withdrawn</span>
-              <strong id="totalWithdrawn">0</strong>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      <!-- =========================
-           REFERRAL
-           ONLY REFERRAL CONTENT
-           IS HERE
-      ========================== -->
-      <section id="referral" class="page">
-        <div class="panel">
-          <h2>🎁 Referral Rewards</h2>
-
-          <p>
-            Invite friends and earn rewards when your referrals are verified.
-          </p>
-
-          <div class="referral-box">
-            <label>Your Referral Code</label>
-            <input id="referralCode" type="text" readonly>
-
-            <label>Your Referral Link</label>
-            <input id="referralLink" type="text" readonly>
-
-            <button class="btn primary full" onclick="copyReferralLink()">
-              Copy Referral Link
-            </button>
-
-            <button class="btn secondary full" onclick="shareReferralLink()">
-              Share Referral Link
-            </button>
-          </div>
-
-          <div class="reward-list">
-            <div class="reward">
-              <strong>10 Referrals</strong>
-              <span>20,000</span>
-            </div>
-
-            <div class="reward">
-              <strong>50 Referrals</strong>
-              <span>80,000</span>
-            </div>
-
-            <div class="reward">
-              <strong>100 Referrals</strong>
-              <span>130,000</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      <!-- =========================
-           TRANSACTIONS
-      ========================== -->
-      <section id="transactions" class="page">
-        <div class="panel">
-          <h2>🧾 Transactions</h2>
-
-          <div id="transactionsList">
-            <p class="muted">No transactions yet.</p>
-          </div>
-        </div>
-      </section>
-
-
-      <!-- =========================
-           PROFILE
-      ========================== -->
-      <section id="profile" class="page">
-        <div class="panel">
-          <h2>👤 My Profile</h2>
-
-          <label>Username</label>
-          <input id="profileUsername" type="text" placeholder="Username">
-
-          <label>Email</label>
-          <input id="profileEmail" type="email" placeholder="Email">
-
-          <label>Mobile Money Number</label>
-          <input id="profileMobile" type="tel" placeholder="Mobile Money Number">
-
-          <button class="btn primary full" onclick="saveProfile()">
-            Save Profile
-          </button>
-        </div>
-      </section>
-
-
-    </main>
-
-
-    <script>
-
-      /* =========================
-         BASIC STORAGE
-      ========================== */
-
-      let balance =
-        Number(localStorage.getItem("coBalance")) || 0;
-
-      let totalDeposited =
-        Number(localStorage.getItem("coTotalDeposited")) || 0;
-
-      let totalWithdrawn =
-        Number(localStorage.getItem("coTotalWithdrawn")) || 0;
-
-      let totalEarned =
-        Number(localStorage.getItem("coTotalEarned")) || 0;
-
-      let transactions =
-        JSON.parse(localStorage.getItem("coTransactions") || "[]");
-
-
-      /* =========================
-         PAGE NAVIGATION
-      ========================== */
-
-      function showPage(pageId, button) {
-
-        document.querySelectorAll(".page").forEach(page => {
-          page.classList.remove("active");
-        });
-
-        const page = document.getElementById(pageId);
-
-        if (page) {
-          page.classList.add("active");
-        }
-
-        document.querySelectorAll(".nav-btn").forEach(btn => {
-          btn.classList.remove("active");
-        });
-
-        if (button) {
-          button.classList.add("active");
-        }
-
-        updateDashboard();
-      }
-
-
-      /* =========================
-         SAVE STORAGE
-      ========================== */
-
-      function saveData() {
-
-        localStorage.setItem("coBalance", balance);
-        localStorage.setItem("coTotalDeposited", totalDeposited);
-        localStorage.setItem("coTotalWithdrawn", totalWithdrawn);
-        localStorage.setItem("coTotalEarned", totalEarned);
-
-        localStorage.setItem(
-          "coTransactions",
-          JSON.stringify(transactions)
-        );
-      }
-
-
-      /* =========================
-         DASHBOARD UPDATE
-      ========================== */
-
-      function updateDashboard() {
-
-        const balanceElements = [
-          "balance",
-          "withdrawBalance"
-        ];
-
-        balanceElements.forEach(id => {
-
-          const el = document.getElementById(id);
-
-          if (el) {
-            el.textContent =
-              Number(balance).toLocaleString();
-          }
-
-        });
-
-
-        const deposited =
-          document.getElementById("totalDeposited");
-
-        if (deposited) {
-          deposited.textContent =
-            Number(totalDeposited).toLocaleString();
-        }
-
-
-        const withdrawn =
-          document.getElementById("totalWithdrawn");
-
-        if (withdrawn) {
-          withdrawn.textContent =
-            Number(totalWithdrawn).toLocaleString();
-        }
-
-
-        const earned =
-          document.getElementById("totalEarned");
-
-        if (earned) {
-          earned.textContent =
-            Number(totalEarned).toLocaleString();
-        }
-
-
-        const daily =
-          document.getElementById("dailyEarnings");
-
-        if (daily) {
-          daily.textContent =
-            Number(calculateDailyEarning()).toLocaleString();
-        }
-
-        loadTransactions();
-        loadActiveSaving();
-      }
-
-
-      /* =========================
-         DAILY EARNING
-      ========================== */
-
-      function calculateDailyEarning() {
-
-        const active =
-          JSON.parse(
-            localStorage.getItem("activeSavingsPlan") || "null"
-          );
-
-        if (!active) return 0;
-
-        return Number(active.daily) || 0;
-      }
-
-
-      /* =========================
-         DEPOSIT
-      ========================== */
-
-      function submitDeposit() {
-
-        const provider =
-          document.getElementById("depositProvider").value;
-
-        const name =
-          document.getElementById("depositName").value.trim();
-
-        const number =
-          document.getElementById("depositNumber").value.trim();
-
-        const amount =
-          Number(document.getElementById("depositAmount").value);
-
-
-        if (!provider || !name || !number) {
-          alert("Please fill in all deposit details.");
-          return;
-        }
-
-
-        if (!amount || amount < 20000) {
-          alert("Minimum deposit is 20,000.");
-          return;
-        }
-
-
-        /*
-         * Prototype behavior:
-         * The amount is added immediately.
-         * A real admin approval system/backend
-         * can be connected later.
-         */
-
-        balance += amount;
-        totalDeposited += amount;
-
-
-        transactions.unshift({
-          type: "Deposit",
-          amount: amount,
-          status: "Pending",
-          date: new Date().toLocaleString()
-        });
-
-
-        saveData();
-
-        document.getElementById("depositAmount").value = "";
-
-        updateDashboard();
-
-        alert(
-          "Deposit submitted successfully. Status: Pending."
-        );
-      }
-
-
-      /* =========================
-         WITHDRAWAL
-      ========================== */
-
-      function submitWithdrawal() {
-
-        const provider =
-          document.getElementById("withdrawProvider").value;
-
-        const name =
-          document.getElementById("withdrawName").value.trim();
-
-        const number =
-          document.getElementById("withdrawNumber").value.trim();
-
-        const amount =
-          Number(document.getElementById("withdrawAmount").value);
-
-
-        if (!provider || !name || !number) {
-          alert("Please fill in all withdrawal details.");
-          return;
-        }
-
-
-        if (!amount || amount < 20000) {
-          alert("Minimum withdrawal is 20,000.");
-          return;
-        }
-
-
-        if (amount > balance) {
-          alert("Insufficient balance.");
-          return;
-        }
-
-
-        balance -= amount;
-        totalWithdrawn += amount;
-
-
-        transactions.unshift({
-          type: "Withdrawal",
-          amount: amount,
-          status: "Pending",
-          date: new Date().toLocaleString()
-        });
-
-
-        saveData();
-
-        document.getElementById("withdrawAmount").value = "";
-
-        updateDashboard();
-
-        alert(
-          "Withdrawal request submitted. Status: Pending."
-        );
-      }
-
-
-      /* =========================
-         ACTIVE SAVINGS
-      ========================== */
-
-      function loadActiveSaving() {
-
-        const box =
-          document.getElementById("activeSavingsContent");
-
-        if (!box) return;
-
-
-        const active =
-          JSON.parse(
-            localStorage.getItem("activeSavingsPlan") || "null"
-          );
-
-
-        if (!active) {
-
-          box.innerHTML =
-            '<p class="muted">No active savings plan yet.</p>';
-
-          return;
-        }
-
-
-        box.innerHTML = `
-          <div class="active-plan-card">
-
-            <h3>${active.type}</h3>
-
-            <p>
-              Amount Saved:
-              <strong>${Number(active.amount).toLocaleString()}</strong>
-            </p>
-
-            <p>
-              Daily Earnings:
-              <strong>${Number(active.daily).toLocaleString()}</strong>
-            </p>
-
-            <p>
-              Duration:
-              <strong>${active.days} days</strong>
-            </p>
-
-            <p>
-              Maturity Total:
-              <strong>${Number(active.maturity).toLocaleString()}</strong>
-            </p>
-
-            <p class="status-active">
-              ● Active
-            </p>
-
-          </div>
-        `;
-      }
-
-
-      /* =========================
-         TRANSACTIONS
-      ========================== */
-
-      function loadTransactions() {
-
-        const box =
-          document.getElementById("transactionsList");
-
-        if (!box) return;
-
-
-        if (!transactions.length) {
-
-          box.innerHTML =
-            '<p class="muted">No transactions yet.</p>';
-
-          return;
-        }
-
-
-        box.innerHTML =
-          transactions.map(t => `
-
-            <div class="transaction">
-
-              <div>
-                <strong>${t.type}</strong>
-                <small>${t.date}</small>
-              </div>
-
-              <div>
-                <strong>
-                  ${Number(t.amount).toLocaleString()}
-                </strong>
-
-                <span>${t.status}</span>
-              </div>
-
-            </div>
-
-          `).join("");
-      }
-
-
-      /* =========================
-         PAYMENT CODE
-      ========================== */
-
-      function copyPaymentCode() {
-
-        navigator.clipboard.writeText("7222103");
-
-        alert("Payment code copied.");
-      }
-
-
-      /* =========================
-         REFERRAL CODE
-      ========================== */
-
-      function createReferralCode() {
-
-        let code =
-          localStorage.getItem("coReferralCode");
-
-
-        if (!code) {
-
-          const name =
-            localStorage.getItem("coUserName") ||
-            localStorage.getItem("userName") ||
-            "USER";
-
-          code =
-            name
-              .replace(/\s+/g, "")
-              .substring(0, 5)
-              .toUpperCase()
-              +
-              Math.floor(
-                1000 + Math.random() * 9000
-              );
-
-          localStorage.setItem(
-            "coReferralCode",
-            code
-          );
-        }
-
-
-        const codeBox =
-          document.getElementById("referralCode");
-
-        const linkBox =
-          document.getElementById("referralLink");
-
-
-        if (codeBox) {
-          codeBox.value = code;
-        }
-
-
-        if (linkBox) {
-
-          const current =
-            window.location.href;
-
-          const base =
-            current.split("dashboard.html")[0];
-
-          linkBox.value =
-            base +
-            "register.html?ref=" +
-            encodeURIComponent(code);
-        }
-      }
-
-
-      /* =========================
-         COPY REFERRAL LINK
-      ========================== */
-
-      function copyReferralLink() {
-
-        const link =
-          document.getElementById("referralLink").value;
-
-        navigator.clipboard.writeText(link);
-
-        alert("Referral link copied.");
-      }
-
-
-      /* =========================
-         SHARE REFERRAL LINK
-      ========================== */
-
-      function shareReferralLink() {
-
-        const link =
-          document.getElementById("referralLink").value;
-
-
-        if (navigator.share) {
-
-          navigator.share({
-            title: "Co Save & Earn",
-            text:
-              "Join Co Save & Earn using my referral link:",
-            url: link
-          });
-
-        } else {
-
-          navigator.clipboard.writeText(link);
-
-          alert(
-            "Referral link copied. You can paste it into WhatsApp, Messenger or another app."
-          );
-        }
-      }
-
-
-      /* =========================
-         PROFILE
-      ========================== */
-
-      function loadProfile() {
-
-        const username =
-          localStorage.getItem("coUserName") ||
-          localStorage.getItem("userName") ||
-          localStorage.getItem("username") ||
-          localStorage.getItem("name") ||
-          "";
-
-
-        const email =
-          localStorage.getItem("coEmail") || "";
-
-
-        const mobile =
-          localStorage.getItem("coMobile") || "";
-
-
-        const usernameBox =
-          document.getElementById("profileUsername");
-
-        const emailBox =
-          document.getElementById("profileEmail");
-
-        const mobileBox =
-          document.getElementById("profileMobile");
-
-
-        if (usernameBox)
-          usernameBox.value = username;
-
-        if (emailBox)
-          emailBox.value = email;
-
-        if (mobileBox)
-          mobileBox.value = mobile;
-      }
-
-
-      function saveProfile() {
-
-        const username =
-          document.getElementById("profileUsername").value.trim();
-
-        const email =
-          document.getElementById("profileEmail").value.trim();
-
-        const mobile =
-          document.getElementById("profileMobile").value.trim();
-
-
-        if (!username) {
-          alert("Please enter your username.");
-          return;
-        }
-
-
-        localStorage.setItem(
-          "coUserName",
-          username
-        );
-
-        localStorage.setItem(
-          "coEmail",
-          email
-        );
-
-        localStorage.setItem(
-          "coMobile",
-          mobile
-        );
-
-
-        alert("Profile saved successfully.");
-
-        updateDashboard();
-      }
-
-
-      /* =========================
-         START
-      ========================== */
-
-      document.addEventListener(
-        "DOMContentLoaded",
-        function() {
-
-          createReferralCode();
-
-          loadProfile();
-
-          updateDashboard();
-
-        }
-      );
-
-    </script>
-
-  </body>
-      </html>
+        <button class="btn green-btn" onclick="choosePlan('${plan.id}')">Choose plan</button>
+      </div>
+    </article>`;
+}
+
+function renderPlans() {
+  const home=document.getElementById("homePlans");
+  const all=document.getElementById("allPlans");
+
+  if(home) {
+    const featured=[
+      PLAN_DATA[0],PLAN_DATA[4],PLAN_DATA[8],PLAN_DATA[12]
+    ];
+    home.innerHTML=featured.map(planCard).join("");
+  }
+  if(all) all.innerHTML=PLAN_DATA.map(planCard).join("");
+
+  const select=document.getElementById("depositPlan");
+  if(select) {
+    select.innerHTML='<option value="">Choose a savings plan</option>'+
+      PLAN_DATA.map(p=>`<option value="${p.id}">${p.name} · ${p.days} days · ${money(p.amount)}</option>`).join("");
+  }
+}
+
+function filterPlans(days,button) {
+  document.querySelectorAll(".tabs .tab").forEach(t=>t.classList.remove("active"));
+  if(button)button.classList.add("active");
+
+  const filtered=days==="all"
+    ? PLAN_DATA
+    : PLAN_DATA.filter(p=>String(p.days)===String(days));
+
+  document.getElementById("allPlans").innerHTML=filtered.map(planCard).join("");
+}
+
+function choosePlan(id) {
+  const plan=PLAN_DATA.find(p=>p.id===id);
+  if(!plan)return;
+  chosenPlan=plan;
+
+  const select=document.getElementById("depositPlan");
+  const amount=document.getElementById("depositAmount");
+  if(select)select.value=plan.id;
+  if(amount)amount.value=plan.amount;
+
+  showPage("deposit");
+  showMessage("depositMessage",
+    `${plan.name} selected. The starting amount is ${money(plan.amount)}. Submit a deposit request when ready.`,
+    "success");
+}
+
+function showPage(name,button) {
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  const page=document.getElementById("page-"+name);
+  if(page)page.classList.add("active");
+
+  document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
+  const nav=button||document.querySelector(`.nav-item[data-page="${name}"]`);
+  if(nav)nav.classList.add("active");
+
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(name==="activity")loadActivity();
+}
+
+function copyText(value) {
+  if(navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(value)
+      .then(()=>alert("Copied successfully."))
+      .catch(()=>fallbackCopy(value));
+  } else {
+    fallbackCopy(value);
+  }
+}
+
+function fallbackCopy(value) {
+  const field=document.createElement("textarea");
+  field.value=value;
+  document.body.appendChild(field);
+  field.select();
+  try {
+    document.execCommand("copy");
+    alert("Copied successfully.");
+  } catch(e) {
+    alert("Please copy this text manually: "+value);
+  }
+  field.remove();
+}
+
+function referralUrl() {
+  const url=new URL("register.html",window.location.href);
+  if(currentUser)url.searchParams.set("ref",currentUser.id);
+  return url.href;
+}
+
+function updateReferralLink() {
+  const link=referralUrl();
+  ["refLinkHome","refLinkPage"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent=link;
+  });
+}
+
+function copyReferral() {
+  copyText(referralUrl());
+}
+
+async function shareReferral() {
+  const link=referralUrl();
+  if(navigator.share) {
+    try {
+      await navigator.share({
+        title:"Co Save & Earn",
+        text:"Join Co Save & Earn using my referral link:",
+        url:link
+      });
+    } catch(e) {}
+  } else {
+    copyText(link);
+  }
+}
+
+function openProfile() {
+  document.getElementById("profileModal").classList.add("open");
+}
+
+function closeProfile() {
+  document.getElementById("profileModal").classList.remove("open");
+}
+
+async function signOut() {
+  const {error}=await db.auth.signOut();
+  if(error) {
+    alert("Could not log out: "+error.message);
+    return;
+  }
+  window.location.href="login.html";
+}
+
+async function loadProfile() {
+  const {data,error}=await db.from("profiles")
+    .select("*")
+    .eq("id",currentUser.id)
+    .maybeSingle();
+
+  if(error) {
+    console.error("Profile loading error:",error.message);
+  }
+
+  currentProfile=data||{};
+  const username=currentProfile.username||
+    currentUser.user_metadata?.username||
+    currentUser.email?.split("@")[0]||
+    "Member";
+
+  document.getElementById("welcome").textContent="Welcome, "+username+"!";
+  document.getElementById("headerName").textContent=username;
+  document.getElementById("avatar").textContent=username.charAt(0).toUpperCase();
+  document.getElementById("profileUsername").value=username;
+  document.getElementById("profileEmail").value=currentUser.email||"";
+  document.getElementById("profileContact").value=currentProfile.contact||"";
+}
+
+document.getElementById("profileForm").addEventListener("submit",async function(e) {
+  e.preventDefault();
+  if(!currentUser)return;
+
+  const username=document.getElementById("profileUsername").value.trim();
+  const contact=document.getElementById("profileContact").value.trim();
+
+  const {error}=await db.from("profiles").upsert({
+    id:currentUser.id,
+    username,
+    contact
+  });
+
+  if(error) {
+    showMessage("profileMessage","Profile could not be saved: "+error.message,"error");
+    return;
+  }
+
+  showMessage("profileMessage","Profile saved successfully.","success");
+  await loadProfile();
+});
+
+async function loadActivity() {
+  if(!currentUser)return;
+
+  const [depRes,withRes]=await Promise.all([
+    db.from("deposits").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(20),
+    db.from("withdrawals").select("*").eq("user_id",currentUser.id).order("created_at",{ascending:false}).limit(20)
+  ]);
+
+  if(depRes.error || withRes.error) {
+    const err=depRes.error||withRes.error;
+    const message="Activity could not load. Check your table columns and access policies. "+err.message;
+    document.getElementById("allActivity").innerHTML=`<div class="empty">${message}</div>`;
+    document.getElementById("recentActivity").innerHTML=`<div class="empty">${message}</div>`;
+    return;
+  }
+
+  const items=[
+    ...(depRes.data||[]).map(r=>({...r,kind:"Deposit"})),
+    ...(withRes.data||[]).map(r=>({...r,kind:"Withdrawal"}))
+  ].sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+
+  const html=items.length?items.slice(0,20).map(r=>`
+    <div class="list-row">
+      <div><strong>${r.kind}</strong><br>
+        <span>${money(r.amount)} · ${r.created_at?new Date(r.created_at).toLocaleDateString():"Date unavailable"}</span>
+      </div>
+      <span class="status ${(r.status||"pending").toLowerCase()}">${r.status||"pending"}</span>
+    </div>`).join(""):'<div class="empty">No requests recorded yet.</div>';
+
+  document.getElementById("allActivity").innerHTML=html;
+  document.getElementById("recentActivity").innerHTML=items.length
+    ?items.slice(0,3).map(r=>`
+      <div class="list-row">
+        <div><strong>${r.kind}</strong><br><span>${money(r.amount)}</span></div>
+        <span class="status ${(r.status||"pending").toLowerCase()}">${r.status||"pending"}</span>
+      </div>`).join("")
+    :'<div class="empty">No recent activity yet.</div>';
+
+  const deposits=(depRes.data||[]).filter(r=>String(r.status).toLowerCase()==="approved");
+  const withdrawals=(withRes.data||[]).filter(r=>String(r.status).toLowerCase()==="approved");
+
+  document.getElementById("totalDeposited").textContent=
+    money(deposits.reduce((sum,r)=>sum+Number(r.amount||0),0));
+  document.getElementById("totalWithdrawn").textContent=
+    money(withdrawals.reduce((sum,r)=>sum+Number(r.amount||0),0));
+
+  let daily=0;
+  try {
+    const saved=JSON.parse(localStorage.getItem("coActivePlans")||"[]");
+    daily=saved.reduce((sum,id)=>{
+      const p=PLAN_DATA.find(x=>x.id===id);
+      return sum+(p?Number(p.daily):0);
+    },0);
+  } catch(e) {}
+  document.getElementById("dailyEarnings").textContent=money(daily);
+}
+
+async function loadDashboard() {
+  await loadActivity();
+}
+
+document.getElementById("depositPlan").addEventListener("change",function() {
+  chosenPlan=PLAN_DATA.find(p=>p.id===this.value)||null;
+  if(chosenPlan)document.getElementById("depositAmount").value=chosenPlan.amount;
+});
+
+document.getElementById("depositForm").addEventListener("submit",async function(e) {
+  e.preventDefault();
+  clearMessage("depositMessage");
+  if(!currentUser) {
+    showMessage("depositMessage","Please log in again.","error");
+    return;
+  }
+
+  const plan=PLAN_DATA.find(p=>p.id===document.getElementById("depositPlan").value);
+  const amount=Number(document.getElementById("depositAmount").value);
+
+  if(!plan) {
+    showMessage("depositMessage","Please choose a savings plan.","error");
+    return;
+  }
+  if(!Number.isFinite(amount)||amount<20000) {
+    showMessage("depositMessage","The minimum deposit is 20,000.","error");
+    return;
+  }
+
+  const payload={
+    user_id:currentUser.id,
+    amount,
+    payment_method:document.getElementById("depositProvider").value,
+    mobile_money_name:document.getElementById("depositName").value.trim(),
+    mobile_money_number:document.getElementById("depositNumber").value.trim(),
+    status:"pending",
+    plan_id:plan.id,
+    plan_name:plan.name,
+    cycle_days:plan.days
+  };
+
+  const button=document.getElementById("depositSubmit");
+  button.disabled=true;
+  const {error}=await db.from("deposits").insert(payload);
+  button.disabled=false;
+
+  if(error) {
+    showMessage("depositMessage","Deposit request failed: "+error.message,"error");
+    return;
+  }
+
+  showMessage("depositMessage","Deposit request submitted. It remains pending until verified.","success");
+  this.reset();
+  chosenPlan=null;
+  await loadActivity();
+});
+
+document.getElementById("withdrawForm").addEventListener("submit",async function(e) {
+  e.preventDefault();
+  clearMessage("withdrawMessage");
+  if(!currentUser) {
+    showMessage("withdrawMessage","Please log in again.","error");
+    return;
+  }
+
+  const amount=Number(document.getElementById("withdrawAmount").value);
+  if(!Number.isFinite(amount)||amount<20000) {
+    showMessage("withdrawMessage","The minimum withdrawal request is 20,000.","error");
+    return;
+  }
+
+  const payload={
+    user_id:currentUser.id,
+    amount,
+    payment_method:document.getElementById("withdrawProvider").value,
+    mobile_money_name:document.getElementById("withdrawName").value.trim(),
+    mobile_money_number:document.getElementById("withdrawNumber").value.trim(),
+    status:"pending"
+  };
+
+  const button=document.getElementById("withdrawSubmit");
+  button.disabled=true;
+  const {error}=await db.from("withdrawals").insert(payload);
+  button.disabled=false;
+
+  if(error) {
+    showMessage("withdrawMessage","Withdrawal request failed: "+error.message,"error");
+    return;
+  }
+
+  showMessage("withdrawMessage","Withdrawal request submitted for review. This does not mean payment has been sent.","success");
+  this.reset();
+  await loadActivity();
+});
+
+async function initDashboard() {
+  const {data,error}=await db.auth.getUser();
+
+  if(error||!data.user) {
+    window.location.href="login.html";
+    return;
+  }
+
+  currentUser=data.user;
+  renderPlans();
+  await loadProfile();
+  updateReferralLink();
+  await loadDashboard();
+}
+
+document.getElementById("profileModal").addEventListener("click",function(e) {
+  if(e.target===this)closeProfile();
+});
+
+initDashboard();
+</script>
+</body>
+</html>
